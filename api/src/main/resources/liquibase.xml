@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
+
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
     <!--
         See http://www.liquibase.org/manual/home#available_database_refactorings
         for a list of supported elements and attributes
     -->
     <changeSet author="Mayank" id="oauth2-201505011656">
-    <createTable tableName="oauth2_client">
-        <column name="client_id" type="integer" autoIncrement="true">
-            <constraints nullable="false" primaryKey="true"/>
-        </column>
-        <column name="uuid" type="varchar(38)">
-            <constraints nullable="false"/>
-        </column>
-        <column name="client_name" type="varchar(255)" />
-        <column name="user" type="integer"/>
-    </createTable>
+        <createTable tableName="oauth2_client">
+            <column name="client_id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="uuid" type="varchar(38)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_name" type="varchar(255)"/>
+            <column name="user" type="integer"/>
+        </createTable>
 
-    <addForeignKeyConstraint constraintName="oauth2_user_fk"
-                             baseTableName="oauth2_client" baseColumnNames="user" referencedTableName="users"
-                             referencedColumnNames="user_id" />
+        <addForeignKeyConstraint constraintName="oauth2_user_fk"
+                                 baseTableName="oauth2_client" baseColumnNames="user" referencedTableName="users"
+                                 referencedColumnNames="user_id"/>
     </changeSet>
 </databaseChangeLog>
