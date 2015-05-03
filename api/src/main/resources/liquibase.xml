@@ -13,11 +13,17 @@
             <column name="client_id" type="integer" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
+            <column name="user" type="integer"/>
+            <column name="client_name" type="varchar(255)"/>
+            <column name="description" type="TEXT"/>
+            <column name="redirection_uri" type="varchar(255)"/>
+            <column name="client_type" type="varchar(255)"/>
+            <column name="client_identifier" type="varchar(255)"/>
+            <column name="website" type="varchar(255)"/>
+            <column name="legal_acceptance" type="Boolean"/>
             <column name="uuid" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
-            <column name="client_name" type="varchar(255)"/>
-            <column name="user" type="integer"/>
         </createTable>
 
         <addForeignKeyConstraint constraintName="oauth2_user_fk"

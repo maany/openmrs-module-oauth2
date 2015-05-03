@@ -6,7 +6,7 @@ import org.openmrs.User;
 import javax.persistence.*;
 
 /**
- * Created by OPSKMC on 5/1/15.
+ * Model (MVC) for Oauth Client.
  */
 @Entity
 @Table(name="oauth2_client")
@@ -16,12 +16,29 @@ public class Client extends BaseOpenmrsData{
     @Column(name = "client_id")
     private Integer clientId;
 
-    @Basic
-    private String name;
-
     @ManyToOne
     @JoinColumn(name = "user")
     private User clientDeveloper;
+
+    @Column(name ="client_name")
+    private String name;
+
+    private String desciption;
+
+    @JoinColumn(name = "redirection_uri")
+    private String redirectionURI;
+
+    @JoinColumn(name = "client_type")
+    @Enumerated(EnumType.STRING)
+    private ClientType clientType;
+
+    @JoinColumn(name="client_identifier")
+    private String clientIdentifier;
+
+    private String website;
+
+    @JoinColumn(name = "legal_acceptance")
+    private boolean legalAcceptance;
 
     @Override
     public Integer getId() {
@@ -63,5 +80,57 @@ public class Client extends BaseOpenmrsData{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDesciption() {
+        return desciption;
+    }
+
+    public void setDesciption(String desciption) {
+        this.desciption = desciption;
+    }
+
+    public String getRedirectionURI() {
+        return redirectionURI;
+    }
+
+    public void setRedirectionURI(String redirectionURI) {
+        this.redirectionURI = redirectionURI;
+    }
+
+    public ClientType getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(ClientType clientType) {
+        this.clientType = clientType;
+    }
+
+    public String getClientIdentifier() {
+        return clientIdentifier;
+    }
+
+    public void setClientIdentifier(String clientIdentifier) {
+        this.clientIdentifier = clientIdentifier;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public boolean isLegalAcceptance() {
+        return legalAcceptance;
+    }
+
+    public void setLegalAcceptance(boolean legalAcceptance) {
+        this.legalAcceptance = legalAcceptance;
+    }
+
+    private enum ClientType{
+        WEB_APPLICATION, USER_AGENT_BASED_APPLICATION,NATIVE_APPLICATION;
     }
 }
