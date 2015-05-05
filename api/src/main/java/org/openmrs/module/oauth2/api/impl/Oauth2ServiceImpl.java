@@ -27,8 +27,13 @@ public class Oauth2ServiceImpl extends BaseOpenmrsService implements Oauth2Servi
 	protected final Log log = LogFactory.getLog(this.getClass());
 	
 	private Oauth2DAO dao;
-	
-	/**
+
+    @Override
+    public void saveOrUpdateClientDeveloper(Integer id) {
+        dao.saveOrUpdate(id);
+    }
+
+    /**
      * @param dao the dao to set
      */
     public void setDao(Oauth2DAO dao) {

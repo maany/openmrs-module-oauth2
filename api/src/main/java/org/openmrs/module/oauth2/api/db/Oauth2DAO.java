@@ -15,12 +15,46 @@ package org.openmrs.module.oauth2.api.db;
 
 import org.openmrs.module.oauth2.api.Oauth2Service;
 
+import java.util.List;
+
 /**
  *  Database methods for {@link Oauth2Service}.
  */
-public interface Oauth2DAO {
+public interface Oauth2DAO<T> {
 	
 	/*
 	 * Add DAO methods here
 	 */
+
+    /**
+     * Save or Update details
+     * @param instance
+     */
+    public void saveOrUpdate(T instance);
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public T getById(Integer id);
+
+    /**
+     *
+     * @return
+     */
+    public List<T> getAll();
+
+    /**
+     *
+     * @param id
+     */
+    public void update(T instance);
+
+    /**
+     *
+     * @param id
+     */
+    public void delete(T instance);
+
+
 }
