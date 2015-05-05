@@ -33,5 +33,5 @@ public interface Oauth2Service extends OpenmrsService {
 	 * Add service methods here
 	 * 
 	 */
-    public void saveOrUpdateClientDeveloper(Integer id);
+//    public void saveOrUpdateClientDeveloper(Integer id);
 }

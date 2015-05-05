@@ -13,9 +13,9 @@
  */
 package org.openmrs.module.oauth2.api.impl;
 
-import org.openmrs.api.impl.BaseOpenmrsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.oauth2.api.Oauth2Service;
 import org.openmrs.module.oauth2.api.db.Oauth2DAO;
 
@@ -28,10 +28,6 @@ public class Oauth2ServiceImpl extends BaseOpenmrsService implements Oauth2Servi
 	
 	private Oauth2DAO dao;
 
-    @Override
-    public void saveOrUpdateClientDeveloper(Integer id) {
-        dao.saveOrUpdate(id);
-    }
 
     /**
      * @param dao the dao to set
