@@ -24,6 +24,7 @@ import java.util.List;
 /**
  * It is a default implementation of  {@link Oauth2DAO}.
  */
+
 public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
 	protected final Log log = LogFactory.getLog(this.getClass());
     protected Class<T> mappedClass;
