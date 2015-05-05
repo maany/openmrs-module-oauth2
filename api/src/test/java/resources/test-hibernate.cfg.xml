@@ -3,4 +3,8 @@
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
-
+<hibernate-configuration>
+    <session-factory>
+        <mapping resource="Oauth2.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>
