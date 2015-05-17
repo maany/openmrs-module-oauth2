@@ -6,6 +6,7 @@ import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.db.Oauth2DAO;
 import org.openmrs.module.oauth2.api.db.hibernate.ClientDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -14,10 +15,10 @@ import java.util.List;
  */
 
 public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements ClientRegistrationService {
+    @Autowired
+    protected ClientDAO dao;
 
-    private Oauth2DAO<Client> dao;
-
-    public void setDao(Oauth2DAO<Client> dao) {
+    public void setDao(ClientDAO dao) {
         this.dao = dao;
     }
 

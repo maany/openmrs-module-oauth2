@@ -16,77 +16,116 @@ package org.openmrs.module.oauth2.api.db.hibernate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.classic.Session;
 import org.openmrs.module.oauth2.api.db.Oauth2DAO;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * It is a default implementation of  {@link Oauth2DAO}.
  */
-
+@Component
 public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
-	protected final Log log = LogFactory.getLog(this.getClass());
+    protected final Log log = LogFactory.getLog(this.getClass());
     protected Class<T> mappedClass;
-	private SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
     /**
      * Marked private because you *must* provide the class at runtime when instantiating one of
      * these, using the next constructor
      */
-    private HibernateOauth2DAO(){
+    private HibernateOauth2DAO() {
     }
 
     /**
      * You must call this before using any of the data access methods, since it's not actually
      * possible to write them all with compile-time class information due to use of Generics.
+     *
      * @param mappedClass
      */
-    protected HibernateOauth2DAO(Class<T> mappedClass){
+    protected HibernateOauth2DAO(Class<T> mappedClass) {
         this.mappedClass = mappedClass;
     }
-	
-	/**
+
+    /**
      * @param sessionFactory the sessionFactory to set
      */
     public void setSessionFactory(SessionFactory sessionFactory) {
-	    this.sessionFactory = sessionFactory;
+        this.sessionFactory = sessionFactory;
     }
-    
-	/**
+
+    /**
      * @return the sessionFactory
      */
     public SessionFactory getSessionFactory() {
-	    return sessionFactory;
+        return sessionFactory;
     }
 
     @Override
-    @Transactional
+
     public void saveOrUpdate(T instance) {
-        sessionFactory.getCurrentSession().saveOrUpdate(instance);
+        beginTransaction();
+        try {
+            sessionFactory.getCurrentSession().saveOrUpdate(instance);
+            commitTransaction();
+        } catch (Exception ex) {
+            rollback();
+            ex.printStackTrace();
+        } finally {
+            close();
+        }
     }
 
     @Override
-    @Transactional(readOnly = true)
+
     public T getById(Integer id) {
-        return (T)sessionFactory.getCurrentSession().get(mappedClass,id);
+        T instance = null;
+        try {
+            beginTransaction();
+            instance = (T) sessionFactory.getCurrentSession().get(mappedClass, id);
+            commitTransaction();
+        } catch (Exception ex) {
+            rollback();
+            ex.printStackTrace();
+        } finally {
+            close();
+        }
+        return instance;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<T> getAll() {
         return (List<T>) sessionFactory.getCurrentSession().createCriteria(mappedClass).list();
     }
 
     @Override
-    @Transactional
     public void update(T instance) {
         sessionFactory.getCurrentSession().update(instance);
     }
 
     @Override
-    @Transactional
     public void delete(T instance) {
         sessionFactory.getCurrentSession().delete(instance);
+    }
+
+    public void beginTransaction() {
+        /*Session session = sessionFactory.openSession();
+        session.beginTransaction();*/
+    }
+
+    public void commitTransaction() {
+//        sessionFactory.getCurrentSession().getTransaction().commit();
+    }
+
+    public void rollback() {
+//        sessionFactory.getCurrentSession().getTransaction().rollback();
+    }
+
+    public void close() {
+//        sessionFactory.getCurrentSession().close();
     }
 }

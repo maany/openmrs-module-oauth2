@@ -4,9 +4,10 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-    <session-factory>
-        <!--<mapping resource="Oauth2.hbm.xml"/>-->
+<!--    <session-factory>
+        <mapping resource="Oauth2.hbm.xml"/>
+        <mapping resource="Client.hbm.xml"/>
         <mapping class="org.openmrs.module.oauth2.Client"/>
         <mapping class="org.openmrs.module.oauth2.ClientDeveloper"/>
-    </session-factory>
+    </session-factory>-->
 </hibernate-configuration>

@@ -14,12 +14,15 @@
 package org.openmrs.module.oauth2.api.db;
 
 import org.openmrs.module.oauth2.api.Oauth2Service;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  *  Database methods for {@link Oauth2Service}.
  */
+@Component
 public interface Oauth2DAO<T> {
 	
 	/*
