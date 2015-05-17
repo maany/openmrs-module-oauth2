@@ -9,7 +9,7 @@ import java.util.List;
 /**
  *
  */
-@Transactional
+
 public interface ClientRegistrationService extends OpenmrsService {
 
     /**
@@ -49,4 +49,6 @@ public interface ClientRegistrationService extends OpenmrsService {
      * @should register a new client into the database
      */
     public void registerNewClient(Client client);
+
+
 }

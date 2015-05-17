@@ -130,7 +130,7 @@ public class Client extends BaseOpenmrsData{
         this.legalAcceptance = legalAcceptance;
     }
 
-    private enum ClientType{
+    public enum ClientType{
         WEB_APPLICATION, USER_AGENT_BASED_APPLICATION,NATIVE_APPLICATION;
     }
 }

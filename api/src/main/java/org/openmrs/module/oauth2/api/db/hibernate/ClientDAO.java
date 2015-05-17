@@ -1,14 +1,14 @@
 package org.openmrs.module.oauth2.api.db.hibernate;
 
 import org.openmrs.module.oauth2.Client;
+import org.openmrs.module.oauth2.api.db.Oauth2DAO;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 /**
  * Created by OPSKMC on 5/5/15.
  */
-@Repository
-@Qualifier("clientDAO")
+
 public class ClientDAO extends HibernateOauth2DAO<Client> {
     /**
      * You must call this before using any of the data access methods, since it's not actually
@@ -23,4 +23,5 @@ public class ClientDAO extends HibernateOauth2DAO<Client> {
     private ClientDAO() {
         super(Client.class);
     }
+
 }

@@ -3,6 +3,7 @@ package org.openmrs.module.oauth2.api.impl;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
+import org.openmrs.module.oauth2.api.db.Oauth2DAO;
 import org.openmrs.module.oauth2.api.db.hibernate.ClientDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,13 +15,16 @@ import java.util.List;
 
 public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements ClientRegistrationService {
 
-    @Autowired
-    private ClientDAO clientDAO;
+    private Oauth2DAO<Client> dao;
+
+    public void setDao(Oauth2DAO<Client> dao) {
+        this.dao = dao;
+    }
 
     @Override
     public void saveOrUpdateClient(Client client) {
         try {
-            clientDAO.saveOrUpdate(client);
+            dao.saveOrUpdate(client);
         } catch (Exception ex) {
             System.out.println("***** ERROR *****");
             ex.printStackTrace();
@@ -34,7 +38,7 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
 
     @Override
     public Client getClient(Integer id) {
-        return null;
+        return dao.getById(id);
     }
 
     @Override
