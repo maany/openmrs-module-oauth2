@@ -1,8 +1,8 @@
 package org.openmrs.module.oauth2.api;
 
+import org.hibernate.SessionFactory;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.oauth2.Client;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,5 +50,9 @@ public interface ClientRegistrationService extends OpenmrsService {
      */
     public void registerNewClient(Client client);
 
+    /**
+     * returns the hibernate sessionFactory
+     */
+    public SessionFactory getSessionFactory();
 
 }

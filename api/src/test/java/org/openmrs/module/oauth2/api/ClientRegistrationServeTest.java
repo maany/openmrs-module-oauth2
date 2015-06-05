@@ -1,9 +1,9 @@
 package org.openmrs.module.oauth2.api;
 
+import org.hibernate.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
-import org.openmrs.api.db.hibernate.HibernateSessionFactoryBean;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
@@ -21,12 +21,16 @@ public class ClientRegistrationServeTest extends BaseModuleContextSensitiveTest 
     public void runBeforeEachTest() throws Exception {
 //        executeDataSet(CLIENT_INITIAL_DATA_XML);
         // Checking if the correct sessionFactory is being handed over to tests;
-        HibernateSessionFactoryBean sessionFactoryBean = (HibernateSessionFactoryBean) applicationContext.getBean("sessionFactory");
-        System.out.println("Printing Packages with Mapped Classes : ");
+        //HibernateSessionFactoryBean sessionFactoryBean = (HibernateSessionFactoryBean) applicationContext.getBean("sessionFactory");
+        SessionFactory sessionFactory = applicationContext.getBean("sessionFactory", SessionFactory.class);
+        if (getService().getSessionFactory() == sessionFactory) {
+            System.out.println("*** Same session factory");
+        }
+        /*System.out.println("Printing Packages with Mapped Classes : ");
         for (String s : sessionFactoryBean.getModulePackagesWithMappedClasses()) {
             System.out.println(s);
-        }
-        ;
+        }*/
+
     }
 
     @Test
