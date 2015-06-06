@@ -10,8 +10,8 @@ import org.openmrs.test.BaseModuleContextSensitiveTest;
 /**
  * Created by OPSKMC on 5/5/15.
  */
-public class ClientRegistrationServeTest extends BaseModuleContextSensitiveTest {
-    protected static final String CLIENT_INITIAL_DATA_XML = "org/openmrs/api/include/LocationServiceTest-initialData.xml";
+public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTest {
+    protected static final String CLIENT_INITIAL_DATA_XML = "ClientRegistrationServiceTest-initialData.xml";//"org/openmrs/api/include/LocationServiceTest-initialData.xml";
 
     public ClientRegistrationService getService() {
         return Context.getService(ClientRegistrationService.class);
@@ -19,7 +19,7 @@ public class ClientRegistrationServeTest extends BaseModuleContextSensitiveTest 
 
     @Before
     public void runBeforeEachTest() throws Exception {
-//        executeDataSet(CLIENT_INITIAL_DATA_XML);
+        executeDataSet(CLIENT_INITIAL_DATA_XML);
     }
 
     @Test
@@ -32,6 +32,11 @@ public class ClientRegistrationServeTest extends BaseModuleContextSensitiveTest 
         getService().saveOrUpdateClient(client);
         client = getService().getClient(1);
         Assert.assertNotNull(client);
-        System.out.println(client.getName() + "  " + client.getRedirectionURI());
+    }
+
+    @Test
+    public void getClient_shouldGetClientById() {
+        Client client = getService().getClient(1);
+        Assert.assertNotNull(client);
     }
 }

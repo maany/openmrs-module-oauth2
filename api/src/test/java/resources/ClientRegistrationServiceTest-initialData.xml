@@ -1,0 +1,29 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<dataset>
+
+    <person person_id="5508" gender="F" dead="false" creator="1" date_created="2008-08-15 15:46:47.0" voided="false"
+            uuid="edc3d446-e53b-11de-8404-001e378eb67e"/>
+    <person_name person_name_id="5508" preferred="true" person_id="508" given_name="Someone" middle_name="With"
+                 family_name="MultipleUserAccounts" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"
+                 uuid="f5bbff8e-e53b-11de-8404-001e378eb67e"/>
+    <users user_id="5508" person_id="5508" system_id="508-x" username="firstaccount"
+           password="74e3ed4f9e5b955de443feabc9f12ecd291ac6a7eaa2f09a72a5c811ec618b044d7131f687c0a0465fc0c660d09fd245e410e12ffe77d78b2a0c504b40afa202"
+           salt="1c30292f0b438b49b181950f3e831c6a9f38ef1c7d559fca566e8cd6b4efb417150585d4c3345f0fb0b520fc0884ad82ea7c1a28f48c2c562106a3d110716cfc"
+           secret_question="a secret" secret_answer="an answer" creator="1" date_created="2008-08-15 15:57:09.0"
+           changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason=""
+           uuid="2eadf946-e53c-11de-8404-001e378eb67e"/>
+
+    <person person_id="4" gender="M" dead="false" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"
+            uuid="f2b7dd73-2d01-4e2b-8ebd-12d832eac8e5"/>
+    <users user_id="4" person_id="4" system_id="3-7" username="clientDeveloper1"
+           password="74e3ed4f9e5b955de443feabc9f12ecd291ac6a7eaa2f09a72a5c811ec618b044d7131f687c0a0465fc0c660d09fd245e410e12ffe77d78b2a0c504b40afa202"
+           salt="1c30292f0b438b49b181950f3e831c6a9f38ef1c7d559fca566e8cd6b4efb417150585d4c3345f0fb0b520fc0884ad82ea7c1a28f48c2c562106a3d110716cfc"
+           secret_question="a secret" secret_answer="an answer" creator="1" date_created="2008-08-15 15:57:09.0"
+           changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason=""
+           uuid="11ce8b28-e132-11de-babe-001e378eb67e"/>
+
+    <oauth2_client client_id="1" user="4" client_name="XYZ EHR" description="This is a web client for XYZ hospital"
+                   redirection_uri="http://www.xyzhealthservices.com/oauthClient" client_type="WEB_APPLICATION"
+                   client_identifier="uui954aAc#412" website="http://www.xyzhealthservices.com"
+                   legal_acceptance="true"/>
+</dataset>

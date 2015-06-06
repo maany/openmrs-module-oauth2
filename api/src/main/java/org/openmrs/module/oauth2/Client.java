@@ -8,7 +8,7 @@ import javax.persistence.*;
 /**
  * Model (MVC) for Oauth Client.
  */
-@Entity
+@Entity(name = "client")
 @Table(name="oauth2_client")
 public class Client extends BaseOpenmrsData{
     @Id
@@ -23,21 +23,22 @@ public class Client extends BaseOpenmrsData{
     @Column(name ="client_name")
     private String name;
 
-    private String desciption;
+    @Column(name = "description")
+    private String description;
 
-    @JoinColumn(name = "redirection_uri")
+    @Column(name = "redirection_uri")
     private String redirectionURI;
 
-    @JoinColumn(name = "client_type")
+    @Column(name = "client_type")
     @Enumerated(EnumType.STRING)
     private ClientType clientType;
 
-    @JoinColumn(name="client_identifier")
+    @Column(name = "client_identifier")
     private String clientIdentifier;
 
     private String website;
 
-    @JoinColumn(name = "legal_acceptance")
+    @Column(name = "legal_acceptance")
     private boolean legalAcceptance;
 
     @Override
@@ -82,12 +83,12 @@ public class Client extends BaseOpenmrsData{
         this.name = name;
     }
 
-    public String getDesciption() {
-        return desciption;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesciption(String desciption) {
-        this.desciption = desciption;
+    public void setDescription(String desciption) {
+        this.description = desciption;
     }
 
     public String getRedirectionURI() {
