@@ -12,14 +12,17 @@
         <property name="configLocations">
             <list>
                 <value>classpath:hibernate.cfg.xml</value>
+                <value>classpath:test-hibernate.cfg.xml</value>
             </list>
         </property>
         <property name="mappingJarLocations">
             <ref bean="mappingJarResources"/>
         </property>
         <property name="packagesToScan">
-            <list merge="true">
+            <list>
                 <value>org.openmrs.module.oauth2</value>
+                <value>org.openmrs.module.oauth2.api.db</value>
+                <value>org.openmrs.module.oauth2.api.db.hibernate</value>
             </list>
         </property>
         <!--  default properties must be set in the hibernate.default.properties -->

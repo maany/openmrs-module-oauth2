@@ -1,6 +1,6 @@
 package org.openmrs.module.oauth2.api;
 
-import org.hibernate.SessionFactory;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
@@ -20,17 +20,6 @@ public class ClientRegistrationServeTest extends BaseModuleContextSensitiveTest 
     @Before
     public void runBeforeEachTest() throws Exception {
 //        executeDataSet(CLIENT_INITIAL_DATA_XML);
-        // Checking if the correct sessionFactory is being handed over to tests;
-        //HibernateSessionFactoryBean sessionFactoryBean = (HibernateSessionFactoryBean) applicationContext.getBean("sessionFactory");
-        SessionFactory sessionFactory = applicationContext.getBean("sessionFactory", SessionFactory.class);
-        if (getService().getSessionFactory() == sessionFactory) {
-            System.out.println("*** Same session factory");
-        }
-        /*System.out.println("Printing Packages with Mapped Classes : ");
-        for (String s : sessionFactoryBean.getModulePackagesWithMappedClasses()) {
-            System.out.println(s);
-        }*/
-
     }
 
     @Test
@@ -40,8 +29,9 @@ public class ClientRegistrationServeTest extends BaseModuleContextSensitiveTest 
         client.setClientType(Client.ClientType.WEB_APPLICATION);
         client.setLegalAcceptance(true);
         client.setRedirectionURI("www.demoapp.com");
-        // getService().saveOrUpdateClient(client);
-        // client = getService().getClient(1);
-//        Assert.assertNotNull(client);
+        getService().saveOrUpdateClient(client);
+        client = getService().getClient(1);
+        Assert.assertNotNull(client);
+        System.out.println(client.getName() + "  " + client.getRedirectionURI());
     }
 }
