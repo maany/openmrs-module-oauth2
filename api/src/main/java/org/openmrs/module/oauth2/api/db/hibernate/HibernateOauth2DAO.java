@@ -16,18 +16,17 @@ package org.openmrs.module.oauth2.api.db.hibernate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
 import org.openmrs.module.oauth2.api.db.Oauth2DAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * It is a default implementation of  {@link Oauth2DAO}.
  */
-@Component
+@Repository
 public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
     protected final Log log = LogFactory.getLog(this.getClass());
     protected Class<T> mappedClass;
@@ -66,38 +65,21 @@ public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
     }
 
     @Override
-
+    @Transactional
     public void saveOrUpdate(T instance) {
-        beginTransaction();
-        try {
-            sessionFactory.getCurrentSession().saveOrUpdate(instance);
-            commitTransaction();
-        } catch (Exception ex) {
-            rollback();
-            ex.printStackTrace();
-        } finally {
-            close();
-        }
+        sessionFactory.getCurrentSession().saveOrUpdate(instance);
     }
 
     @Override
-
+//    @Transactional(readOnly = true)
     public T getById(Integer id) {
         T instance = null;
-        try {
-            beginTransaction();
-            instance = (T) sessionFactory.getCurrentSession().get(mappedClass, id);
-            commitTransaction();
-        } catch (Exception ex) {
-            rollback();
-            ex.printStackTrace();
-        } finally {
-            close();
-        }
+        instance = (T) sessionFactory.getCurrentSession().get(mappedClass, id);
         return instance;
     }
 
     @Override
+//    @Transactional(readOnly = true)
     public List<T> getAll() {
         return (List<T>) sessionFactory.getCurrentSession().createCriteria(mappedClass).list();
     }
@@ -110,22 +92,5 @@ public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
     @Override
     public void delete(T instance) {
         sessionFactory.getCurrentSession().delete(instance);
-    }
-
-    public void beginTransaction() {
-        /*Session session = sessionFactory.openSession();
-        session.beginTransaction();*/
-    }
-
-    public void commitTransaction() {
-//        sessionFactory.getCurrentSession().getTransaction().commit();
-    }
-
-    public void rollback() {
-//        sessionFactory.getCurrentSession().getTransaction().rollback();
-    }
-
-    public void close() {
-//        sessionFactory.getCurrentSession().close();
     }
 }

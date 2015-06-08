@@ -12,9 +12,8 @@
         <property name="moduleService">
             <list>
                 <value>${project.parent.groupId}.${project.parent.artifactId}.api.Oauth2Service</value>
-                <bean
-                        class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-                    <property name="transactionManager">
+                <bean class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+                <property name="transactionManager">
                         <ref bean="transactionManager"/>
                     </property>
                     <property name="target">
