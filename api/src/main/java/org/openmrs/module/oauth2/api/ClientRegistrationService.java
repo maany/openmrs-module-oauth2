@@ -49,4 +49,7 @@ public interface ClientRegistrationService extends OpenmrsService {
      */
     public void registerNewClient(Client client);
 
+    public void testTransaction_saveOrUpdateClient(Client client);
+
+
 }

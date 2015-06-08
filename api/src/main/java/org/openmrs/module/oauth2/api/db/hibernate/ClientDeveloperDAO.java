@@ -1,21 +1,22 @@
 package org.openmrs.module.oauth2.api.db.hibernate;
 
-import org.openmrs.module.oauth2.ClientDeveloper;
+import org.hibernate.SessionFactory;
+import org.openmrs.module.oauth2.Client;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Database links for ClientDeveloperService
  */
+@Repository
+public class ClientDeveloperDAO {
+    @Autowired
+    SessionFactory sessionFactory;
 
-public class ClientDeveloperDAO extends HibernateOauth2DAO<ClientDeveloper> {
-
-    /**
-     * You must call this before using any of the data access methods, since it's not actually
-     * possible to write them all with compile-time class information due to use of Generics.
-     *
-     * @param mappedClass
-     */
-    protected ClientDeveloperDAO(Class<ClientDeveloper> mappedClass) {
-        super(mappedClass);
+    @Transactional(readOnly = true)
+    public void saveOrUpdate(Client client) {
+        sessionFactory.getCurrentSession().saveOrUpdate(client);
     }
 
 }

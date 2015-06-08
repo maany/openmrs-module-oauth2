@@ -39,4 +39,12 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         Client client = getService().getClient(1);
         Assert.assertNotNull(client);
     }
+
+    @Test
+    public void saveOrUpdateTestTransaction() {
+        Client client = new Client();//getService().getClient(1);
+        client.setId(100);
+        client.setName("Mayank");
+        getService().testTransaction_saveOrUpdateClient(client);
+    }
 }
