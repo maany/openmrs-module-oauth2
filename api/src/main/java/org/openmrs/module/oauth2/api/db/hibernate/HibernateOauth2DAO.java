@@ -19,7 +19,6 @@ import org.hibernate.SessionFactory;
 import org.openmrs.module.oauth2.api.db.Oauth2DAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -65,13 +64,11 @@ public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
     }
 
     @Override
-    @Transactional
     public void saveOrUpdate(T instance) {
         sessionFactory.getCurrentSession().saveOrUpdate(instance);
     }
 
     @Override
-//    @Transactional(readOnly = true)
     public T getById(Integer id) {
         T instance = null;
         instance = (T) sessionFactory.getCurrentSession().get(mappedClass, id);
@@ -79,7 +76,6 @@ public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
     }
 
     @Override
-//    @Transactional(readOnly = true)
     public List<T> getAll() {
         return (List<T>) sessionFactory.getCurrentSession().createCriteria(mappedClass).list();
     }

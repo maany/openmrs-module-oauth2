@@ -4,7 +4,6 @@ import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.db.hibernate.ClientDAO;
-import org.openmrs.module.oauth2.api.db.hibernate.ClientDeveloperDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,42 +14,41 @@ import java.util.List;
  */
 
 public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements ClientRegistrationService {
+
     @Autowired
-    protected ClientDeveloperDAO devDao;
-/*    @Autowired
-    protected ClientDAO dao;*/
+    protected ClientDAO dao;
 
     public void setDao(ClientDAO dao) {
- /*       this.dao = dao;*/
+        this.dao = dao;
     }
 
+    @Transactional
     @Override
     public void saveOrUpdateClient(Client client) {
-/*        try {
             dao.saveOrUpdate(client);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }*/
     }
 
+    @Transactional
     @Override
     public void updateClient(Client client) {
-/*        dao.update(client);*/
+        dao.update(client);
     }
 
 
     @Override
+    @Transactional(readOnly = true)
     public Client getClient(Integer id) {
-/*        return dao.getById(id);*/
-        return null;
+        return dao.getById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Client> getAllClientsForClientDeveloper() {
         return null;
     }
 
     @Override
+    @Transactional
     public Client unregisterClient(Client client) {
         return null;
     }
@@ -59,11 +57,5 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     @Override
     public void registerNewClient(Client client) {
 
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public void testTransaction_saveOrUpdateClient(Client client) {
-        devDao.saveOrUpdate(client);
     }
 }
