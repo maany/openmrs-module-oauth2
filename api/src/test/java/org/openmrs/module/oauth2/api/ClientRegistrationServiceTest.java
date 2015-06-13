@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTest {
     protected static final String CLIENT_INITIAL_DATA_XML = "ClientRegistrationServiceTest-initialData.xml";//"org/openmrs/api/include/LocationServiceTest-initialData.xml";
-
+    protected static final String INITIAL_IN_MEMORY_TESTDATASET_XML = "org/openmrs/include/initialInMemoryTestDataSet.xml";
     public ClientRegistrationService getService() {
         return Context.getService(ClientRegistrationService.class);
     }
@@ -23,6 +23,7 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
     @Before
     public void runBeforeEachTest() throws Exception {
         executeDataSet(CLIENT_INITIAL_DATA_XML);
+        executeDataSet(INITIAL_IN_MEMORY_TESTDATASET_XML);
     }
 
     @Test
@@ -49,8 +50,8 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
     @Test
     public void getAllClientsForClientDeveloper_shouldListAllClientsRegisteredByClientDeveloper(){
         User clientDeveloper = Context.getUserService().getUser(4);
-       // List<Client> clients = getService().getAllClientsForClientDeveloper(clientDeveloper);
-        //Assert.assertNotNull(clients);
+    //   List<Client> clients = getService().getAllClientsForClientDeveloper(clientDeveloper);
+    //    Assert.assertNotNull(clients);
     }
 
 
