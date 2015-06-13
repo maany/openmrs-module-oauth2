@@ -6,6 +6,7 @@
 <hibernate-configuration>
     <session-factory>
         <mapping resource="Oauth2.hbm.xml"/>
+        <!--<mapping resource="User.hbm.xml"/>-->
         <!--<mapping resource="Client.hbm.xml"/>-->
         <mapping class="org.openmrs.module.oauth2.Client"/>
         <!--<mapping class="org.openmrs.module.oauth2.ClientDeveloper"/>-->

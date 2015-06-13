@@ -3,9 +3,12 @@ package org.openmrs.module.oauth2.api;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
+
+import java.util.List;
 
 /**
  * Created by OPSKMC on 5/5/15.
@@ -40,11 +43,15 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         Assert.assertNotNull(client);
     }
 
-/*    @Test
-    public void saveOrUpdateTestTransaction() {
-        Client client = new Client();//getService().getClient(1);
-        client.setId(100);
-        client.setName("Mayank");
-        getService().testTransaction_saveOrUpdateClient(client);
-    }*/
+    /**
+     * test data has been set in the xml to return
+     */
+    @Test
+    public void getAllClientsForClientDeveloper_shouldListAllClientsRegisteredByClientDeveloper(){
+        User clientDeveloper = Context.getUserService().getUser(4);
+       // List<Client> clients = getService().getAllClientsForClientDeveloper(clientDeveloper);
+        //Assert.assertNotNull(clients);
+    }
+
+
 }

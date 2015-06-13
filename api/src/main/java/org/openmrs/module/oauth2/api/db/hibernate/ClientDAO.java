@@ -1,10 +1,15 @@
 package org.openmrs.module.oauth2.api.db.hibernate;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.openmrs.User;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.db.Oauth2DAO;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by OPSKMC on 5/5/15.
@@ -23,6 +28,14 @@ public class ClientDAO extends HibernateOauth2DAO<Client> {
 
     private ClientDAO() {
         super(Client.class);
+    }
+    public List<Client> getAllClientsForClientDeveloper(User clientDeveloper){
+        String queryString = "FROM org.openmrs.module.oauth2.Client where clientDeveloper = :client_developer_id";
+        Session session = getSessionFactory().getCurrentSession();
+        Query query = session.createQuery(queryString);
+        query.setParameter("client_developer_id",clientDeveloper.getId());
+        List<Client> clients =  (List<Client>)query.list();
+        return clients;
     }
 
 }

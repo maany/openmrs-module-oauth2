@@ -1,5 +1,6 @@
 package org.openmrs.module.oauth2.api;
 
+import org.openmrs.User;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.oauth2.Client;
 
@@ -30,11 +31,11 @@ public interface ClientRegistrationService extends OpenmrsService {
     public Client getClient(Integer id);
 
     /**
-     * returns a List of all the clients registered by the current client developer.
      *
+     * @param clientDeveloper
      * @return
      */
-    public List<Client> getAllClientsForClientDeveloper();
+    public List<Client> getAllClientsForClientDeveloper(User clientDeveloper);
 
     /**
      * @param client

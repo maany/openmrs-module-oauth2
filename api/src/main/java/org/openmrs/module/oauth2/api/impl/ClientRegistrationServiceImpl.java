@@ -1,5 +1,6 @@
 package org.openmrs.module.oauth2.api.impl;
 
+import org.openmrs.User;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
@@ -25,7 +26,7 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     @Transactional
     @Override
     public void saveOrUpdateClient(Client client) {
-            dao.saveOrUpdate(client);
+        dao.saveOrUpdate(client);
     }
 
     @Transactional
@@ -43,19 +44,20 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
 
     @Override
     @Transactional(readOnly = true)
-    public List<Client> getAllClientsForClientDeveloper() {
-        return null;
+    public List<Client> getAllClientsForClientDeveloper(User clientDeveloper) {
+        return dao.getAllClientsForClientDeveloper(clientDeveloper);
     }
 
     @Override
     @Transactional
     public Client unregisterClient(Client client) {
-        return null;
+        dao.delete(client);
+        return client;
     }
 
     @Transactional
     @Override
     public void registerNewClient(Client client) {
-
+        saveOrUpdateClient(client);
     }
 }
