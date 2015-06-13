@@ -16,7 +16,7 @@ import java.util.List;
 public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTest {
     protected static final String CLIENT_INITIAL_DATA_XML = "ClientRegistrationServiceTest-initialData.xml";//"org/openmrs/api/include/LocationServiceTest-initialData.xml";
     protected static final String INITIAL_IN_MEMORY_TESTDATASET_XML = "org/openmrs/include/initialInMemoryTestDataSet.xml";
-
+    private static final String SAMPLE_CLIENT_REDIRECTION_URI = "www.demoapp.com";
     public ClientRegistrationService getService() {
         return Context.getService(ClientRegistrationService.class);
     }
@@ -29,11 +29,7 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
 
     @Test
     public void saveOrUpdate_shouldSaveNewClientsUpdateExistingClients() {
-        Client client = new Client();
-        client.setName("Demo Application");
-        client.setClientType(Client.ClientType.WEB_APPLICATION);
-        client.setLegalAcceptance(true);
-        client.setRedirectionURI("www.demoapp.com");
+        Client client = createSampleClient();
         getService().saveOrUpdateClient(client);
         client = getService().getClient(1);
         Assert.assertNotNull(client);
@@ -55,6 +51,52 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         List<Client> clients = getService().getAllClientsForClientDeveloper(clientDeveloper);
         Assert.assertNotNull(clients);
     }
+    @Test
+    /**
+     * @see
+     * @verifies
+     */
+    //TODO add more comparisons besides TEST_NAME. Update operation should not modify id and clientDeveloper? Ask Harsha
+    public void updateClient_shouldUpdateExistingClient(){
+        String TEST_NAME = "demo name";
+        Client client = getService().getClient(1);
+        client.setName(TEST_NAME);
+        getService().updateClient(client);
+        client = getService().getClient(1);
+        Assert.assertEquals(TEST_NAME, client.getName());
+    }
 
+    /**
+     *
+     */
+    @Test
+    public void unregisterClient_shouldUnregisterClient(){
+        Client client = getService().getClient(1);
+        getService().unregisterClient(client);
+        client = getService().getClient(1);
+        Assert.assertNull(client);
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void registerNewClient_shouldCreateANewClientForCurrentLoggedInUser(){
+
+        Client client = createSampleClient();
+        getService().registerNewClient(client);
+        List<Client> clients = getService().getAllClientsForClientDeveloper(Context.getAuthenticatedUser());
+        client = clients.get(clients.size()-1);
+        Assert.assertEquals(SAMPLE_CLIENT_REDIRECTION_URI,client.getRedirectionURI());
+
+    }
+    private Client createSampleClient(){
+        Client client = new Client();
+        client.setName("Demo Application");
+        client.setClientType(Client.ClientType.WEB_APPLICATION);
+        client.setLegalAcceptance(true);
+        client.setRedirectionURI(SAMPLE_CLIENT_REDIRECTION_URI);
+        return client;
+    }
 
 }

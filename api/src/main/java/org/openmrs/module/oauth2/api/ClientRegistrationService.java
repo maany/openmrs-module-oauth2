@@ -16,6 +16,7 @@ public interface ClientRegistrationService extends OpenmrsService {
      * update details of the client if exists, else create new client
      *
      * @param client
+     * @should
      */
     public void saveOrUpdateClient(Client client);
 
@@ -46,8 +47,10 @@ public interface ClientRegistrationService extends OpenmrsService {
 
     /**
      * @param client
-     * @should register a new client into the database
+     * @should register a new client into the database for currently logged in User {@link org.openmrs.api.context.Context#getAuthenticatedUser()}
+     *
      */
+    //TODO Feature Discussion : is this required at all? or should saveOrUpdate suffice? Ask Harsha
     public void registerNewClient(Client client);
 
 

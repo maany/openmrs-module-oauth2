@@ -1,6 +1,7 @@
 package org.openmrs.module.oauth2.api.impl;
 
 import org.openmrs.User;
+import org.openmrs.api.context.Context;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
@@ -58,6 +59,7 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     @Transactional
     @Override
     public void registerNewClient(Client client) {
+        client.setClientDeveloper(Context.getAuthenticatedUser());
         saveOrUpdateClient(client);
     }
 }
