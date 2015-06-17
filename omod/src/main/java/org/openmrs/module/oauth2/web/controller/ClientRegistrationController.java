@@ -26,6 +26,6 @@ public class ClientRegistrationController {
     public String registerNewClient(@ModelAttribute("client") Client client, Model model) {
         ClientRegistrationService clientRegistrationService = Context.getService(ClientRegistrationService.class);
         clientRegistrationService.registerNewClient(client);
-        return "manage";
+        return "manage.form";
     }
 }

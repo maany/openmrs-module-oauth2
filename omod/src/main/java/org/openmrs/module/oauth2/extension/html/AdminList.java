@@ -21,32 +21,32 @@ import java.util.Map;
 
 /**
  * This class defines the links that will appear on the administration page under the
- * "oauth2.title" heading. 
+ * "oauth2.title" heading.
  */
 public class AdminList extends AdministrationSectionExt {
-	
-	/**
-	 * @see AdministrationSectionExt#getMediaType()
-	 */
-	public Extension.MEDIA_TYPE getMediaType() {
-		return Extension.MEDIA_TYPE.html;
-	}
-	
-	/**
-	 * @see AdministrationSectionExt#getTitle()
-	 */
-	public String getTitle() {
-		return "oauth2.title";
-	}
-	
-	/**
-	 * @see AdministrationSectionExt#getLinks()
-	 */
-	public Map<String, String> getLinks() {
-		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("/module/oauth2/manage.form", "oauth2.manage");
-        map.put("/module/oauth2/register.form", "oauth2.register");
+
+    /**
+     * @see AdministrationSectionExt#getMediaType()
+     */
+    public Extension.MEDIA_TYPE getMediaType() {
+        return Extension.MEDIA_TYPE.html;
+    }
+
+    /**
+     * @see AdministrationSectionExt#getTitle()
+     */
+    public String getTitle() {
+        return "oauth2.title";
+    }
+
+    /**
+     * @see AdministrationSectionExt#getLinks()
+     */
+    public Map<String, String> getLinks() {
+        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+        map.put("/module/oauth2/registration.form", "oauth2.register");
+        map.put("/module/oauth2/manage.form", "oauth2.manage.registered");
         return map;
-	}
-	
+    }
+
 }
