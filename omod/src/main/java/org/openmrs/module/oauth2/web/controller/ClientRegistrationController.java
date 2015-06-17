@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by OPSKMC on 6/17/15.
  */
 @Controller
-@RequestMapping("/oauth2/registration")
+@RequestMapping("/module/oauth2/registration")
 public class ClientRegistrationController {
     @RequestMapping(method = RequestMethod.GET)
     public String initiateClientRegistration(Model model) {
