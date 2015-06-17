@@ -1,24 +1,22 @@
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ include file="/WEB-INF/template/include.jsp"%>
 <%@ include file="/WEB-INF/template/header.jsp"%>
 
 <%@ include file="template/localHeader.jsp"%>
 
 <p>Application Registration</p>
-<form action="" method="get">
-    Application Name <input type="text" name="name"/><br />
-    Application Desciption <input type="text" name="description"/><br />
-    Application Link <input type="text" name="application_link"/><br />
-    Redirection URI <input type="text" name="redirection_uri"/><br />
-    Scope<br/>
-    <ul>
-        <li><input type="checkbox" name="scope" value="fhir_read">Read FHIR Resources</li>
-    </ul>
+
+<form:form modelAttribute="client" action="register" method="post">
+    Application Name <form:input path="name"/><br />
+    Application Desciption <form:input path="description"/><br />
+    Application Link <form:input path="website" type="text" name="application_link"/><br />
+    Redirection URI <form:input path="redirectionURI"/><br />
     Client Type <br/>
     <ul>
-        <li><input type="checkbox" name="client_type" value="web">Web Application</li>
-        <li><input type="checkbox" name="client_type" value="mobile">Mobile Application</li>
-        <li><input type="checkbox" name="client_type" value="user_agent">User Agent Based Application</li>
-    </ul>
+    <li><form:radiobutton path="clientType" value="WEB_APPLICATION">Web Application</li>
+    <li><form:radiobutton path="clientType" value="NATIVE_APPLICATION">Mobile Application</li>
+        <li><form:radiobutton path="clientType" value="USER_AGENT_BASED_APPLICATION">User Agent Based Application</li>
+            </ul>
     <input type="submit"/>
 </form>
 
