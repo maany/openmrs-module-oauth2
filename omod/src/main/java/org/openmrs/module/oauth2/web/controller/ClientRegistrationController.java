@@ -17,23 +17,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/module/oauth2/*")
 public class ClientRegistrationController {
     @RequestMapping(value = "registration", method = RequestMethod.GET)
-    public String clientRegistrationForm(ModelMap model) {
+    public void clientRegistrationForm(ModelMap model) {
         Client client = new Client();
         model.addAttribute("client", client);
-        return "/module/oauth2/registrationForm";
     }
 
     @RequestMapping(value = "registration", method = RequestMethod.POST)
-    public String submitClientRegistration(@ModelAttribute("client") Client client, Model model) {
+    public void submitClientRegistration(@ModelAttribute("client") Client client, Model model) {
         ClientRegistrationService clientRegistrationService = Context.getService(ClientRegistrationService.class);
         clientRegistrationService.registerNewClient(client);
         clientRegistrationService.registerNewClient(client);
-        return "/module/oauth2/manage";
+        //TODO add success element and validation errors
+//        model.addAttribute("result","");
     }
 
-    @RequestMapping(value = "manage", method = RequestMethod.GET)
-    public void manage(ModelMap model) {
+    @RequestMapping(value = "application", method = RequestMethod.GET)
+    public void listRegisteredApplications(ModelMap model) {
         model.addAttribute("user", Context.getAuthenticatedUser());
+    }
+
+    @RequestMapping(value = "authorized", method = RequestMethod.GET)
+    public void listAuthorizedApplications(ModelMap model) {
+
     }
 
 
