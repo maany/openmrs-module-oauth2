@@ -5,8 +5,8 @@
 
 <p>Application Registration</p>
 
-<form:form modelAttribute="client" method="get" action="test">
-    Application Name <form:input path="name"/><br/>
+<form:form modelAttribute="client" method="post">
+Application Name <form:input path="name"/><br/>
     Application Desciption <form:input path="description"/><br/>
     Application Link <form:input path="website"/><br/>
     Redirection URI <form:input path="redirectionURI"/><br/>
@@ -18,5 +18,4 @@
     </ul>
     <input type="submit"/>
 </form:form>
-
 <%@ include file="/WEB-INF/template/footer.jsp" %>
