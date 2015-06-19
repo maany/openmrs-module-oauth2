@@ -22,10 +22,9 @@ public class ClientRegistrationController {
         model.addAttribute("client", client);
     }
 
-    @RequestMapping(value = "register", method = RequestMethod.POST)
-    public String registerNewClient(@ModelAttribute("client") Client client, Model model) {
+    @RequestMapping(value = "registration", method = RequestMethod.POST)
+    public void registerNewClient(@ModelAttribute("client") Client client, Model model) {
         ClientRegistrationService clientRegistrationService = Context.getService(ClientRegistrationService.class);
         clientRegistrationService.registerNewClient(client);
-        return "manage.form";
     }
 }
