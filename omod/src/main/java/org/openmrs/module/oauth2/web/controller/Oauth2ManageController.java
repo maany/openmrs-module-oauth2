@@ -29,4 +29,5 @@ public class  Oauth2ManageController {
     public void manage(ModelMap model) {
 		model.addAttribute("user", Context.getAuthenticatedUser());
 	}*/
+
 }
