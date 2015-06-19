@@ -17,14 +17,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/module/oauth2/*")
 public class ClientRegistrationController {
     @RequestMapping(value = "registration", method = RequestMethod.GET)
-    public void initiateClientRegistration(ModelMap model) {
+    public void clientRegistrationForm(ModelMap model) {
         Client client = new Client();
         model.addAttribute("client", client);
     }
 
     @RequestMapping(value = "registration", method = RequestMethod.POST)
-    public void registerNewClient(@ModelAttribute("client") Client client, Model model) {
+    public String submitClientRegistration(@ModelAttribute("client") Client client, Model model) {
         ClientRegistrationService clientRegistrationService = Context.getService(ClientRegistrationService.class);
         clientRegistrationService.registerNewClient(client);
+        return "/module/oauth2/manage";
+    }
+
+    @RequestMapping(value = "manage", method = RequestMethod.GET)
+    public void manage(ModelMap model) {
+        model.addAttribute("user", Context.getAuthenticatedUser());
     }
 }
