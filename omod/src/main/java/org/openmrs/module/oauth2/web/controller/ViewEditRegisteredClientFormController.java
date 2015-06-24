@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +47,19 @@ public class ViewEditRegisteredClientFormController {
         getService().updateClient(client);
         log.info("Making edits for client with id" + client.getId());
         return VIEW_EDIT_FORM_VIEW;
+    }
+
+    /**
+     * @param clientId
+     * @return invoke controller to render index.jsp
+     */
+    @RequestMapping(value = "/{clientId}", method = RequestMethod.DELETE)
+    public ModelAndView deleteClient(HttpServletRequest request, @ModelAttribute Client client, @PathVariable Integer clientId) {
+        client = getService().unregisterClient(client);
+        //TODO send message that client is unregistered
+        String redirectURI = request.getContextPath() + "/" + RegisteredClientIndexController.INDEX_CONTROLLER;
+        log.info("Oauth Client Unregistered : " + client.getName());
+        return new ModelAndView(new RedirectView(redirectURI));
     }
 
     /**

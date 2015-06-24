@@ -2,9 +2,11 @@
 <%@ include file="/WEB-INF/template/header.jsp" %>
 
 <%@ include file="template/localHeader.jsp" %>
+<script>
 
+</script>
 <h2><openmrs:message code="oauth2.client.registered.viewEdit"/></h2>
-<form:form modelAttribute="client" method="post">
+<form:form modelAttribute="client">
     <form:hidden path="clientId"/>
     <table>
         <tr>
@@ -42,7 +44,8 @@
         </tr>
         <tr>
     </table>
-    <input type="submit" value="Save Changes"/>
+    <input type="submit" value="Save Changes" formmethod="post"/>
+    <input type="submit" value="Delete" formmethod="delete"/>
 </form:form>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>
