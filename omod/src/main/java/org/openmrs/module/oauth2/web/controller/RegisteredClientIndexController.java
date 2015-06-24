@@ -21,12 +21,12 @@ import java.util.List;
 public class RegisteredClientIndexController {
 
     protected final Log log = LogFactory.getLog(getClass());
-    private static final String SUCCESS_VIEW = "/module/oauth2/index";
+    private static final String INDEX_VIEW = "/module/oauth2/index";
 
     @RequestMapping(method = RequestMethod.GET)
     public String showList() {
         log.debug("Inside showList controller for RegisteredClient index.jsp");
-        return SUCCESS_VIEW;
+        return INDEX_VIEW;
     }
 
     @ModelAttribute("clients")

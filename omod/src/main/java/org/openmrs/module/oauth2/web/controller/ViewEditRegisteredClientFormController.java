@@ -20,10 +20,11 @@ import java.util.Map;
  * Created by OPSKMC on 6/24/15.
  */
 @Controller
-@RequestMapping(value = "module/oauth2/client/registered/view")
+@RequestMapping(value = ViewEditRegisteredClientFormController.VIEW_EDIT_REQUEST_MAPPING)
 public class ViewEditRegisteredClientFormController {
     protected final Log log = LogFactory.getLog(getClass());
-    private static final String VIEW_EDIT_FORM_VIEW = "/module/oauth2/viewEditRegisteredClient";
+    public static final String VIEW_EDIT_FORM_VIEW = "/module/oauth2/viewEditRegisteredClient";
+    public static final String VIEW_EDIT_REQUEST_MAPPING = "module/oauth2/client/registered/view";
 
     @RequestMapping(value = "/{clientId}", method = RequestMethod.GET)
     public String showForm(@PathVariable Integer clientId, ModelMap map) {

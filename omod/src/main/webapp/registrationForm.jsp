@@ -35,6 +35,6 @@
             </tr>
             <tr>
         </table>
-        <input type="submit" value="Save Changes"/>
+        <input type="submit" value="Register Application"/>
     </form:form>
 <%@ include file="/WEB-INF/template/footer.jsp" %>
