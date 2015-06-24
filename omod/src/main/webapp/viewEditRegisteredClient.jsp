@@ -8,5 +8,39 @@
     that he/she has registered
 
 <p>
+    <form:form modelAttribute="client" method="post">
+        <table>
+            <tr>
+                <td>Application Name</td>
+                <td><form:input path="name"/></td>
+            </tr>
+            <tr>
+                <td>Application Description</td>
+                <td><form:input path="description"/></td>
+            </tr>
+            <tr>
+                <td>Application Link</td>
+                <td><form:input path="description"/></td>
+            </tr>
+            <tr>
+                <td>Website</td>
+                <td><form:input path="website"/></td>
+            </tr>
+            <tr>
+                <td>Redirection URI</td>
+                <td><form:input path="redirectionURI"/></td>
+            </tr>
+            <tr>
+                <td>Client Type</td>
+                <td>
+                    <form:select path="clientType">
+                        <form:option value="-" label="--Please Select"/>
+                        <form:options items="${clientTypes}"/>
+                    </form:select>
+                </td>
+            </tr>
+        </table>
+        <input type="submit"/>
+    </form:form>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>

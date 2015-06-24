@@ -36,7 +36,7 @@
                     <tr>
                         <td><c:out value="<%= sNo%>"/></td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/module/oauth2/client/registered/viewEdit.form"><c:out
+                            <a href="${pageContext.request.contextPath}/module/oauth2/client/registered/view/${client.id}.form"><c:out
                                     value="${client.name}"/></a></td>
                         <td><c:out value="${client.description}"/></td>
                         <td><c:out value="${client.website}"/></td>

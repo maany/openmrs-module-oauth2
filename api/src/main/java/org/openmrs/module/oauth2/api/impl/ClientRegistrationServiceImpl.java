@@ -62,4 +62,9 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
         client.setClientDeveloper(Context.getAuthenticatedUser());
         saveOrUpdateClient(client);
     }
+
+    @Override
+    public Client.ClientType[] getAllClientTypes() {
+        return Client.ClientType.values();
+    }
 }

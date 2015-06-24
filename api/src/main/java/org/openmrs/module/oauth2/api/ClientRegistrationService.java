@@ -32,7 +32,6 @@ public interface ClientRegistrationService extends OpenmrsService {
     public Client getClient(Integer id);
 
     /**
-     *
      * @param clientDeveloper
      * @return
      */
@@ -48,10 +47,17 @@ public interface ClientRegistrationService extends OpenmrsService {
     /**
      * @param client
      * @should register a new client into the database for currently logged in User {@link org.openmrs.api.context.Context#getAuthenticatedUser()}
-     *
      */
     //TODO Feature Discussion : is this required at all? or should saveOrUpdate suffice? Ask Harsha
     public void registerNewClient(Client client);
+
+    /**
+     * This method returns the list of the supported Oauth2 Client Types.
+     * Default values are : {WEB_APPLICATION, USER_AGENT_BASED_APPLICATION, NATIVE_APPLICATION}
+     *
+     * @return
+     */
+    public Client.ClientType[] getAllClientTypes();
 
 
 }

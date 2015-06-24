@@ -90,6 +90,17 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         Assert.assertEquals(SAMPLE_CLIENT_REDIRECTION_URI,client.getRedirectionURI());
 
     }
+
+    //TODO : write a better test
+
+    /**
+     *
+     */
+    @Test
+    public void getAllClientTypes_shouldReturnAllSupportedClientTypes() {
+        Assert.assertNotEquals("At least 1 clientType should be supported", getService().getAllClientTypes().length, 0);
+    }
+
     private Client createSampleClient(){
         Client client = new Client();
         client.setName("Demo Application");
