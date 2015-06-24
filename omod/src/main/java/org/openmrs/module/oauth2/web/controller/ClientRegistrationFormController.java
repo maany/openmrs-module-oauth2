@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
  * Created by OPSKMC on 6/23/15.
  */
 @Controller
-@RequestMapping(value = "module/oauth2/registrationLink.form")
+@RequestMapping(value = "module/oauth2/client/registrationLink.form")
 public class ClientRegistrationFormController {
     protected final Log log = LogFactory.getLog(getClass());
     private static final String SUCCESS_FORM_VIEW = "/module/oauth2/registrationForm";

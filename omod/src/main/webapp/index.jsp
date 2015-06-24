@@ -7,7 +7,8 @@
     This is the Index page. </p>
 
 <p>
-    Here is the link to <a href="">register new client page</a>
+    <a href="${pageContext.request.contextPath}/module/oauth2/.htm?viewType=edit"><openmrs:message
+            code="Person.create"/></a><br/><br/>
 </p>
 
 <p>It will display a list of registered clients for the current authenticated user here.</p>
