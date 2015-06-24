@@ -64,8 +64,9 @@ public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
     }
 
     @Override
-    public void saveOrUpdate(T instance) {
+    public T saveOrUpdate(T instance) {
         sessionFactory.getCurrentSession().saveOrUpdate(instance);
+        return instance;
     }
 
     @Override
@@ -81,8 +82,9 @@ public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
     }
 
     @Override
-    public void update(T instance) {
+    public T update(T instance) {
         sessionFactory.getCurrentSession().update(instance);
+        return instance;
     }
 
     @Override

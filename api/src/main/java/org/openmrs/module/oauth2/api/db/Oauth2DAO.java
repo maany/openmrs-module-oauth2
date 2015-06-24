@@ -15,7 +15,6 @@ package org.openmrs.module.oauth2.api.db;
 
 import org.openmrs.module.oauth2.api.Oauth2Service;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -33,7 +32,8 @@ public interface Oauth2DAO<T> {
      * Save or Update details
      * @param instance
      */
-    public void saveOrUpdate(T instance);
+    public T saveOrUpdate(T instance);
+
     /**
      *
      * @param id
@@ -49,9 +49,10 @@ public interface Oauth2DAO<T> {
 
     /**
      *
-     * @param id
+     * @param instance
+     * @return
      */
-    public void update(T instance);
+    public T update(T instance);
 
     /**
      *

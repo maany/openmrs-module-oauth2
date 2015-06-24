@@ -26,14 +26,14 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
 
     @Transactional
     @Override
-    public void saveOrUpdateClient(Client client) {
-        dao.saveOrUpdate(client);
+    public Client saveOrUpdateClient(Client client) {
+        return dao.saveOrUpdate(client);
     }
 
     @Transactional(readOnly = false)
     @Override
-    public void updateClient(Client client) {
-        dao.update(client);
+    public Client updateClient(Client client) {
+        return dao.update(client);
     }
 
 
@@ -58,9 +58,9 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
 
     @Transactional
     @Override
-    public void registerNewClient(Client client) {
+    public Client registerNewClient(Client client) {
         client.setClientDeveloper(Context.getAuthenticatedUser());
-        saveOrUpdateClient(client);
+        return saveOrUpdateClient(client);
     }
 
     @Override

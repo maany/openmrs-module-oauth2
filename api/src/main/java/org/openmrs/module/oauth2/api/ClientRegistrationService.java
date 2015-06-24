@@ -18,12 +18,12 @@ public interface ClientRegistrationService extends OpenmrsService {
      * @param client
      * @should
      */
-    public void saveOrUpdateClient(Client client);
+    public Client saveOrUpdateClient(Client client);
 
     /**
      * @param client
      */
-    public void updateClient(Client client);
+    public Client updateClient(Client client);
 
     /**
      * @param id
@@ -49,7 +49,7 @@ public interface ClientRegistrationService extends OpenmrsService {
      * @should register a new client into the database for currently logged in User {@link org.openmrs.api.context.Context#getAuthenticatedUser()}
      */
     //TODO Feature Discussion : is this required at all? or should saveOrUpdate suffice? Ask Harsha
-    public void registerNewClient(Client client);
+    public Client registerNewClient(Client client);
 
     /**
      * This method returns the list of the supported Oauth2 Client Types.
