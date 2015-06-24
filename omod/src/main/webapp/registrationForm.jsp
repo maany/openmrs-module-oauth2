@@ -3,10 +3,9 @@
 
 <%@ include file="template/localHeader.jsp" %>
 
-<p>Hello World
+<h2><openmrs:message code="oauth2.client.registered.register"/></h2>
 
-<p>
-    <form:form modelAttribute="client" method="post">
+<form:form modelAttribute="client" method="post">
         <table>
             <tr>
                 <td>Application Name</td>
