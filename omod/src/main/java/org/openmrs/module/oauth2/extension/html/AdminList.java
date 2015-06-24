@@ -45,7 +45,7 @@ public class AdminList extends AdministrationSectionExt {
     public Map<String, String> getLinks() {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
         map.put("module/oauth2/registrationLink.form", "oauth2.register");
-        map.put("module/oauth2/registrationLink.form", "oauth2.register");
+        map.put("module/oauth2/registeredClient/index.htm", "Manage Registered Clients");
 /*        map.put("/module/oauth2/application.list", "oauth2.manage.registered");
         map.put("/module/oauth2/authorized.list", "oauth2.manage.authorized");*/
         return map;
