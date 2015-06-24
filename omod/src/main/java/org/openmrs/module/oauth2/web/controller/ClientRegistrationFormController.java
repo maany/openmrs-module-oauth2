@@ -2,6 +2,7 @@ package org.openmrs.module.oauth2.web.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.module.oauth2.Client;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,5 +34,10 @@ public class ClientRegistrationFormController {
         }
 
         return SUCCESS_FORM_VIEW;
+    }
+
+    @ModelAttribute("client")
+    public Client getNewClient() {
+        return new Client();
     }
 }

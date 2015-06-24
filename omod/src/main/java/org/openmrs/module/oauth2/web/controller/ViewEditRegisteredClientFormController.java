@@ -39,6 +39,7 @@ public class ViewEditRegisteredClientFormController {
             log.info("Binding errors found");
         }
         updateNonFormDetails(client, clientId);
+        client = getService().merge(client);
         getService().updateClient(client);
         log.info("Making edits for client with id" + client.getId());
         return VIEW_EDIT_FORM_VIEW;

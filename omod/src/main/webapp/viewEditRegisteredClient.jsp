@@ -20,10 +20,6 @@
                 <td><form:input path="description"/></td>
             </tr>
             <tr>
-                <td>Application Link</td>
-                <td><form:input path="description"/></td>
-            </tr>
-            <tr>
                 <td>Website</td>
                 <td><form:input path="website"/></td>
             </tr>
