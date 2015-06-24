@@ -59,5 +59,11 @@ public interface ClientRegistrationService extends OpenmrsService {
      */
     public Client.ClientType[] getAllClientTypes();
 
+    /**
+     * @param client
+     * @return
+     */
+    public Client merge(Client client);
+
 
 }

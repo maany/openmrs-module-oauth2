@@ -101,6 +101,18 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         Assert.assertNotEquals("At least 1 clientType should be supported", getService().getAllClientTypes().length, 0);
     }
 
+    @Test
+    public void merge_shouldMergeWithExistingClient() {
+        final String DEMO_NAME = "Merge New Client";
+        Client client = getService().getClient(1);
+        client.setName(DEMO_NAME);
+        client = getService().merge(client);
+//        getService().updateClient(client);
+        Client newClient = getService().getClient(1);
+        Assert.assertEquals(DEMO_NAME, newClient.getName());
+
+    }
+
     private Client createSampleClient(){
         Client client = new Client();
         client.setName("Demo Application");

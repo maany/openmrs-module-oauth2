@@ -91,4 +91,9 @@ public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
     public void delete(T instance) {
         sessionFactory.getCurrentSession().delete(instance);
     }
+
+    @Override
+    public T merge(T instance) {
+        return (T) sessionFactory.getCurrentSession().merge(instance);
+    }
 }

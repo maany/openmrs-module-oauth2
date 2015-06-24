@@ -19,46 +19,50 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- *  Database methods for {@link Oauth2Service}.
+ * Database methods for {@link Oauth2Service}.
  */
 @Component
 public interface Oauth2DAO<T> {
-	
+
 	/*
 	 * Add DAO methods here
 	 */
 
     /**
      * Save or Update details
+     *
      * @param instance
      */
     public T saveOrUpdate(T instance);
 
     /**
-     *
      * @param id
      * @return
      */
     public T getById(Integer id);
 
     /**
-     *
      * @return
      */
     public List<T> getAll();
 
     /**
-     *
      * @param instance
      * @return
      */
     public T update(T instance);
 
     /**
-     *
      * @param id
      */
     public void delete(T instance);
 
+    /**
+     * Use this method to merge detached object with existing entity before using {@link #saveOrUpdate(Object)}, {@link #update(Object)}
+     *
+     * @param instance
+     * @return
+     */
+    public T merge(T instance);
 
 }

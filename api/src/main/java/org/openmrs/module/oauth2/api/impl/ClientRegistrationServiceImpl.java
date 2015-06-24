@@ -67,4 +67,9 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     public Client.ClientType[] getAllClientTypes() {
         return Client.ClientType.values();
     }
+
+    @Override
+    public Client merge(Client client) {
+        return dao.merge(client);
+    }
 }
