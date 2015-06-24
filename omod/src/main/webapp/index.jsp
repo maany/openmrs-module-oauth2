@@ -13,4 +13,8 @@
 
 <p>It will display a list of registered clients for the current authenticated user here.</p>
 
+<p>
+    <a href="${pageContext.request.contextPath}/module/oauth2/client/registered/viewEdit.form">Clicking on a name</a>
+    will open up viewEdit form
+</p>
 <%@ include file="/WEB-INF/template/footer.jsp" %>
