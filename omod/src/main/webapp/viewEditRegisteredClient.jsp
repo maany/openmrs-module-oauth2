@@ -9,6 +9,7 @@
 
 <p>
     <form:form modelAttribute="client" method="post">
+        <form:hidden path="clientId"/>
         <table>
             <tr>
                 <td>Application Name</td>
@@ -39,8 +40,17 @@
                     </form:select>
                 </td>
             </tr>
+            <tr>
+                <td>Client Identifier</td>
+                <td>TODO</td>
+            </tr>
+            <tr>
+                <td>Client Secret</td>
+                <td>TODO</td>
+            </tr>
+            <tr>
         </table>
-        <input type="submit"/>
+        <input type="submit" value="Save Changes"/>
     </form:form>
 
 <%@ include file="/WEB-INF/template/footer.jsp" %>

@@ -30,7 +30,7 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
         dao.saveOrUpdate(client);
     }
 
-    @Transactional
+    @Transactional(readOnly = false)
     @Override
     public void updateClient(Client client) {
         dao.update(client);
