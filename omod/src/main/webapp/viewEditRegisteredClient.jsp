@@ -47,9 +47,4 @@
     <input type="submit" value="Save Changes" formmethod="post"/>
     <input type="submit" value="Delete" formmethod="delete"/>
 </form:form>
-<form:form method="get">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="submit" value="DELETE">
-</form:form>
-
 <%@ include file="/WEB-INF/template/footer.jsp" %>

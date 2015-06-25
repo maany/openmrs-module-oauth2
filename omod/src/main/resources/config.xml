@@ -52,16 +52,16 @@
 	</messages>
 	<!-- /Internationalization -->
 
-    <!--HiddenHttpFormFilter-->
-    <filter>
-        <filter-name>oauth2HiddenHttpFormFilter</filter-name>
-        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>oauth2HiddenHttpFormFilter</filter-name>
-        <!--<servlet-name>openmrs</servlet-name>-->
-        <url-mapping>/*</url-mapping>
-    </filter-mapping>
-    <!--/HiddenHttpFormFilter-->
+    <!--    HiddenHttpFormFilter
+        <filter>
+            <filter-name>oauth2HiddenHttpFormFilter</filter-name>
+            <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+        </filter>
+        <filter-mapping>
+            <filter-name>oauth2HiddenHttpFormFilter</filter-name>
+            <servlet-name>openmrs</servlet-name>
+            <url-mapping>*/oauth2/*</url-mapping>
+        </filter-mapping>
+        /HiddenHttpFormFilter-->
 </module>
 
