@@ -2,8 +2,18 @@
 <%@ include file="/WEB-INF/template/header.jsp" %>
 
 <%@ include file="template/localHeader.jsp" %>
+<openmrs:htmlInclude file="/moduleResources/oauth2/jquery-1.11.3.min.js"/>
 <script>
-
+    $(document).ready(function () {
+        $("button").click(function () {
+            var pageUrl = window.location.href;
+            alert("Are you sure you want to unregister this application??");
+            $.ajax({
+                url: pageUrl,
+                type: 'DELETE'
+            });
+        });
+    });
 </script>
 <h2><openmrs:message code="oauth2.client.registered.viewEdit"/></h2>
 <form:form modelAttribute="client">
@@ -45,6 +55,6 @@
         <tr>
     </table>
     <input type="submit" value="Save Changes" formmethod="post"/>
-    <input type="submit" value="Delete" formmethod="delete"/>
+    <button>Delete</button>
 </form:form>
 <%@ include file="/WEB-INF/template/footer.jsp" %>
