@@ -1,5 +1,7 @@
 package org.openmrs.module.oauth2;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.User;
 
@@ -21,15 +23,19 @@ public class Client extends BaseOpenmrsData{
     private User clientDeveloper;
 
     @Column(name ="client_name")
+    @NotEmpty
     private String name;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "redirection_uri")
+    @NotEmpty
+    @URL
     private String redirectionURI;
 
     @Column(name = "client_type")
+    @NotEmpty
     @Enumerated(EnumType.STRING)
     private ClientType clientType;
 
@@ -37,7 +43,7 @@ public class Client extends BaseOpenmrsData{
     private String clientIdentifier;
     @Column(name = "client_secret")
     private String clientSecret;
-
+    @URL
     private String website;
 
     @Column(name = "legal_acceptance")

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,22 +35,33 @@ public class ViewEditRegisteredClientFormController {
     public String showForm(@PathVariable Integer clientId, ModelMap map) {
         Client client = getService().getClient(clientId);
         map.addAttribute("client", client);
+        System.out.println("******PRINTING " + client.getClientSecret());
         List<String> encodedCredentials = getService().encodeCredentials(client);
+        System.out.println("*******After ENCODING" + client.getClientSecret() + " list value : " + encodedCredentials.get(1));
         map.addAttribute("app_identifier", encodedCredentials.get(0));
         map.addAttribute("app_password", encodedCredentials.get(1));
         return VIEW_EDIT_FORM_VIEW;
     }
 
     @RequestMapping(value = "/{clientId}", method = RequestMethod.POST)
-    public String editForm(@PathVariable Integer clientId, @ModelAttribute("client") Client client, BindingResult errors, ModelMap map) {
+    public String editForm(@PathVariable Integer clientId, @Valid @ModelAttribute("client") Client client, BindingResult errors, ModelMap map) {
         if (errors.hasErrors()) {
             //TODO return error view
             log.info("Binding errors found");
+            return VIEW_EDIT_FORM_VIEW;
         }
+        System.out.println("*************BEFORE UPDATE : " + client.getClientSecret());
         updateNonFormDetails(client, clientId);
+        System.out.println("*************AFTER UPDATE : " + client.getClientSecret());
         client = getService().merge(client);
+        System.out.println("*************AFTER MERGE: " + client.getClientSecret());
+        System.out.println();
         getService().updateClient(client);
         log.info("Making edits for client with id" + client.getId());
+        List<String> encodedCredentials = getService().encodeCredentials(client);
+        System.out.println("*******After ENCODING" + client.getClientSecret() + " list value : " + encodedCredentials.get(1));
+        map.addAttribute("app_identifier", encodedCredentials.get(0));
+        map.addAttribute("app_password", encodedCredentials.get(1));
         return VIEW_EDIT_FORM_VIEW;
     }
 
@@ -76,6 +88,8 @@ public class ViewEditRegisteredClientFormController {
     private void updateNonFormDetails(Client client, Integer id) {
         Client oldClient = getService().getClient(id);
         client.setClientDeveloper(oldClient.getClientDeveloper());
+        client.setClientIdentifier(oldClient.getClientIdentifier());
+        client.setClientSecret(oldClient.getClientSecret());
     }
 
     private ClientRegistrationService getService() {

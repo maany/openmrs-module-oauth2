@@ -66,6 +66,7 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     public Client registerNewClient(Client client) {
         client.setClientDeveloper(Context.getAuthenticatedUser());
         generateClientCredentials(client);
+        System.out.println("****Client secret : " + client.getClientSecret());
         return saveOrUpdateClient(client);
     }
 
@@ -83,8 +84,10 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     public List<String> encodeCredentials(Client client) {
         String clientIdentifier = client.getClientIdentifier();
         String clientSecret = client.getClientSecret();
+        System.out.println("****** INSIDE encodeCredentials() service method");
         if (clientIdentifier == null || clientSecret == null || clientIdentifier.length() == 0 || clientSecret.length() == 0)
             throw new IllegalStateException("Invalid credentials for OAuth2 Client : " + client.getName() + ". Kindly request generation of new credentials");
+        System.out.println("*******EXCEPTION NOT THROWN");
         List<String> credentials = new ArrayList<String>();
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_STRENGTH);
         credentials.add(encoder.encode(clientIdentifier));

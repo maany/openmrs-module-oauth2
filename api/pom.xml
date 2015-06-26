@@ -65,7 +65,15 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
+
+        <!-- Hibernate Validator -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>4.2.0.Final</version>
+        </dependency>
     </dependencies>
+
 
     <build>
         <resources>

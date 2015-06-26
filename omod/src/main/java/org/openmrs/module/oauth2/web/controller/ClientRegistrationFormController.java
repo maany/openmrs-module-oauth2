@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,11 +34,11 @@ public class ClientRegistrationFormController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView onSubmit(HttpServletRequest request, @ModelAttribute("client") Client client,
+    public ModelAndView onSubmit(HttpServletRequest request, @Valid @ModelAttribute("client") Client client,
                                  BindingResult errors, ModelMap map) {
 
         if (errors.hasErrors()) {
-            // return error view
+            return new ModelAndView(REGISTRATION_FORM_VIEW);
         }
         client = getService().registerNewClient(client);
         getService().generateAndPersistClientCredentials(client);
