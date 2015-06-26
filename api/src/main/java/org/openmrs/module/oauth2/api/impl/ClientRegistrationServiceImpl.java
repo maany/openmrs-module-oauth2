@@ -7,8 +7,13 @@ import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.db.hibernate.ClientDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,5 +76,36 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     @Override
     public Client merge(Client client) {
         return dao.merge(client);
+    }
+
+    @Override
+    public List<String> encodeCredentials(Client client) {
+        String clientIdentifier = client.getClientIdentifier();
+        String clientSecret = client.getClientSecret();
+        if (clientIdentifier == null || clientSecret == null || clientIdentifier.length() == 0 || clientSecret.length() == 0)
+            throw new IllegalStateException("Invalid credentials for OAuth2 Client : " + client.getName() + ". Kindly request generation of new credentials");
+        List<String> credentials = new ArrayList<String>();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_STRENGTH);
+        credentials.add(encoder.encode(clientIdentifier));
+        credentials.add(encoder.encode(clientSecret));
+        return credentials;
+    }
+
+    @Override
+    public void generateAndPersistClientCredentials(Client client) {
+        SecureRandom random = new SecureRandom();
+        client.setClientSecret(new BigInteger(130, random).toString(32));
+        client.setClientIdentifier(new Date().toString());
+        Client databaseClient = getClient(client.getId());
+        merge(client);
+        updateClient(client);
+    }
+
+    @Override
+    public boolean verifyClientCredentials(Client client, String encodedClientIdentifier, String encodedClientSecret) {
+        BCryptPasswordEncoder matcher = new BCryptPasswordEncoder(BCRYPT_STRENGTH);
+        if (matcher.matches(client.getClientIdentifier(), encodedClientIdentifier) && matcher.matches(client.getClientSecret(), encodedClientSecret))
+            return true;
+        return false;
     }
 }

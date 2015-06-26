@@ -35,6 +35,8 @@ public class Client extends BaseOpenmrsData{
 
     @Column(name = "client_identifier")
     private String clientIdentifier;
+    @Column(name = "client_secret")
+    private String clientSecret;
 
     private String website;
 
@@ -129,6 +131,14 @@ public class Client extends BaseOpenmrsData{
 
     public void setLegalAcceptance(boolean legalAcceptance) {
         this.legalAcceptance = legalAcceptance;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
     }
 
     public enum ClientType{

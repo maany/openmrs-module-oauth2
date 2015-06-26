@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface ClientRegistrationService extends OpenmrsService {
 
+    public static final int BCRYPT_STRENGTH = 4;
+
     /**
      * update details of the client if exists, else create new client
      *
@@ -65,5 +67,29 @@ public interface ClientRegistrationService extends OpenmrsService {
      */
     public Client merge(Client client);
 
+    /**
+     * Encodes {@link org.openmrs.module.oauth2.Client#name} to  {@link org.openmrs.module.oauth2.Client#clientIdentifier} and {@link Client#}{@link org.openmrs.module.oauth2.Client#clientSecret} with <a href="https://en.wikipedia.org/wiki/Bcrypt">BCrypt Hashing function</a>
+     *
+     * @param client
+     * @return A List with 1st element as encoded clientIdentifier and second element as encoded clientSecret
+     */
+    public List<String> encodeCredentials(Client client);
+
+    /**
+     * Generate {@link org.openmrs.module.oauth2.Client#clientIdentifier} , {@link org.openmrs.module.oauth2.Client#clientSecret} and persist values in database.
+     * Generation strategy for clientId is current
+     *
+     * @param client
+     */
+    public void generateAndPersistClientCredentials(Client client);
+
+    /**
+     * @param client
+     * @param encodedClientIdentifier
+     * @param encodedClientSecret
+     * @return
+     */
+
+    public boolean verifyClientCredentials(Client client, String encodedClientIdentifier, String encodedClientSecret);
 
 }

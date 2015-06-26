@@ -113,6 +113,18 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
 
     }
 
+    @Test
+    public void encodeDecideClientCredentialsTest_shouldEncodeClientCredentialsAndBeAbleToDecodeThem() {
+        Client client = getService().getClient(1);
+        getService().generateAndPersistClientCredentials(client);
+        List<String> credentials = getService().encodeCredentials(client);
+        Assert.assertNotNull(credentials);
+        Assert.assertEquals(2, credentials.size());
+        boolean decodeResult = getService().verifyClientCredentials(client, credentials.get(0), credentials.get(1));
+        Assert.assertTrue(decodeResult);
+    }
+
+
     private Client createSampleClient(){
         Client client = new Client();
         client.setName("Demo Application");

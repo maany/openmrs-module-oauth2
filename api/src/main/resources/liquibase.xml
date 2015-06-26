@@ -30,4 +30,9 @@
                                  baseTableName="oauth2_client" baseColumnNames="user" referencedTableName="users"
                                  referencedColumnNames="user_id"/>
     </changeSet>
+    <changeSet id="oauth2-201505261825" author="Mayank">
+        <addColumn tableName="oauth2_client">
+            <column name="client_secret" type="varchar(255)"></column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
