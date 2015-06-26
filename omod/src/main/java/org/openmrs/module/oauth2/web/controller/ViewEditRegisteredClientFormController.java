@@ -17,6 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,6 +34,9 @@ public class ViewEditRegisteredClientFormController {
     public String showForm(@PathVariable Integer clientId, ModelMap map) {
         Client client = getService().getClient(clientId);
         map.addAttribute("client", client);
+        List<String> encodedCredentials = getService().encodeCredentials(client);
+        map.addAttribute("app_identifier", encodedCredentials.get(0));
+        map.addAttribute("app_password", encodedCredentials.get(1));
         return VIEW_EDIT_FORM_VIEW;
     }
 
@@ -72,7 +76,6 @@ public class ViewEditRegisteredClientFormController {
     private void updateNonFormDetails(Client client, Integer id) {
         Client oldClient = getService().getClient(id);
         client.setClientDeveloper(oldClient.getClientDeveloper());
-        client.setClientIdentifier(oldClient.getClientIdentifier());
     }
 
     private ClientRegistrationService getService() {

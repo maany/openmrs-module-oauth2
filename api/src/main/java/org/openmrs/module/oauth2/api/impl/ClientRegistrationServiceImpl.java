@@ -65,6 +65,7 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     @Override
     public Client registerNewClient(Client client) {
         client.setClientDeveloper(Context.getAuthenticatedUser());
+        generateClientCredentials(client);
         return saveOrUpdateClient(client);
     }
 
@@ -93,12 +94,20 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
 
     @Override
     public void generateAndPersistClientCredentials(Client client) {
+        generateClientCredentials(client);
+        merge(client);
+        updateClient(client);
+    }
+
+    /**
+     * Should be called before persisting new client
+     *
+     * @param client
+     */
+    private void generateClientCredentials(Client client) {
         SecureRandom random = new SecureRandom();
         client.setClientSecret(new BigInteger(130, random).toString(32));
         client.setClientIdentifier(new Date().toString());
-        Client databaseClient = getClient(client.getId());
-        merge(client);
-        updateClient(client);
     }
 
     @Override

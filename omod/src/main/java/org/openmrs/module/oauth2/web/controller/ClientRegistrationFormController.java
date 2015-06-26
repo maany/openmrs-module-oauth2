@@ -6,6 +6,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,12 +34,13 @@ public class ClientRegistrationFormController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView onSubmit(HttpServletRequest request, @ModelAttribute("client") Client client,
-                                 BindingResult errors) {
+                                 BindingResult errors, ModelMap map) {
 
         if (errors.hasErrors()) {
             // return error view
         }
-        getService().registerNewClient(client);
+        client = getService().registerNewClient(client);
+        getService().generateAndPersistClientCredentials(client);
         String redirectURL = request.getContextPath() + "/" + ViewEditRegisteredClientFormController.VIEW_EDIT_REQUEST_MAPPING + "/" + client.getId() + ".form";
         return new ModelAndView(new RedirectView(redirectURL));
     }

@@ -46,11 +46,11 @@
         </tr>
         <tr>
             <td>Client Identifier</td>
-            <td>TODO</td>
+            <td>${app_identifier}</td>
         </tr>
         <tr>
             <td>Client Secret</td>
-            <td>TODO</td>
+            <td>${app_password}</td>
         </tr>
         <tr>
     </table>
