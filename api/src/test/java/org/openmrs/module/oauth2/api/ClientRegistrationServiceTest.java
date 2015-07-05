@@ -24,7 +24,7 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
     @Before
     public void runBeforeEachTest() throws Exception {
         executeDataSet(CLIENT_INITIAL_DATA_XML);
-        executeDataSet(INITIAL_IN_MEMORY_TESTDATASET_XML);
+        //   executeDataSet(INITIAL_IN_MEMORY_TESTDATASET_XML);
     }
 
     @Test
