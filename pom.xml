@@ -134,9 +134,7 @@
             -->
             <!--End Spring Security-->
 
-            <!--Begin spring-security-oauth2-->
 
-            <!--End spring-security-oauth2-->
         </dependencies>
     </dependencyManagement>
 
