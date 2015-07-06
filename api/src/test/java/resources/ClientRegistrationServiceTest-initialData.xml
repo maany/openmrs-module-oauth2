@@ -3,7 +3,7 @@
 
     <person person_id="5508" gender="F" dead="false" creator="1" date_created="2008-08-15 15:46:47.0" voided="false"
             uuid="edc3d446-e53b-11de-8404-001e378eb67e"/>
-    <person_name person_name_id="5508" preferred="true" person_id="508" given_name="Someone" middle_name="With"
+    <person_name person_name_id="5508" preferred="true" person_id="5508" given_name="Someone" middle_name="With"
                  family_name="MultipleUserAccounts" creator="1" date_created="2005-01-01 00:00:00.0" voided="false"
                  uuid="f5bbff8e-e53b-11de-8404-001e378eb67e"/>
     <users user_id="5508" person_id="5508" system_id="508-x" username="firstaccount"

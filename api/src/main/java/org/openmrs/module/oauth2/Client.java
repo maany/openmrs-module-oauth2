@@ -11,8 +11,8 @@ import javax.persistence.*;
  * Model (MVC) for Oauth Client.
  */
 @Entity(name = "client")
-@Table(name="oauth2_client")
-public class Client extends BaseOpenmrsData{
+@Table(name = "oauth2_client")
+public class Client extends BaseOpenmrsData {
     @Id
     @GeneratedValue
     @Column(name = "client_id")
@@ -22,7 +22,7 @@ public class Client extends BaseOpenmrsData{
     @JoinColumn(name = "user")
     private User clientDeveloper;
 
-    @Column(name ="client_name")
+    @Column(name = "client_name")
     @NotEmpty
     private String name;
 
@@ -35,7 +35,6 @@ public class Client extends BaseOpenmrsData{
     private String redirectionURI;
 
     @Column(name = "client_type")
-    @NotEmpty
     @Enumerated(EnumType.STRING)
     private ClientType clientType;
 
@@ -147,7 +146,7 @@ public class Client extends BaseOpenmrsData{
         this.clientSecret = clientSecret;
     }
 
-    public enum ClientType{
-        WEB_APPLICATION, USER_AGENT_BASED_APPLICATION,NATIVE_APPLICATION;
+    public enum ClientType {
+        WEB_APPLICATION, USER_AGENT_BASED_APPLICATION, NATIVE_APPLICATION;
     }
 }
