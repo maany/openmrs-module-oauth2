@@ -14,7 +14,6 @@
     <description>API project for Oauth2</description>
 
     <dependencies>
-
         <!--
         Add other dependencies from parent's pom:
         <dependency>
@@ -22,81 +21,83 @@
             <artifactId>library-name</artifactId>
         </dependency>
         -->
-
-
         <!-- Begin OpenMRS core -->
-
         <dependency>
             <groupId>org.openmrs.api</groupId>
             <artifactId>openmrs-api</artifactId>
-            <type>jar</type>
         </dependency>
-
         <dependency>
             <groupId>org.openmrs.web</groupId>
             <artifactId>openmrs-web</artifactId>
-            <type>jar</type>
         </dependency>
-
         <dependency>
             <groupId>org.openmrs.api</groupId>
             <artifactId>openmrs-api</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
+            <classifier>tests</classifier>
         </dependency>
-
-        <dependency>
-            <groupId>org.openmrs.web</groupId>
-            <artifactId>openmrs-web</artifactId>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.openmrs.test</groupId>
             <artifactId>openmrs-test</artifactId>
             <type>pom</type>
-            <scope>test</scope>
         </dependency>
-
         <!-- End OpenMRS core -->
-
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
-            <version>${spring.security.version}</version>
             <exclusions>
                 <exclusion>
-                <groupId>org.springframework</groupId>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
                     <artifactId>spring-core</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
-                    <artifactId>spring-asm</artifactId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.jackson</groupId>
+                    <artifactId>jackson-core-asl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.jackson</groupId>
+                    <artifactId>jackson-mapper-asl</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
-
 
         <!--Begin Spring 3.1.1-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <scope>provided</scope>
-            <!--TODO add ${spring.version} if possible. Logically not possible as module does not know where it is being installed}-->
-            <version>3.2.7.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <scope>provided</scope>
-            <version>3.2.7.RELEASE</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <scope>provided</scope>
-            <version>3.2.7.RELEASE</version>
         </dependency>
         <!--End Spring 3.1.1-->
 
@@ -104,7 +105,6 @@
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
-            <version>1.0.5.RELEASE</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -146,8 +146,6 @@
         </dependency>
         <!--End spring-security-oauth2-->
     </dependencies>
-
-
     <build>
         <resources>
             <resource>
@@ -163,6 +161,4 @@
             </testResource>
         </testResources>
     </build>
-
-
 </project>
