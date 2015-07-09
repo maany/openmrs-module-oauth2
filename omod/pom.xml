@@ -30,6 +30,7 @@
         </dependency>
 
         <!-- End OpenMRS modules -->
+
         <!-- Begin OpenMRS core -->
         <dependency>
             <groupId>org.openmrs.api</groupId>

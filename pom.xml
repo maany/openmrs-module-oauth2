@@ -127,6 +127,24 @@
                 <version>3.2.7.RELEASE</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>3.2.7.RELEASE</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
+                <version>3.2.7.RELEASE</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>3.2.7.RELEASE</version>
+                <scope>provided</scope>
+            </dependency>
             <!--End Spring 3.1.1-->
 
             <!--Begin spring-security-oauth2-->
@@ -172,12 +190,18 @@
                         <artifactId>jackson-mapper-asl</artifactId>
                     </exclusion>
                     <exclusion>
-                        <groupId>aopalliance</groupId>
+                        <groupId>org.springframework.security</groupId>
+                        <artifactId>/*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                    <groupId>aopalliance</groupId>
                         <artifactId>aopalliance</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
+            <!--End spring-security-oauth2-->
 
+            <!--Begin spring-security-crypto-->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-crypto</artifactId>
@@ -221,6 +245,57 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <!--End spring-security-crypto-->
+
+            <!--Begin spring security-->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>3.2.7.RELEASE</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>/*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>aopalliance</groupId>
+                        <artifactId>aopalliance</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-web</artifactId>
+                <version>3.2.7.RELEASE</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>/*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>aopalliance</groupId>
+                        <artifactId>aopalliance</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>3.2.7.RELEASE</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>/*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>aopalliance</groupId>
+                        <artifactId>aopalliance</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!--End spring security-->
         </dependencies>
     </dependencyManagement>
 

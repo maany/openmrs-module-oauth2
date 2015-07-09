@@ -9,10 +9,10 @@
   		    http://www.springframework.org/schema/context/spring-context-3.0.xsd
   		    http://www.springframework.org/schema/mvc
   		    http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-<!--
-                http://www.springframework.org/schema/security
-                http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
-    -->
+    <!--
+                    http://www.springframework.org/schema/security
+                    http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
+        -->
 
     <!-- Add here beans related to the web context -->
 
@@ -53,5 +53,4 @@
     <!--Begin spring-security-oauth2 configurations-->
 
     <!--End spring-security-oauth2 configurations-->
-
 </beans>
