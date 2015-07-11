@@ -30,65 +30,136 @@
 
     <!--Begin Spring Security configurations-->
 
+    <!--=============================================================================-->
+    <!--Sample Web/HTTP Security Configuration. Listing Spring Security protected resources-->
+    <!--=============================================================================-->
 
-    <!--Web/HTTP Security Configuration-->
     <security:http auto-config="true" pattern="/**" use-expressions="true">
-        <!--
-         <security:intercept-url pattern="/module/oauth2/**" access="hasRole('ROLE_USER')"/>
-        -->
+        <security:intercept-url pattern="/module/oauth2/**" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/module/fhir/**" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/module/basicmodule/**" access="hasRole('ROLE_USER')"/>
     </security:http>
-
+    <!--===================================================================-->
+    <!--Link to OpenMRS users Table mapped to Spring Security UserService-->
+    <!--This will be used to process User credentials when he/she authorizes an OAuth Client-->
+    <!--via Authorization Code/ Implicit Grant Type-->
+    <!--===================================================================-->
     <security:authentication-manager>
         <security:authentication-provider>
             <security:user-service>
-            <security:user name="bob" authorities="ROLE_USER" password="bob"/>
+                <security:user name="bob" authorities="ROLE_USER" password="bob"/>
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>
-    <!--
-        <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
-                                    user-approval-handler-ref="userApprovalHandler">
-            <oauth:authorization-code/>
-            <oauth:implicit/>
-            <oauth:refresh-token/>
-            <oauth:client-credentials/>
-            <oauth:password/>
-        </oauth:authorization-server>
 
-        <oauth:client-details-service id="clientDetails">
-            <oauth:client client-id="my-trusted-client"
-                          authorized-grant-types="password,authorization_code,refresh_token,implicit"
-                          authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" scope="read,write,trust"
-                          access-token-validity="60"/>
-            <oauth:client client-id="my-trusted-client-with-secret"
-                          authorized-grant-types="password,authorization_code,refresh_token,implicit"
-                          secret="somesecret" authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT"/>
-            <oauth:client client-id="my-client-with-secret" authorized-grant-types="client_credentials"
-                          authorities="ROLE_CLIENT"
-                          scope="read" secret="secret"/>
-            <oauth:client client-id="my-less-trusted-client" authorized-grant-types="authorization_code,implicit"
-                          authorities="ROLE_CLIENT"/>
-            <oauth:client client-id="my-less-trusted-autoapprove-client" authorized-grant-types="implicit"
-                          authorities="ROLE_CLIENT" scope="read,write,trust"/>
-            <oauth:client client-id="my-client-with-registered-redirect"
-                          authorized-grant-types="authorization_code,client_credentials"
-                          authorities="ROLE_CLIENT" redirect-uri="http://anywhere?key=value" scope="read,trust"/>
-            <oauth:client client-id="my-untrusted-client-with-registered-redirect"
-                          authorized-grant-types="authorization_code"
-                          authorities="ROLE_CLIENT" redirect-uri="http://anywhere" scope="read"/>
-            <oauth:client client-id="tonr" resource-ids="sparklr" authorized-grant-types="authorization_code,implicit"
-                          authorities="ROLE_CLIENT" scope="read,write" secret="secret"/>
-        </oauth:client-details-service>
+    <!--============================-->
+    <!--OAuth2 Entry Points-->
+    <!--============================-->
 
-        <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>
+    <!--Entry point for OAuth2 protected resources-->
+    <bean id="oauthAuthenticationEntryPoint"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="test"/>
+    </bean>
 
-        <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
-            <property name="tokenStore" ref="tokenStore"/>
-            <property name="supportRefreshToken" value="true"/>
-            <property name="clientDetailsService" ref="clientDetails"/>
-        </bean>
-    -->
+    <!--To be used with token endpoint to verify client credentials-->
+    <bean id="clientAuthenticationEntryPoint"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="test/client"/>
+        <property name="typeName" value="Basic"/>
+    </bean>
+
+    <!--==============================================-->
+    <!--Wire up OAuth2 token endpoint with Spring Http Security-->
+    <!--==============================================-->
+
+
+    <!--==============================================-->
+    <!--Authentication Manager for OAuth2 Clients-->
+    <!--==============================================-->
+    <authentication-manager id="clientAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider user-service-ref="clientDetailsUserService"/>
+    </authentication-manager>
+
+
+    <!--=====================================-->
+    <!-- Begin OAuth2 Explicit Configurations    -->
+    <!--=====================================-->
+
+
+    <!--==============================-->
+    <!--OAuth2 Authorization Server-->
+    <!-- =========================== -->
+    <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices">
+        <!--user-approval-handler-ref="userApprovalHandler">-->
+        <oauth:authorization-code/>
+        <oauth:implicit/>
+        <oauth:refresh-token/>
+        <oauth:client-credentials/>
+        <oauth:password/>
+    </oauth:authorization-server>
+
+    <!--==============================================================================-->
+    <!--Create custom bean for ClientDetailsService to read from oauth2_client Table-->
+    <!--==================================================================================-->
+
+    <bean id="clientDetailsUserService"
+          class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
+        <constructor-arg ref="clientDetails"/>
+    </bean>
+
+    <!--=======================================================================================================-->
+    <!--OAuth2 Sample Clients.-->
+    <!--=======================================================================================================-->
+    <oauth:client-details-service id="clientDetails">
+        <oauth:client client-id="my-trusted-client"
+                      authorized-grant-types="password,authorization_code,refresh_token,implicit"
+                      authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" scope="read,write,trust"
+                      access-token-validity="60"/>
+        <oauth:client client-id="my-trusted-client-with-secret"
+                      authorized-grant-types="password,authorization_code,refresh_token,implicit"
+                      secret="somesecret" authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT"/>
+        <oauth:client client-id="my-client-with-secret" authorized-grant-types="client_credentials"
+                      authorities="ROLE_CLIENT"
+                      scope="read" secret="secret"/>
+        <oauth:client client-id="my-less-trusted-client" authorized-grant-types="authorization_code,implicit"
+                      authorities="ROLE_CLIENT"/>
+        <oauth:client client-id="my-less-trusted-autoapprove-client" authorized-grant-types="implicit"
+                      authorities="ROLE_CLIENT" scope="read,write,trust"/>
+        <oauth:client client-id="my-client-with-registered-redirect"
+                      authorized-grant-types="authorization_code,client_credentials"
+                      authorities="ROLE_CLIENT" redirect-uri="http://anywhere?key=value" scope="read,trust"/>
+        <oauth:client client-id="my-untrusted-client-with-registered-redirect"
+                      authorized-grant-types="authorization_code"
+                      authorities="ROLE_CLIENT" redirect-uri="http://anywhere" scope="read"/>
+        <oauth:client client-id="tonr" resource-ids="sparklr" authorized-grant-types="authorization_code,implicit"
+                      authorities="ROLE_CLIENT" scope="read,write" secret="secret"/>
+    </oauth:client-details-service>
+
+    <!--==========================================================================================-->
+    <!--Default Token Store. Replace with JdbcTokenStore to persist tokens in module's database-->
+    <!--==========================================================================================-->
+    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>
+
+    <!--=============================================================================-->
+    <!--Default Token Service to manage tokens. Wire up with custom JdbcTokenStore-->
+    <!--=============================================================================-->
+
+    <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
+        <property name="tokenStore" ref="tokenStore"/>
+        <property name="supportRefreshToken" value="true"/>
+        <property name="clientDetailsService" ref="clientDetails"/>
+    </bean>
+    <!--====================================================================================-->
+    <!--Enable OAuth2 expressions in xml and annotations (for method security mechanisms)-->
+    <!--====================================================================================-->
+    <security:global-method-security pre-post-annotations="enabled" proxy-target-class="true">
+        <!--you could also wire in the expression handler up at the layer of the http filters. See https://jira.springsource.org/browse/SEC-1452 -->
+        <security:expression-handler ref="oauthExpressionHandler"/>
+    </security:global-method-security>
+
+    <oauth:expression-handler id="oauthExpressionHandler"/>
+
+    <oauth:web-expression-handler id="oauthWebExpressionHandler"/>
 
 </beans>
