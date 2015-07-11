@@ -11,9 +11,10 @@
   		    http://www.springframework.org/schema/context/spring-context-3.0.xsd
   		    http://www.springframework.org/schema/mvc
   		    http://www.springframework.org/schema/mvc/spring-mvc.xsd
-  		    /oauth2
+  		    http://www.springframework.org/schema/security/oauth2
   		    http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
-  		    http://www.springframework.org/schema/security">
+  		    http://www.springframework.org/schema/security
+  		    http://www.springframework.org/schema/security/spring-security-3.2.xsd">
     <!--
                     http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
@@ -31,8 +32,8 @@
     <!--user-approval-handler-ref-->
 
     <!--Web/HTTP Security Configuration-->
-    <security:http auto-config="true" pattern="/module/oauth2/registeredClient/index.htm">
-        <security:intercept-url pattern="/module/oauth2/registeredClient/index.htm" access="hasRole('ROLE_USER')"/>
+    <security:http auto-config="true" pattern="**/module/oauth2/registeredClient/*" use-expressions="true">
+    <security:intercept-url pattern="/module/oauth2/registeredClient/index.htm" access="hasRole('ROLE_USER')"/>
     </security:http>
 
     <security:authentication-manager>
