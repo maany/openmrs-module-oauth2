@@ -29,17 +29,21 @@
     <mvc:annotation-driven/>
 
     <!--Begin Spring Security configurations-->
-    <!--user-approval-handler-ref-->
+
 
     <!--Web/HTTP Security Configuration-->
-    <security:http auto-config="true" pattern="**/module/oauth2/registeredClient/*" use-expressions="true">
-    <security:intercept-url pattern="/module/oauth2/registeredClient/index.htm" access="hasRole('ROLE_USER')"/>
+    <security:http auto-config="true" pattern="/**" use-expressions="true">
+        <!--
+         <security:intercept-url pattern="/module/oauth2/**" access="hasRole('ROLE_USER')"/>
+        -->
+        <security:intercept-url pattern="/module/fhir/**" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/module/basicmodule/**" access="hasRole('ROLE_USER')"/>
     </security:http>
 
     <security:authentication-manager>
         <security:authentication-provider>
             <security:user-service>
-                <security:user name="bob" authorities="ROLE_USER" password="bob"/>
+            <security:user name="bob" authorities="ROLE_USER" password="bob"/>
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>
