@@ -47,14 +47,7 @@
 
     -->
 
-    <!--Web/Http Security Configuration for OpenMRS Web Services under OAuth2 control -->
-    <!--    <security:http pattern="/ws/**" use-expressions="true" entry-point-ref="oauthAuthenticationEntryPoint"
-                access-decision-manager-ref="accessDecisionManager">
-            <security:intercept-url pattern="/ws/fhir/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>
-            <security:intercept-url pattern="/ws/rest/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>
-            <security:custom-filter ref="OpenMRSGenericResourceServerFilter" before="PRE_AUTH_FILTER"/>
-            <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
-        </security:http>-->
+
     <!--===================================================================-->
     <!--Authentication Manager and Authentication Provider for OpenMRS users-->
     <!--Link to OpenMRS users Table mapped to Spring Security UserService-->
@@ -101,6 +94,18 @@
         <security:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER"/>
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
+
+    <!--Web/Http Security Configuration for OpenMRS Web Services under OAuth2 control -->
+    <security:http use-expressions="true" entry-point-ref="oauthAuthenticationEntryPoint"
+                   authentication-manager-ref="authenticationManager">
+        <security:anonymous enabled="false"/>
+        <security:intercept-url pattern="/ws/fhir/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>
+        <!--<security:intercept-url pattern="/ws/rest/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>-->
+        <security:custom-filter ref="OpenMRSGenericResourceServerFilter" before="PRE_AUTH_FILTER"/>
+        <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
+    </security:http>
+
+
     <!--==============================================================================================-->
     <!--Token Endpoint : Access Denied Handler for OAuth2 used by the ExceptionTranslationFilter when
         client tries to access resource for which it does not have necessary permissions -->
@@ -231,5 +236,6 @@
     <oauth:expression-handler id="oauthExpressionHandler"/>
 
     <oauth:web-expression-handler id="oauthWebExpressionHandler"/>
+
 
 </beans>
