@@ -35,17 +35,14 @@
         add details to restric access based on Role, Scope, Method-->
     <!--=============================================================================-->
 
-    <!--
 
-        <security:http pattern="/module/**" use-expressions="true" access-decision-manager-ref="accessDecisionManager"
-                authentication-manager-ref="authenticationManager">
+    <security:http pattern="/module/**" use-expressions="true"
+                   authentication-manager-ref="authenticationManager">
             <security:intercept-url pattern="/module/oauth2/**" access="hasRole('ROLE_USER')"/>
             <security:intercept-url pattern="/module/fhir/**" access="hasRole('ROLE_USER')"/>
             <security:intercept-url pattern="/module/basicmodule/**" access="hasRole('ROLE_USER')"/>
             <security:form-login/>
         </security:http>
-
-    -->
 
 
     <!--===================================================================-->
@@ -191,7 +188,7 @@
                       authorized-grant-types="password,authorization_code,refresh_token,implicit"
                       authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" scope="read,write,trust"
                       access-token-validity="60"/>
-        <oauth:client client-id="my-trusted-client-with-secret"
+        <oauth:client client-id="openmrs-client"
                       authorized-grant-types="password,authorization_code,refresh_token,implicit"
                       secret="somesecret" authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT"/>
         <oauth:client client-id="my-client-with-secret" authorized-grant-types="client_credentials"
