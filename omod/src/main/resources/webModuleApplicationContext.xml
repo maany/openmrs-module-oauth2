@@ -93,7 +93,7 @@
     </security:http>
 
     <!--Web/Http Security Configuration for OpenMRS Web Services under OAuth2 control -->
-    <security:http use-expressions="true" entry-point-ref="oauthAuthenticationEntryPoint"
+    <security:http pattern="/ws/fhir/**" use-expressions="true" entry-point-ref="oauthAuthenticationEntryPoint"
                    authentication-manager-ref="authenticationManager">
         <security:anonymous enabled="false"/>
         <security:intercept-url pattern="/ws/fhir/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>
@@ -101,7 +101,15 @@
         <security:custom-filter ref="OpenMRSGenericResourceServerFilter" before="PRE_AUTH_FILTER"/>
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
+    <!--User Login Page used prior to Authorization Code Grant Type-->
+    <!--TODO Currently using form-login, replace with custom login form-->
+    <http access-denied-page="/login.jsp?authorization_error=true" disable-url-rewriting="true"
+          xmlns="http://www.springframework.org/schema/security">
+        <intercept-url pattern="/ws/oauth/**" access="ROLE_USER"/>
+        <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
+        <form-login/>
+    </http>
 
     <!--==============================================================================================-->
     <!--Token Endpoint : Access Denied Handler for OAuth2 used by the ExceptionTranslationFilter when
@@ -162,7 +170,9 @@
     <!--OAuth2 Authorization Server-->
     <!-- =========================== -->
     <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
-                                user-approval-handler-ref="userApprovalHandler" token-endpoint-url="/oauth2/token">
+                                user-approval-handler-ref="userApprovalHandler" token-endpoint-url="/oauth2/token"
+                                user-approval-page="/module/oauth2/access_confirmation"
+                                approval-parameter-name="user_oauth_approval">
     <oauth:authorization-code/>
         <oauth:implicit/>
         <oauth:refresh-token/>

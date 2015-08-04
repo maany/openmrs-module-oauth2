@@ -50,6 +50,24 @@
 
         <!-- End OpenMRS core -->
 
+        <!--Begin Spring Security-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>/*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>aopalliance</groupId>
+                    <artifactId>aopalliance</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--End Spring Security-->
+
+
     </dependencies>
 
     <build>
