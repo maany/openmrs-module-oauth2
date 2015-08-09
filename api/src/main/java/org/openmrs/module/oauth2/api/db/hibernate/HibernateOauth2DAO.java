@@ -30,7 +30,7 @@ public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
     protected final Log log = LogFactory.getLog(this.getClass());
     protected Class<T> mappedClass;
     @Autowired
-    private SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
 
     /**
      * Marked private because you *must* provide the class at runtime when instantiating one of
@@ -56,12 +56,6 @@ public class HibernateOauth2DAO<T> implements Oauth2DAO<T> {
         this.sessionFactory = sessionFactory;
     }
 
-    /**
-     * @return the sessionFactory
-     */
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
 
     @Override
     public T saveOrUpdate(T instance) {

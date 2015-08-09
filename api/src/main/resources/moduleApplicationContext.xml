@@ -62,4 +62,21 @@
             </list>
         </property>
     </bean>
+
+    <!--Custom UserDetailsService for Spring Security -->
+    <bean id="userCredentialsService"
+          class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager">
+            <ref bean="transactionManager"/>
+        </property>
+        <property name="target">
+            <bean class="org.openmrs.module.oauth2.api.impl.ClientRegistrationServiceImpl"/>
+        </property>
+        <property name="preInterceptors">
+            <ref bean="serviceInterceptors"/>
+        </property>
+        <property name="transactionAttributeSource">
+            <ref bean="transactionAttributeSource"/>
+        </property>
+    </bean>
 </beans>

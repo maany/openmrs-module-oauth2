@@ -31,7 +31,7 @@ public class ClientDAO extends HibernateOauth2DAO<Client> {
     }
     public List<Client> getAllClientsForClientDeveloper(User clientDeveloper){
         String queryString = "FROM org.openmrs.module.oauth2.Client where clientDeveloper.userId = :client_developer_id";
-        Session session = getSessionFactory().getCurrentSession();
+        Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery(queryString);
         query.setParameter("client_developer_id",clientDeveloper.getId());
         List<Client> clients =  (List<Client>)query.list();
