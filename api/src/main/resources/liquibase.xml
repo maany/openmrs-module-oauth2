@@ -35,4 +35,8 @@
             <column name="client_secret" type="varchar(255)"></column>
         </addColumn>
     </changeSet>
+    <changeSet id="oauth-201508130701" author="Mayank">
+        <renameColumn tableName="oauth2_client" oldColumnName="client_id" newColumnName="id"/>
+
+    </changeSet>
 </databaseChangeLog>

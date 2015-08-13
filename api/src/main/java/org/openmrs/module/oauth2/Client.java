@@ -15,8 +15,8 @@ import javax.persistence.*;
 public class Client extends BaseOpenmrsData {
     @Id
     @GeneratedValue
-    @Column(name = "client_id")
-    private Integer clientId;
+    @Column(name = "id")
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "user")
@@ -50,12 +50,12 @@ public class Client extends BaseOpenmrsData {
 
     @Override
     public Integer getId() {
-        return clientId;
+        return id;
     }
 
     @Override
     public void setId(Integer id) {
-        this.clientId = id;
+        this.id = id;
     }
 
     @Basic
@@ -74,13 +74,7 @@ public class Client extends BaseOpenmrsData {
         this.clientDeveloper = clientDeveloper;
     }
 
-    public Integer getClientId() {
-        return clientId;
-    }
 
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
-    }
 
     public String getName() {
         return name;
