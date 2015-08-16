@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.User;
+import org.openmrs.api.context.Context;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -72,23 +73,23 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     // =============================
 
     @ElementCollection
-    @JoinTable(name = "oauth2_client_resource_ids", joinColumns = @JoinColumn(name = "resource_id_key"))
+    @JoinTable(name = "oauth2_client_resource_ids", joinColumns = @JoinColumn(name = "client_id"))
     private Set<String> resourceIds = new HashSet<String>();
 
     @ElementCollection
-    @JoinTable(name = "oauth2_client_scopes", joinColumns = @JoinColumn(name = "scope_key"))
+    @JoinTable(name = "oauth2_client_scopes", joinColumns = @JoinColumn(name = "client_id"))
     private Set<String> scope = new HashSet<String>();
 
     @ElementCollection
-    @JoinTable(name = "oauth2_client_authorities", joinColumns = @JoinColumn(name = "authorities_key"))
+    @JoinTable(name = "oauth2_client_authorities", joinColumns = @JoinColumn(name = "client_id"))
     private Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 
     @ElementCollection
-    @JoinTable(name = "oauth2_client_redirect_uri", joinColumns = @JoinColumn(name = "redirect_uri_key"))
+    @JoinTable(name = "oauth2_client_redirect_uri", joinColumns = @JoinColumn(name = "client_id"))
     private Set<String> registeredRedirectUris = new HashSet<String>();
 
     @ElementCollection
-    @JoinTable(name = "oauth2_client_grant_types", joinColumns = @JoinColumn(name = "grant_types_key"))
+    @JoinTable(name = "oauth2_client_grant_types", joinColumns = @JoinColumn(name = "client_id"))
     private Set<String> authorizedGrantTypes = new HashSet<String>();
 
     /**

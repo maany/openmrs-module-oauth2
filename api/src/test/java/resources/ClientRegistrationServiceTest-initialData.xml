@@ -22,8 +22,16 @@
            changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason=""
            uuid="11ce8b28-e132-11de-babe-001e378eb67e"/>
 
-    <oauth2_client id="1" user="4" client_name="XYZ EHR" description="This is a web client for XYZ hospital"
+    <oauth2_client id="1" creator="4" client_name="XYZ EHR" description="This is a web client for XYZ hospital"
                    redirection_uri="http://www.xyzhealthservices.com/oauthClient" client_type="WEB_APPLICATION"
                    client_identifier="uui954aAc#412" website="http://www.xyzhealthservices.com"
+                   client_secret="somesecret"
+                   voided="false" date_created="2015-08-16 15:46:47.0"/>
+    <oauth2_client id="2" creator="4" client_name="Spring OAuth Demo Client"
+                   description="This is a web client for testing with Spring Security OAuth"
+                   redirection_uri="http://www.xyzhealthservices.com/oauthClient?key=value"
+                   client_type="WEB_APPLICATION"
+                   client_identifier="my-trusted-client-spring-security" client_secret="somesecret"
+                   website="http://www.xyzhealthservices.com"
                    voided="false" date_created="2015-08-16 15:46:47.0"/>
 </dataset>

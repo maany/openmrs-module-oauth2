@@ -34,8 +34,80 @@
         <addColumn tableName="oauth2_client">
             <column name="client_secret" type="varchar(255)"></column>
         </addColumn>
+
     </changeSet>
     <changeSet id="oauth-201508130701" author="Mayank">
-        <renameColumn tableName="oauth2_client" oldColumnName="client_id" newColumnName="id"/>
+        <renameColumn tableName="oauth2_client" oldColumnName="client_id" newColumnName="id" columnDataType="integer"/>
+    </changeSet>
+
+
+    <changeSet id="oauth-201508161348" author="Mayank">
+        <dropColumn tableName="oauth2_client" columnName="legal_acceptance"/>
+        <addColumn tableName="oauth2_client">
+            <column name="refresh_token_validity" type="integer(11)"></column>
+        </addColumn>
+        <addColumn tableName="oauth2_client">
+            <column name="access_token_validity" type="integer(11)"></column>
+        </addColumn>
+        <addColumn tableName="oauth2_client">
+            <column name="creator" type="integer"></column>
+        </addColumn>
+        <addColumn tableName="oauth2_client">
+            <column name="date_created" type="datetime"></column>
+        </addColumn>
+        <addColumn tableName="oauth2_client">
+            <column name="changed_by" type="integer"></column>
+        </addColumn>
+        <addColumn tableName="oauth2_client">
+            <column name="date_changed" type="datetime"></column>
+        </addColumn>
+        <addColumn tableName="oauth2_client">
+            <column name="voided" type="Boolean"></column>
+        </addColumn>
+        <addColumn tableName="oauth2_client">
+            <column name="date_voided" type="datetime"></column>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="oauth2_client" baseColumnNames="creator"
+                                 constraintName="oauth2_client_creator_fk" referencedTableName="users"
+                                 referencedColumnNames="user_id"/>
+    </changeSet>
+
+    <changeSet id="oauth-201508161415" author="Mayank">
+        <createTable tableName="oauth2_client_resource_ids">
+            <column name="client_id" type="integer"></column>
+            <column name="resourceIds" type="varchar(255)"/>
+        </createTable>
+        <createTable tableName="oauth2_client_scopes">
+            <column name="client_id" type="integer"></column>
+            <column name="scope" type="varchar(255)"/>
+        </createTable>
+        <!--todo find a way to persist authorities as varchar-->
+        <createTable tableName="oauth2_client_authorities">
+            <column name="client_id" type="integer"></column>
+            <column name="authorities" type="tinyblob"/>
+        </createTable>
+        <createTable tableName="oauth2_client_redirect_uri">
+            <column name="client_id" type="integer"></column>
+            <column name="registeredRedirectUris" type="varchar(255)"/>
+        </createTable>
+        <createTable tableName="oauth2_client_grant_types">
+            <column name="client_id" type="integer"></column>
+            <column name="authorizedGrantTypes" type="varchar(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="oauth2_client_resource_ids" baseColumnNames="client_id"
+                                 constraintName="oauth2_resource_client_fk" referencedTableName="oauth2_client"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="oauth2_client_scopes" baseColumnNames="client_id"
+                                 constraintName="oauth2_scope_client_fk" referencedTableName="oauth2_client"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="oauth2_client_authorities" baseColumnNames="client_id"
+                                 constraintName="oauth2_authority_client_fk" referencedTableName="oauth2_client"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="oauth2_client_redirect_uri" baseColumnNames="client_id"
+                                 constraintName="oauth2_redirect_uri_client_fk" referencedTableName="oauth2_client"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="oauth2_client_grant_types" baseColumnNames="client_id"
+                                 constraintName="oauth2_grant_type_client_fk" referencedTableName="oauth2_client"
+                                 referencedColumnNames="id"/>
     </changeSet>
 </databaseChangeLog>
