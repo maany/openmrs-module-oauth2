@@ -109,20 +109,23 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     // Constructors
     //=============
     protected Client() {
-
+        setDateCreated(new Date());
+        setVoided(false);
     }
 
     /**
+     *
      * @param clientId
      * @param clientSecret
      * @param resourceIds
      * @param scopes
-     * @param grantTypes   by default, authorization_code and refresh_token are supported
+     * @param grantTypes by default, authorization_code and refresh_token are supported
      * @param authorities
      * @param redirectUris
      */
     public Client(String clientId, String clientSecret, String resourceIds, String scopes, String grantTypes, String authorities,
                   String redirectUris) {
+        this();
         this.clientIdentifier = clientId;
         this.clientSecret = clientSecret;
 
@@ -229,7 +232,6 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     public String getClientSecret() {
         return clientSecret;
     }
-
     @Override
     public Set<String> getResourceIds() {
         return resourceIds;
@@ -330,7 +332,6 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     public User getCreator() {
         return super.getCreator();
     }
-
     @Access(AccessType.PROPERTY)
     @Column(name = "date_created", nullable = false)
     @Override

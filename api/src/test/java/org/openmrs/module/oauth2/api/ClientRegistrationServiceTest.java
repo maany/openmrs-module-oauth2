@@ -8,6 +8,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -126,10 +127,12 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
 
 
     private Client createSampleClient(){
-        Client client = new Client();
+        Client client = new Client("my-trusted-client-with-secret", "somesecret", "openmrs", "read,write", "authorization_code,refresh_token,implicit,client_credentials,password", "ROLE_CLIENT", "http://anywhere?key=value");
+        client.setVoided(false);
+        client.setDateCreated(new Date());
         client.setName("Demo Application");
         client.setClientType(Client.ClientType.WEB_APPLICATION);
-        client.setLegalAcceptance(true);
+        client.setVoided(false);
         client.setRedirectionURI(SAMPLE_CLIENT_REDIRECTION_URI);
         return client;
     }
