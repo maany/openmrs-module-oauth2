@@ -48,7 +48,7 @@ public class ClientRegistrationFormController {
 
     @ModelAttribute("client")
     public Client getNewClient() {
-        return new Client();
+        return new Client(null, null, null, null, null, null, null);
     }
 
     @ModelAttribute("clientTypes")

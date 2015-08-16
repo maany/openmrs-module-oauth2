@@ -110,4 +110,18 @@
                                  constraintName="oauth2_grant_type_client_fk" referencedTableName="oauth2_client"
                                  referencedColumnNames="id"/>
     </changeSet>
+
+    <changeSet id="oauth-201508162016" author="Mayank">
+        <addColumn tableName="oauth2_client">
+            <column name="void_reason" type="varchar(1023)"></column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="oauth-201508161626" author="Mayank">
+        <addColumn tableName="oauth2_client">
+            <column name="voided_by" type="int"></column>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="oauth2_client" baseColumnNames="voided_by"
+                                 constraintName="oauth2_voided_by_user_fk" referencedTableName="users"
+                                 referencedColumnNames="user_id"/>
+    </changeSet>
 </databaseChangeLog>

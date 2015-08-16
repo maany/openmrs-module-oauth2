@@ -35,15 +35,17 @@
         add details to restric access based on Role, Scope, Method-->
     <!--=============================================================================-->
 
+    <!--
 
-    <security:http pattern="/module/**" use-expressions="true"
-                   authentication-manager-ref="authenticationManager">
-            <security:intercept-url pattern="/module/oauth2/**" access="hasRole('ROLE_USER')"/>
-            <security:intercept-url pattern="/module/fhir/**" access="hasRole('ROLE_USER')"/>
-            <security:intercept-url pattern="/module/basicmodule/**" access="hasRole('ROLE_USER')"/>
-            <security:form-login/>
-        </security:http>
+        <security:http pattern="/module/**" use-expressions="true"
+                       authentication-manager-ref="authenticationManager">
+                <security:intercept-url pattern="/module/oauth2/**" access="hasRole('ROLE_USER')"/>
+                <security:intercept-url pattern="/module/fhir/**" access="hasRole('ROLE_USER')"/>
+                <security:intercept-url pattern="/module/basicmodule/**" access="hasRole('ROLE_USER')"/>
+                <security:form-login/>
+            </security:http>
 
+    -->
 
     <!--===================================================================-->
     <!--Authentication Manager and Authentication Provider for OpenMRS users-->

@@ -24,10 +24,6 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "user")
-    private User clientDeveloper;
-
     @Column(name = "client_name")
     @NotEmpty
     private String name;
@@ -115,12 +111,11 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     }
 
     /**
-     *
      * @param clientId
      * @param clientSecret
      * @param resourceIds
      * @param scopes
-     * @param grantTypes by default, authorization_code and refresh_token are supported
+     * @param grantTypes   by default, authorization_code and refresh_token are supported
      * @param authorities
      * @param redirectUris
      */
@@ -161,17 +156,6 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
 
     public enum ClientType {
         WEB_APPLICATION, USER_AGENT_BASED_APPLICATION, NATIVE_APPLICATION;
-    }
-
-    // ======================
-    // Client Getters/Setters
-    // ======================
-    public User getClientDeveloper() {
-        return clientDeveloper;
-    }
-
-    public void setClientDeveloper(User clientDeveloper) {
-        this.clientDeveloper = clientDeveloper;
     }
 
     public String getName() {
@@ -229,10 +213,12 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     public String getClientId() {
         return clientIdentifier;
     }
+
     @Override
     public String getClientSecret() {
         return clientSecret;
     }
+
     @Override
     public Set<String> getResourceIds() {
         return resourceIds;
@@ -333,6 +319,7 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     public User getCreator() {
         return super.getCreator();
     }
+
     @Access(AccessType.PROPERTY)
     @Column(name = "date_created", nullable = false)
     @Override

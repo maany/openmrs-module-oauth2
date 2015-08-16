@@ -64,7 +64,7 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     @Transactional
     @Override
     public Client registerNewClient(Client client) {
-        client.setClientDeveloper(Context.getAuthenticatedUser());
+        client.setCreator(Context.getAuthenticatedUser());
         generateClientCredentials(client);
         return saveOrUpdateClient(client);
     }

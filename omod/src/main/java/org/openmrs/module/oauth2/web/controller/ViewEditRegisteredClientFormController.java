@@ -80,7 +80,7 @@ public class ViewEditRegisteredClientFormController {
      */
     private void updateNonFormDetails(Client client, Integer id) {
         Client oldClient = getService().getClient(id);
-        client.setClientDeveloper(oldClient.getClientDeveloper());
+        client.setCreator(oldClient.getCreator());
         client.setClientIdentifier(oldClient.getClientIdentifier());
         client.setClientSecret(oldClient.getClientSecret());
     }
