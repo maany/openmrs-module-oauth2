@@ -1,5 +1,8 @@
 package org.openmrs.module.oauth2;
 
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.openmrs.BaseOpenmrsData;
@@ -68,24 +71,29 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     // ClientDetails specific fields
     // =============================
 
-    @ElementCollection
-    @JoinTable(name = "oauth2_client_resource_ids", joinColumns = @JoinColumn(name = "client_id"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "oauth2_client_resource_ids", joinColumns = @JoinColumn(name = "client_id"))
+    @Column(name = "resource_ids")
     private Set<String> resourceIds = new HashSet<String>();
 
-    @ElementCollection
-    @JoinTable(name = "oauth2_client_scopes", joinColumns = @JoinColumn(name = "client_id"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "oauth2_client_scopes", joinColumns = @JoinColumn(name = "client_id"))
+    @Column(name = "scope")
     private Set<String> scope = new HashSet<String>();
 
-    @ElementCollection
-    @JoinTable(name = "oauth2_client_authorities", joinColumns = @JoinColumn(name = "client_id"))
+    @ElementCollection(fetch = FetchType.EAGER) //todo make this ManyToOne
+    @CollectionTable(name = "oauth2_client_authorities", joinColumns = @JoinColumn(name = "client_id"))
+    @Column(name = "granted_authorities")
     private Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 
-    @ElementCollection
-    @JoinTable(name = "oauth2_client_redirect_uri", joinColumns = @JoinColumn(name = "client_id"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "oauth2_client_redirect_uri", joinColumns = @JoinColumn(name = "client_id"))
+    @Column(name = "registered_redirect_uri")
     private Set<String> registeredRedirectUris = new HashSet<String>();
 
-    @ElementCollection
-    @JoinTable(name = "oauth2_client_grant_types", joinColumns = @JoinColumn(name = "client_id"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "oauth2_client_grant_types", joinColumns = @JoinColumn(name = "client_id"))
+    @Column(name = "authorized_grant_types")
     private Set<String> authorizedGrantTypes = new HashSet<String>();
 
     /**

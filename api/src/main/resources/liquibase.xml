@@ -9,6 +9,7 @@
         for a list of supported elements and attributes
     -->
     <changeSet author="Mayank" id="oauth2-201505011656">
+        <comment>Initialize oauth2_client with fields declared in Client from OAuth2 module</comment>
         <createTable tableName="oauth2_client">
             <column name="client_id" type="integer" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
@@ -30,19 +31,26 @@
                                  baseTableName="oauth2_client" baseColumnNames="user" referencedTableName="users"
                                  referencedColumnNames="user_id"/>
     </changeSet>
+
+    <!--introduce client_secret-->
     <changeSet id="oauth2-201505261825" author="Mayank">
+        <comment>Introduce field client_secret for oauth2_client</comment>
         <addColumn tableName="oauth2_client">
             <column name="client_secret" type="varchar(255)"></column>
         </addColumn>
-
     </changeSet>
+
     <changeSet id="oauth-201508130701" author="Mayank">
+        <comment>Rename oauth2.client_id to oauth2.id. This removes OAuth2 module's Client's field name conflict with
+            Spring Security OAuth's field name (clientId)
+        </comment>
         <renameColumn tableName="oauth2_client" oldColumnName="client_id" newColumnName="id" columnDataType="integer"/>
     </changeSet>
 
 
     <changeSet id="oauth-201508161348" author="Mayank">
-        <dropColumn tableName="oauth2_client" columnName="legal_acceptance"/>
+
+
         <addColumn tableName="oauth2_client">
             <column name="refresh_token_validity" type="integer(11)"></column>
         </addColumn>
@@ -67,15 +75,25 @@
         <addColumn tableName="oauth2_client">
             <column name="date_voided" type="datetime"></column>
         </addColumn>
+        <addColumn tableName="oauth2_client">
+            <column name="void_reason" type="varchar(1023)"></column>
+        </addColumn>
+        <addColumn tableName="oauth2_client">
+            <column name="voided_by" type="int"></column>
+        </addColumn>
+        <addForeignKeyConstraint baseTableName="oauth2_client" baseColumnNames="voided_by"
+                                 constraintName="oauth2_voided_by_user_fk" referencedTableName="users"
+                                 referencedColumnNames="user_id"/>
         <addForeignKeyConstraint baseTableName="oauth2_client" baseColumnNames="creator"
                                  constraintName="oauth2_client_creator_fk" referencedTableName="users"
                                  referencedColumnNames="user_id"/>
     </changeSet>
 
     <changeSet id="oauth-201508161415" author="Mayank">
+        <comment>create tables for Collections inherited by Client from ClientDetails</comment>
         <createTable tableName="oauth2_client_resource_ids">
             <column name="client_id" type="integer"></column>
-            <column name="resourceIds" type="varchar(255)"/>
+            <column name="resource_ids" type="varchar(255)"/>
         </createTable>
         <createTable tableName="oauth2_client_scopes">
             <column name="client_id" type="integer"></column>
@@ -84,15 +102,15 @@
         <!--todo find a way to persist authorities as varchar-->
         <createTable tableName="oauth2_client_authorities">
             <column name="client_id" type="integer"></column>
-            <column name="authorities" type="tinyblob"/>
+            <column name="granted_authorities" type="tinyblob"/>
         </createTable>
         <createTable tableName="oauth2_client_redirect_uri">
             <column name="client_id" type="integer"></column>
-            <column name="registeredRedirectUris" type="varchar(255)"/>
+            <column name="registered_redirect_uris" type="varchar(255)"/>
         </createTable>
         <createTable tableName="oauth2_client_grant_types">
             <column name="client_id" type="integer"></column>
-            <column name="authorizedGrantTypes" type="varchar(255)"/>
+            <column name="authorized_grant_types" type="varchar(255)"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="oauth2_client_resource_ids" baseColumnNames="client_id"
                                  constraintName="oauth2_resource_client_fk" referencedTableName="oauth2_client"
@@ -112,16 +130,39 @@
     </changeSet>
 
     <changeSet id="oauth-201508162016" author="Mayank">
-        <addColumn tableName="oauth2_client">
-            <column name="void_reason" type="varchar(1023)"></column>
-        </addColumn>
+        <comment>deprecate field legal_acceptance for oauth2_client</comment>
+        <dropColumn tableName="oauth2_client" columnName="legal_acceptance"/>
     </changeSet>
-    <changeSet id="oauth-201508161626" author="Mayank">
-        <addColumn tableName="oauth2_client">
-            <column name="voided_by" type="int"></column>
-        </addColumn>
-        <addForeignKeyConstraint baseTableName="oauth2_client" baseColumnNames="voided_by"
-                                 constraintName="oauth2_voided_by_user_fk" referencedTableName="users"
-                                 referencedColumnNames="user_id"/>
-    </changeSet>
+    <!--
+        <changeSet id="oauth-201508161626" author="Mayank">
+
+        </changeSet>-->
+    <!--todo remove these primary keys-->
+    <!--    <changeSet id="oauth-201508161835" author="Mayank">
+            <addColumn tableName="oauth2_client_resource_ids">
+                <column name="id" type="integer" autoIncrement="true">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+            </addColumn>
+            <addColumn tableName="oauth2_client_scopes">
+                <column name="id" type="integer" autoIncrement="true">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+            </addColumn>
+            <addColumn tableName="oauth2_client_authorities">
+                <column name="id" type="integer" autoIncrement="true">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+            </addColumn>
+            <addColumn tableName="oauth2_client_redirect_uri">
+                <column name="id" type="integer" autoIncrement="true">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+            </addColumn>
+            <addColumn tableName="oauth2_client_grant_types">
+                <column name="id" type="integer" autoIncrement="true">
+                    <constraints nullable="false" primaryKey="true"/>
+                </column>
+            </addColumn>
+        </changeSet>-->
 </databaseChangeLog>
