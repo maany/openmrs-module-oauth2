@@ -88,7 +88,7 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "oauth2_client_redirect_uri", joinColumns = @JoinColumn(name = "client_id"))
-    @Column(name = "registered_redirect_uri")
+    @Column(name = "registered_redirect_uris")
     private Set<String> registeredRedirectUris = new HashSet<String>();
 
     @ElementCollection(fetch = FetchType.EAGER)

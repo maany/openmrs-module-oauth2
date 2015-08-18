@@ -56,11 +56,11 @@
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider>
             <security:user-service id="userDetailsService">
-            <security:user name="bob" authorities="ROLE_USER" password="bob"/>
+                <security:user name="bob" authorities="ROLE_USER" password="bob"/>
             </security:user-service>
         </security:authentication-provider>
     </security:authentication-manager>
-
+    <!--<bean id="userAuthenticationProvider" class=""/>-->
     <!--============================-->
     <!--OAuth2 Entry Points. What is Realm Name??
         @see http://stackoverflow.com/questions/10892336/realm-name-in-tomcat-web-xml

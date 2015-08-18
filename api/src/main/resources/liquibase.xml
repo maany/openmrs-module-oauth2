@@ -11,8 +11,8 @@
     <changeSet author="Mayank" id="oauth2-201505011656">
         <comment>Initialize oauth2_client with fields declared in Client from OAuth2 module</comment>
         <createTable tableName="oauth2_client">
-            <column name="client_id" type="integer" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true"/>
+            <column name="id" type="integer" autoIncrement="true">
+            <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="user" type="integer"/>
             <column name="client_name" type="varchar(255)"/>
@@ -21,7 +21,6 @@
             <column name="client_type" type="varchar(255)"/>
             <column name="client_identifier" type="varchar(255)"/>
             <column name="website" type="varchar(255)"/>
-            <column name="legal_acceptance" type="Boolean"/>
             <column name="uuid" type="varchar(38)">
                 <constraints nullable="false"/>
             </column>
@@ -40,12 +39,12 @@
         </addColumn>
     </changeSet>
 
-    <changeSet id="oauth-201508130701" author="Mayank">
-        <comment>Rename oauth2.client_id to oauth2.id. This removes OAuth2 module's Client's field name conflict with
-            Spring Security OAuth's field name (clientId)
-        </comment>
-        <renameColumn tableName="oauth2_client" oldColumnName="client_id" newColumnName="id" columnDataType="integer"/>
-    </changeSet>
+    <!--<changeSet id="oauth-201508130701" author="Mayank">-->
+    <!--<comment>Rename oauth2.client_id to oauth2.id. This removes OAuth2 module's Client's field name conflict with-->
+    <!--Spring Security OAuth's field name (clientId)-->
+    <!--</comment>-->
+    <!--<renameColumn tableName="oauth2_client" oldColumnName="client_id" newColumnName="id" columnDataType="integer"/>-->
+    <!--</changeSet>-->
 
 
     <changeSet id="oauth-201508161348" author="Mayank">
@@ -129,13 +128,10 @@
                                  referencedColumnNames="id"/>
     </changeSet>
 
-    <changeSet id="oauth-201508162016" author="Mayank">
-        <comment>deprecate field legal_acceptance for oauth2_client</comment>
-        <dropColumn tableName="oauth2_client" columnName="legal_acceptance"/>
-    </changeSet>
+
     <!--
         <changeSet id="oauth-201508161626" author="Mayank">
-
+    
         </changeSet>-->
     <!--todo remove these primary keys-->
     <!--    <changeSet id="oauth-201508161835" author="Mayank">

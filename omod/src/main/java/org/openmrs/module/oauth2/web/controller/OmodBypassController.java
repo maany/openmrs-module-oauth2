@@ -5,10 +5,13 @@ import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * This controller bypasses the major changes required to OMOD layer due to the new Client Structure.
+ * Remove this, once API works all right
  * Created by OPSKMC on 8/18/15.
  */
 @Controller
@@ -30,5 +33,14 @@ public class OmodBypassController {
             ex.printStackTrace();
         }
         return response;
+    }
+
+    @RequestMapping(value = "/client/{id}")
+    public
+    @ResponseBody
+    String getClient(@PathVariable int id, ModelMap map) {
+        ClientRegistrationService clientRegistrationService = Context.getService(ClientRegistrationService.class);
+        Client client = clientRegistrationService.getClient(id);
+        return client.toString();
     }
 }

@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * Read Username and Password from OpenMRS database and map it to {@link org.springframework.security.core.userdetails.UserDetails}
  * Created by OPSKMC on 8/9/15.
  */
-
+@Deprecated
 public class UserCredentialsServiceImpl extends BaseOpenmrsService implements UserCredentialsService {
     @Autowired
     UserCredentialsDAO userCredentialsDAO;
