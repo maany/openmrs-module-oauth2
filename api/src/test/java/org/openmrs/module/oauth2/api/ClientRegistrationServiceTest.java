@@ -18,6 +18,8 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
     protected static final String CLIENT_INITIAL_DATA_XML = "ClientRegistrationServiceTest-initialData.xml";//"org/openmrs/api/include/LocationServiceTest-initialData.xml";
     protected static final String INITIAL_IN_MEMORY_TESTDATASET_XML = "org/openmrs/include/initialInMemoryTestDataSet.xml";
     private static final String SAMPLE_CLIENT_REDIRECTION_URI = "www.demoapp.com";
+    private int demoClientId;
+
     public ClientRegistrationService getService() {
         return Context.getService(ClientRegistrationService.class);
     }
@@ -25,6 +27,7 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
     @Before
     public void runBeforeEachTest() throws Exception {
         executeDataSet(CLIENT_INITIAL_DATA_XML);
+        //demoClientId=initDatabase();
         //   executeDataSet(INITIAL_IN_MEMORY_TESTDATASET_XML);
     }
 
@@ -32,7 +35,7 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
     public void saveOrUpdate_shouldSaveNewClientsUpdateExistingClients() {
         Client client = createSampleClient();
         getService().saveOrUpdateClient(client);
-        client = getService().getClient(1);
+        client = getService().getClient(client.getId());
         Assert.assertNotNull(client);
     }
 
@@ -52,13 +55,14 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         List<Client> clients = getService().getAllClientsForClientDeveloper(clientDeveloper);
         Assert.assertNotNull(clients);
     }
+
     @Test
     /**
      * @see
      * @verifies
      */
     //TODO add more comparisons besides TEST_NAME. Update operation should not modify id and clientDeveloper? Ask Harsha
-    public void updateClient_shouldUpdateExistingClient(){
+    public void updateClient_shouldUpdateExistingClient() {
         String TEST_NAME = "demo name";
         Client client = getService().getClient(1);
         client.setName(TEST_NAME);
@@ -71,8 +75,9 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
      *
      */
     @Test
-    public void unregisterClient_shouldUnregisterClient(){
+    public void unregisterClient_shouldUnregisterClient() {
         Client client = getService().getClient(1);
+        Assert.assertNotNull(client);
         getService().unregisterClient(client);
         client = getService().getClient(1);
         Assert.assertNull(client);
@@ -82,14 +87,16 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
      *
      */
     @Test
-    public void registerNewClient_shouldCreateANewClientForCurrentLoggedInUser(){
+    public void registerNewClient_shouldCreateANewClientForCurrentLoggedInUser() {
 
         Client client = createSampleClient();
         getService().registerNewClient(client);
         List<Client> clients = getService().getAllClientsForClientDeveloper(Context.getAuthenticatedUser());
-        client = clients.get(clients.size()-1);
-        Assert.assertEquals(SAMPLE_CLIENT_REDIRECTION_URI,client.getRedirectionURI());
-
+        client = clients.get(clients.size() - 1);
+        for (String redirectUri : client.getRegisteredRedirectUri()) {
+            Assert.assertEquals(SAMPLE_CLIENT_REDIRECTION_URI, redirectUri);
+            break;
+        }
     }
 
     //TODO : write a better test
@@ -125,16 +132,34 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         Assert.assertTrue(decodeResult);
     }
 
-
-    private Client createSampleClient(){
+    private Client createSampleClient() {
         Client client = new Client("my-trusted-client-with-secret", "somesecret", "openmrs", "read,write", "authorization_code,refresh_token,implicit,client_credentials,password", "ROLE_CLIENT", "http://anywhere?key=value");
         client.setVoided(false);
         client.setDateCreated(new Date());
         client.setName("Demo Application");
         client.setClientType(Client.ClientType.WEB_APPLICATION);
-        client.setVoided(false);
-        client.setRedirectionURI(SAMPLE_CLIENT_REDIRECTION_URI);
+        client.getRegisteredRedirectUri().add(SAMPLE_CLIENT_REDIRECTION_URI);
         return client;
+    }
+
+    /**
+     * Currently DBUnit is not configure to create tables that do not have primary keys. As a consequence, we
+     * cannot specify tables representing the fields of {@link org.openmrs.module.oauth2.Client} annotated with
+     *
+     * @return
+     * @ElementCollection in the xml file containing test data.
+     * So, as an alternative, call this method in @Before to create test data until the above mentioned issue is resolved
+     */
+    private int initDatabase() {
+        Client client = new Client("my-trusted-client-with-secret", "somesecret", "openmrs", "read,write", "authorization_code,refresh_token,implicit,client_credentials,password", "ROLE_CLIENT", "http://anywhere?key=value");
+        client.setVoided(false);
+        client.setDateCreated(new Date());
+        client.setName("Demo Application");
+        client.setClientType(Client.ClientType.WEB_APPLICATION);
+        client.getRegisteredRedirectUri().add(SAMPLE_CLIENT_REDIRECTION_URI);
+        getService().saveOrUpdateClient(client);
+        getService().generateAndPersistClientCredentials(client);
+        return client.getId();
     }
 
 }

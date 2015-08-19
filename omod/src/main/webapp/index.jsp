@@ -34,7 +34,7 @@
                             <a href="${pageContext.request.contextPath}/module/oauth2/client/registered/view/${client.id}.form"><c:out
                                     value="${client.name}"/></a></td>
                         <td><c:out value="${client.description}"/></td>
-                        <td><c:out value="${client.redirectionURI}"/></td>
+                        <td><c:out value="${client.registeredRedirectUri}"/></td>
                         <td><c:out value="${client.clientType}"/></td>
                         <td><c:out value="TODO"/></td>
                     </tr>

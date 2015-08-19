@@ -34,11 +34,6 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "redirection_uri")
-    @NotEmpty
-    @URL
-    private String redirectionURI;
-
     @Column(name = "client_type")
     @Enumerated(EnumType.STRING)
     private ClientType clientType;
@@ -180,14 +175,6 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getRedirectionURI() {
-        return redirectionURI;
-    }
-
-    public void setRedirectionURI(String redirectionURI) {
-        this.redirectionURI = redirectionURI;
     }
 
     public ClientType getClientType() {
