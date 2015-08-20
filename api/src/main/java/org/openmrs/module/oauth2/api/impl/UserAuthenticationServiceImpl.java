@@ -3,7 +3,6 @@ package org.openmrs.module.oauth2.api.impl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.User;
-import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.api.db.LoginCredential;
 import org.openmrs.api.db.UserDAO;
@@ -22,8 +21,8 @@ import java.util.List;
 /**
  * Created by OPSKMC on 8/18/15.
  */
-public class UserAuthenticationService implements AuthenticationProvider {
-    private static final Log log = LogFactory.getLog(UserAuthenticationService.class);
+public class UserAuthenticationServiceImpl implements AuthenticationProvider {
+    private static final Log log = LogFactory.getLog(UserAuthenticationServiceImpl.class);
     @Autowired
     UserDAO userDAO;
 
@@ -43,6 +42,7 @@ public class UserAuthenticationService implements AuthenticationProvider {
             log.error(errorMessage);
             throw new AuthenticationCredentialsNotFoundException(errorMessage);
         }
+        //Todo if user is admin, add ROLE_ADMIN
         List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
         grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
         return new UsernamePasswordAuthenticationToken(username, password, grantedAuths);

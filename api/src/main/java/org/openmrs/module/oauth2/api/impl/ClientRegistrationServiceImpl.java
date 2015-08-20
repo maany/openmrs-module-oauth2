@@ -8,6 +8,9 @@ import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.db.hibernate.ClientDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
@@ -21,6 +24,7 @@ import java.util.List;
  */
 
 public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements ClientRegistrationService {
+
 
     @Autowired
     protected ClientDAO dao;
@@ -117,4 +121,6 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
             return true;
         return false;
     }
+
+
 }

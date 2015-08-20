@@ -124,6 +124,7 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
         } else {
             AuthorizedGrantType authorizationCode = new AuthorizedGrantType("authorization_code");
             AuthorizedGrantType refreshToken = new AuthorizedGrantType("refresh_token");
+            this.authorizedGrantTypes = new HashSet<AuthorizedGrantType>();
             this.authorizedGrantTypes.add(authorizationCode);
             this.authorizedGrantTypes.add(refreshToken);
         }

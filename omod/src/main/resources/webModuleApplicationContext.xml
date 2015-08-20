@@ -60,7 +60,7 @@
                    </security:user-service>-->
         </security:authentication-provider>
     </security:authentication-manager>
-    <bean id="userAuthenticationProvider" class="org.openmrs.module.oauth2.api.impl.UserAuthenticationService"/>
+    <bean id="userAuthenticationProvider" class="org.openmrs.module.oauth2.api.impl.UserAuthenticationServiceImpl"/>
     <!--============================-->
     <!--OAuth2 Entry Points. What is Realm Name??
         @see http://stackoverflow.com/questions/10892336/realm-name-in-tomcat-web-xml
@@ -132,9 +132,10 @@
     <!--Authentication Manager and Authentication Provider for OAuth2 Clients-->
     <!--==============================================-->
     <authentication-manager id="clientAuthenticationManager" xmlns="http://www.springframework.org/schema/security">
-        <authentication-provider user-service-ref="clientDetailsUserService"/>
+        <authentication-provider ref="clientAuthenticationProvider"/>
+        <!--user-service-ref="clientDetailsUserService"/>-->
     </authentication-manager>
-
+    <bean id="clientAuthenticationProvider" class="org.openmrs.module.oauth2.api.impl.ClientAuthenticationServiceImpl"/>
     <!--================================================================================-->
     <!--Access Decision Manager. Strategy : All voters should vote ACCESS_GRANTED (UnanimousBased)
         Protected Resources such as FHIR, REST URI's must include this as <http access-decision-manager-ref= accessDecisionManager .....> -->
@@ -193,35 +194,36 @@
         <constructor-arg ref="clientDetails"/>
     </bean>
 
+    <bean id="clientDetails" class="org.openmrs.module.oauth2.api.impl.ClientDetailsServiceImpl"/>
     <!--=======================================================================================================-->
     <!--OAuth2 Sample Clients.-->
     <!--=======================================================================================================-->
-    <oauth:client-details-service id="clientDetails">
-        <oauth:client client-id="my-trusted-client"
-                      authorized-grant-types="password,authorization_code,refresh_token,implicit"
-                      authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" scope="read,write,trust"
-                      access-token-validity="60"/>
-        <oauth:client client-id="openmrs-client"
-                      authorized-grant-types="password,authorization_code,refresh_token,implicit"
-                      secret="somesecret" authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT"
-                      redirect-uri="http://anywhere?key=value"/>
-        <oauth:client client-id="my-client-with-secret" authorized-grant-types="client_credentials"
-                      authorities="ROLE_CLIENT"
-                      scope="read" secret="secret"/>
-        <oauth:client client-id="my-less-trusted-client" authorized-grant-types="authorization_code,implicit"
-                      authorities="ROLE_CLIENT"/>
-        <oauth:client client-id="my-less-trusted-autoapprove-client" authorized-grant-types="implicit"
-                      authorities="ROLE_CLIENT" scope="read,write,trust"/>
-        <oauth:client client-id="my-client-with-registered-redirect"
-                      authorized-grant-types="authorization_code,client_credentials"
-                      authorities="ROLE_CLIENT" redirect-uri="http://anywhere?key=value" scope="read,trust"/>
-        <oauth:client client-id="my-untrusted-client-with-registered-redirect"
-                      authorized-grant-types="authorization_code"
-                      authorities="ROLE_CLIENT" redirect-uri="http://anywhere" scope="read"/>
-        <oauth:client client-id="tonr" resource-ids="OpenMRS" authorized-grant-types="authorization_code,implicit"
-                      authorities="ROLE_CLIENT" scope="read,write" secret="secret"/>
-    </oauth:client-details-service>
-
+    <!--   <oauth:client-details-service id="clientDetails">
+           <oauth:client client-id="my-trusted-client"
+                         authorized-grant-types="password,authorization_code,refresh_token,implicit"
+                         authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT" scope="read,write,trust"
+                         access-token-validity="60"/>
+           <oauth:client client-id="openmrs-client"
+                         authorized-grant-types="password,authorization_code,refresh_token,implicit"
+                         secret="somesecret" authorities="ROLE_CLIENT, ROLE_TRUSTED_CLIENT"
+                         redirect-uri="http://anywhere?key=value"/>
+           <oauth:client client-id="my-client-with-secret" authorized-grant-types="client_credentials"
+                         authorities="ROLE_CLIENT"
+                         scope="read" secret="secret"/>
+           <oauth:client client-id="my-less-trusted-client" authorized-grant-types="authorization_code,implicit"
+                         authorities="ROLE_CLIENT"/>
+           <oauth:client client-id="my-less-trusted-autoapprove-client" authorized-grant-types="implicit"
+                         authorities="ROLE_CLIENT" scope="read,write,trust"/>
+           <oauth:client client-id="my-client-with-registered-redirect"
+                         authorized-grant-types="authorization_code,client_credentials"
+                         authorities="ROLE_CLIENT" redirect-uri="http://anywhere?key=value" scope="read,trust"/>
+           <oauth:client client-id="my-untrusted-client-with-registered-redirect"
+                         authorized-grant-types="authorization_code"
+                         authorities="ROLE_CLIENT" redirect-uri="http://anywhere" scope="read"/>
+           <oauth:client client-id="tonr" resource-ids="OpenMRS" authorized-grant-types="authorization_code,implicit"
+                         authorities="ROLE_CLIENT" scope="read,write" secret="secret"/>
+       </oauth:client-details-service>
+   -->
     <!--==========================================================================================-->
     <!--Default Token Store. Replace with JdbcTokenStore to persist tokens in module's database-->
     <!--==========================================================================================-->
