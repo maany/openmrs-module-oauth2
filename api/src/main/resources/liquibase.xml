@@ -35,14 +35,6 @@
         </addColumn>
     </changeSet>
 
-    <!--<changeSet id="oauth-201508130701" author="Mayank">-->
-    <!--<comment>Rename oauth2.client_id to oauth2.id. This removes OAuth2 module's Client's field name conflict with-->
-    <!--Spring Security OAuth's field name (clientId)-->
-    <!--</comment>-->
-    <!--<renameColumn tableName="oauth2_client" oldColumnName="client_id" newColumnName="id" columnDataType="integer"/>-->
-    <!--</changeSet>-->
-
-
     <changeSet id="oauth-201508161348" author="Mayank">
 
 
@@ -128,36 +120,42 @@
     </changeSet>
 
 
-    <!--
-        <changeSet id="oauth-201508161626" author="Mayank">
-    
-        </changeSet>-->
     <!--todo remove these primary keys-->
-    <!--    <changeSet id="oauth-201508161835" author="Mayank">
-            <addColumn tableName="oauth2_client_resource_ids">
-                <column name="id" type="integer" autoIncrement="true">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </addColumn>
-            <addColumn tableName="oauth2_client_scopes">
-                <column name="id" type="integer" autoIncrement="true">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </addColumn>
-            <addColumn tableName="oauth2_client_authorities">
-                <column name="id" type="integer" autoIncrement="true">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </addColumn>
-            <addColumn tableName="oauth2_client_redirect_uri">
-                <column name="id" type="integer" autoIncrement="true">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </addColumn>
-            <addColumn tableName="oauth2_client_grant_types">
-                <column name="id" type="integer" autoIncrement="true">
-                    <constraints nullable="false" primaryKey="true"/>
-                </column>
-            </addColumn>
-        </changeSet>-->
+    <changeSet id="oauth-201508161835" author="Mayank">
+        <addColumn tableName="oauth2_client_resource_ids">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="oauth2_client_scopes">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="oauth2_client_authorities">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="oauth2_client_redirect_uri">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="oauth2_client_grant_types">
+            <column name="id" type="integer" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="oauth-201508201255" author="Mayank">
+        <comment>Rename fields</comment>
+        <renameColumn tableName="oauth2_client_authorities" oldColumnName="granted_authorities"
+                      newColumnName="authority"/>
+        <renameColumn tableName="oauth2_client_grant_types" oldColumnName="authorized_grant_types"
+                      newColumnName="authorized_grant_type"/>
+        <renameColumn tableName="oauth2_client_redirect_uri" oldColumnName="registered_redirect_uris"
+                      newColumnName="redirect_uri"/>
+        <renameColumn tableName="oauth2_client_resource_ids" oldColumnName="" newColumnName="resource_id"/>
+    </changeSet>
 </databaseChangeLog>
