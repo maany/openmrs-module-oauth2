@@ -83,7 +83,7 @@
         <comment>create tables for Collections inherited by Client from ClientDetails</comment>
         <createTable tableName="oauth2_client_resource_ids">
             <column name="client_id" type="integer"></column>
-            <column name="resource_ids" type="varchar(255)"/>
+            <column name="resource_id" type="varchar(255)"/>
         </createTable>
         <createTable tableName="oauth2_client_scopes">
             <column name="client_id" type="integer"></column>
@@ -92,15 +92,15 @@
         <!--todo find a way to persist authorities as varchar-->
         <createTable tableName="oauth2_client_authorities">
             <column name="client_id" type="integer"></column>
-            <column name="granted_authorities" type="tinyblob"/>
+            <column name="authority" type="varchar(255)"/>
         </createTable>
         <createTable tableName="oauth2_client_redirect_uri">
             <column name="client_id" type="integer"></column>
-            <column name="registered_redirect_uris" type="varchar(255)"/>
+            <column name="redirect_uri" type="varchar(255)"/>
         </createTable>
         <createTable tableName="oauth2_client_grant_types">
             <column name="client_id" type="integer"></column>
-            <column name="authorized_grant_types" type="varchar(255)"/>
+            <column name="authorized_grant_type" type="varchar(255)"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="oauth2_client_resource_ids" baseColumnNames="client_id"
                                  constraintName="oauth2_resource_client_fk" referencedTableName="oauth2_client"
@@ -148,14 +148,15 @@
             </column>
         </addColumn>
     </changeSet>
-    <changeSet id="oauth-201508201255" author="Mayank">
-        <comment>Rename fields</comment>
-        <renameColumn tableName="oauth2_client_authorities" oldColumnName="granted_authorities"
-                      newColumnName="authority"/>
-        <renameColumn tableName="oauth2_client_grant_types" oldColumnName="authorized_grant_types"
-                      newColumnName="authorized_grant_type"/>
-        <renameColumn tableName="oauth2_client_redirect_uri" oldColumnName="registered_redirect_uris"
-                      newColumnName="redirect_uri"/>
-        <renameColumn tableName="oauth2_client_resource_ids" oldColumnName="" newColumnName="resource_id"/>
-    </changeSet>
+    <!--    <changeSet id="oauth-201508201255" author="Mayank">
+            <comment>Rename fields</comment>
+            <renameColumn tableName="oauth2_client_authorities" oldColumnName="granted_authorities" columnDataType="varchar(255)"
+                          newColumnName="authority"/>
+            <renameColumn tableName="oauth2_client_grant_types" oldColumnName="authorized_grant_types" columnDataType="varchar(255)"
+                          newColumnName="authorized_grant_type"/>
+            <renameColumn tableName="oauth2_client_redirect_uri" oldColumnName="registered_redirect_uris" columnDataType="varchar(255)"
+                          newColumnName="redirect_uri"/>
+            <renameColumn tableName="oauth2_client_resource_ids" oldColumnName="resource_ids" newColumnName="resource_id" columnDataType="varchar(255)"/>
+        </changeSet>-->
+
 </databaseChangeLog>
