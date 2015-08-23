@@ -180,5 +180,12 @@
             <column name="authentication" type="longblob"></column>
         </createTable>
     </changeSet>
+    <changeSet id="201508231849" author="Mayank">
+        <dropForeignKeyConstraint baseTableName="oauth2_client" constraintName="oauth2_changed_by_user_fk"/>
+        <addForeignKeyConstraint baseTableName="oauth2_client" baseColumnNames="created_by"
+                                 constraintName="oauth2_client_created_by_user_fk" referencedTableName="users"
+                                 referencedColumnNames="user_id"/>
+
+    </changeSet>
 
 </databaseChangeLog>
