@@ -159,8 +159,9 @@
     <!--OAuth Resource Server for OpenMRS instance-->
     <!--==========================================-->
 
-    <oauth:resource-server id="OpenMRSGenericResourceServerFilter" resource-id="OpenMRS"
+    <oauth:resource-server id="OpenMRSGenericResourceServerFilter"
                            token-services-ref="tokenServices"/>
+    <!--resource-id="OpenMRS"-->
     <!--================================================================================-->
     <!--TODO add/verify docs-->
     <!--Verifies is user has authorized the client and then the token has been issued-->
@@ -227,8 +228,19 @@
     <!--==========================================================================================-->
     <!--Default Token Store. Replace with JdbcTokenStore to persist tokens in module's database-->
     <!--==========================================================================================-->
-    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>
+    <!--<bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>-->
 
+    <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
+        <constructor-arg ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="jdbcTemplate"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/openmrs"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
     <!--=============================================================================-->
     <!--Default Token Service to manage tokens. Wire up with custom JdbcTokenStore-->
     <!--=============================================================================-->

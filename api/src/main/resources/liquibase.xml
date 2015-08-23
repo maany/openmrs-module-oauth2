@@ -148,15 +148,37 @@
             </column>
         </addColumn>
     </changeSet>
-    <!--    <changeSet id="oauth-201508201255" author="Mayank">
-            <comment>Rename fields</comment>
-            <renameColumn tableName="oauth2_client_authorities" oldColumnName="granted_authorities" columnDataType="varchar(255)"
-                          newColumnName="authority"/>
-            <renameColumn tableName="oauth2_client_grant_types" oldColumnName="authorized_grant_types" columnDataType="varchar(255)"
-                          newColumnName="authorized_grant_type"/>
-            <renameColumn tableName="oauth2_client_redirect_uri" oldColumnName="registered_redirect_uris" columnDataType="varchar(255)"
-                          newColumnName="redirect_uri"/>
-            <renameColumn tableName="oauth2_client_resource_ids" oldColumnName="resource_ids" newColumnName="resource_id" columnDataType="varchar(255)"/>
-        </changeSet>-->
+
+    <changeSet id="oauth-2015211657" author="Mayank">
+        <createTable tableName="oauth_access_token">
+            <!--            <column name="id" type="integer" autoIncrement="true">
+                            <constraints primaryKey="true" nullable="false"/>
+                        </column>
+                        -->
+            <column name="token_id" type="varchar(256)"></column>
+            <column name="token" type="longblob"></column>
+            <column name="authentication_id" type="varchar(256)"></column>
+            <column name="user_name" type="varchar(256)"></column>
+            <column name="client_id" type="varchar(256)"></column>
+            <column name="authentication" type="longblob"></column>
+            <column name="refresh_token" type="varchar(256)"></column>
+        </createTable>
+        <createTable tableName="oauth_client_token">
+            <column name="token_id" type="varchar(256)"></column>
+            <column name="token" type="longblob"></column>
+            <column name="authentication_id" type="varchar(256)"></column>
+            <column name="user_name" type="varchar(256)"></column>
+            <column name="client_id" type="varchar(256)"></column>
+        </createTable>
+        <createTable tableName="oauth_code">
+            <column name="code" type="varchar(256)"></column>
+            <column name="authentication" type="longblob"></column>
+        </createTable>
+        <createTable tableName="oauth_refresh_token">
+            <column name="token_id" type="varchar(256)"></column>
+            <column name="token" type="longblob"></column>
+            <column name="authentication" type="longblob"></column>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>
