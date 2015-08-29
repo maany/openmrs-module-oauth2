@@ -22,7 +22,6 @@
 
     <!-- Add here beans related to the web context -->
 
-
     <!-- Annotation based controllers -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     <context:component-scan base-package="org.openmrs.module.oauth2.web.controller"/>
@@ -178,7 +177,7 @@
                                 user-approval-page="/module/oauth2/access_confirmation"
                                 approval-parameter-name="user_oauth_approval"
                                 error-page="/module/oauth2/oauth_error">
-    <oauth:authorization-code/>
+        <oauth:authorization-code/>
         <oauth:implicit/>
         <oauth:refresh-token/>
         <oauth:client-credentials/>

@@ -2,20 +2,24 @@ package org.openmrs.module.oauth2.web.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.directwebremoting.annotations.Param;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
+import org.openmrs.module.oauth2.api.model.RedirectURI;
+import org.openmrs.module.oauth2.web.util.ClientDetailsPropertyEditor;
+import org.openmrs.module.oauth2.web.util.RedirectUriPropertyEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +52,7 @@ public class ClientRegistrationFormController {
 
     @ModelAttribute("client")
     public Client getNewClient() {
-        return new Client(null, null, null, null, null, null, null);
+        return new Client(null, null, null, null, null, null, "testURI.com");
     }
 
     @ModelAttribute("clientTypes")
@@ -59,6 +63,13 @@ public class ClientRegistrationFormController {
             clientTypeMap.put(clientType.name(), clientType.name());
         }
         return clientTypeMap;
+    }
+
+    @InitBinder
+    public void bindCollections(WebDataBinder binder) {
+//        RedirectUriPropertyEditor redirectUriPropertyEditor = new RedirectUriPropertyEditor();
+        ClientDetailsPropertyEditor<RedirectURI> clientDetailsPropertyEditor = new ClientDetailsPropertyEditor<RedirectURI>(RedirectURI.class);
+        binder.registerCustomEditor(Collection.class, "registeredRedirectUris", clientDetailsPropertyEditor);
     }
 
     public ClientRegistrationService getService() {
