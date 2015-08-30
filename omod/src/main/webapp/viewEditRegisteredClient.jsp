@@ -50,21 +50,41 @@
         </tr>
         <tr>
             <td>Redirection URI</td>
-            <td><form:input path="redirectionURI"/></td>
-            <td><form:errors path="redirectionURI" cssClass="error"/></td>
+            <td><form:input path="redirectUriCollection"/></td>
+            <td><form:errors path="redirectUriCollection" cssClass="error"/></td>
+        </tr>
+        <td>Client Type</td>
+        <td>
+            <form:select path="clientType">
+                <form:option value="-" label="--Please Select"/>
+                <form:options items="${clientTypes}"/>
+            </form:select>
+        <td><form:errors path="clientType" cssClass="error"/></td>
+        </td>
         </tr>
         <tr>
-            <td>Client Type</td>
+            <td>Scope</td>
             <td>
-                <form:select path="clientType">
-                    <form:option value="-" label="--Please Select"/>
-                    <form:options items="${clientTypes}"/>
-                </form:select>
-            <td><form:errors path="clientType" cssClass="error"/></td>
+                <form:checkbox path="scopeCollection" value="read"/>Read
+                <form:checkbox path="scopeCollection" value="write"/>Write
+            </td>
+            <td><form:errors path="scopeCollection" cssClass="error"/></td>
             </td>
         </tr>
         <tr>
-            <td>Client Identifier</td>
+            <td>Authorized Grant Types</td>
+            <td>
+                <form:checkbox path="grantTypeCollection" value="authorization_code"/>Authorization Code<br>
+                <form:checkbox path="grantTypeCollection" value="implicit"/>Implicit<br>
+                <form:checkbox path="grantTypeCollection" value="password"/> Resource Owner Password Credentials<br>
+                <form:checkbox path="grantTypeCollection" value="client_credentials"/>Client Credentials<br>
+                <form:checkbox path="grantTypeCollection" value="refresh_token"/>Refresh Token<br>
+            </td>
+            <td><form:errors path="grantTypeCollection" cssClass="error"/></td>
+            </td>
+        </tr>
+        <tr>
+        <td>Client Identifier</td>
             <td>${app_identifier}</td>
         </tr>
         <tr>

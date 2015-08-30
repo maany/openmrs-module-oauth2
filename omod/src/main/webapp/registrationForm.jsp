@@ -37,8 +37,8 @@
         </tr>
         <tr>
             <td>Redirection URI</td>
-            <td><form:input path="registeredRedirectUris"/></td>
-            <td><form:errors path="registeredRedirectUris" cssClass="error"/></td>
+            <td><form:input path="redirectUriCollection"/></td>
+            <td><form:errors path="redirectUriCollection" cssClass="error"/></td>
         </tr>
         <tr>
             <td>Client Type</td>
@@ -50,31 +50,30 @@
             <td><form:errors path="clientType" cssClass="error"/></td>
             </td>
         </tr>
-        <%--        <tr>
-                    &lt;%&ndash;todo scope : read write checkbox&ndash;%&gt;
-                    <td>Scope</td>
-                    <td>
-                        <form:checkbox path="${scope}" value="read"/>
-                        <form:checkbox path="${scope}" value="write"/>
-                    </td>
-                    <td><form:errors path="Scopes" cssClass="error"/></td>
-                    </td>
-                </tr>
-                <tr>
-                    &lt;%&ndash;todo authorized grant types : read write checkbox&ndash;%&gt;
-                        &lt;%&ndash;todo scope : read write checkbox&ndash;%&gt;
-                        <td>Authorized Grant Types</td>
-                        <td>
-                            <form:checkbox path="${authorizedGrantTypes}" value="Authorization Code"/>
-                            <form:checkbox path="${authorizedGrantTypes}" value="Implicit"/>
-                            <form:checkbox path="${authorizedGrantTypes}" value="Resource Owner Password Credentials"/>
-                            <form:checkbox path="${authorizedGrantTypes}" value="Client Credentials"/>
-                            <form:checkbox path="${authorizedGrantTypes}" value="Refresh Token"/>
-                        </td>
-                        <td><form:errors path="Grant Types" cssClass="error"/></td>
-                        </td>
-                </tr>--%>
         <tr>
+            <%--todo scope : read write checkbox--%>
+            <td>Scope</td>
+            <td>
+                <form:checkbox path="scopeCollection" value="read"/>Read
+                <form:checkbox path="scopeCollection" value="write"/>Write
+            </td>
+            <td><form:errors path="scopeCollection" cssClass="error"/></td>
+            </td>
+        </tr>
+        <tr>
+            <%--todo authorized grant types : read write checkbox--%>
+            <%--todo scope : read write checkbox--%>
+            <td>Authorized Grant Types</td>
+            <td>
+                <form:checkbox path="grantTypeCollection" value="authorization_code"/>Authorization Code<br>
+                <form:checkbox path="grantTypeCollection" value="implicit"/>Implicit<br>
+                <form:checkbox path="grantTypeCollection" value="password"/> Resource Owner Password Credentials<br>
+                <form:checkbox path="grantTypeCollection" value="client_credentials"/>Client Credentials<br>
+                <form:checkbox path="grantTypeCollection" value="refresh_token"/>Refresh Token<br>
+            </td>
+            <td><form:errors path="grantTypeCollection" cssClass="error"/></td>
+            </td>
+        </tr>
     </table>
 
     <input type="submit" value="Register Application"/>
