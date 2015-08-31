@@ -2,6 +2,8 @@
 <%@ include file="/WEB-INF/template/header.jsp" %>
 
 <%@ include file="template/localHeader.jsp" %>
+<openmrs:htmlInclude file="/moduleResources/oauth2/js/util.js"/>
+
 <style>
     .error {
         color: #ff0000;
@@ -17,7 +19,8 @@
 </style>
 <h2><openmrs:message code="oauth2.client.registered.register"/></h2>
 
-<form:form modelAttribute="client" method="post">
+<form:form modelAttribute="client" method="post"
+           onsubmit="replaceCheckBoxesToCSV(this,['grantTypeCollection','scopeCollection'])">
     <form:errors path="*" cssClass="errorblock" element="div"/>
     <table>
         <tr>
@@ -76,6 +79,7 @@
         </tr>
     </table>
 
-    <input type="submit" value="Register Application"/>
+    <input type="submit" value="Register Application"
+           onsubmit="checkBoxToCSV('grantTypeCollection');checkBoxToCSV('scopeCollection')"/>
 </form:form>
 <%@ include file="/WEB-INF/template/footer.jsp" %>
