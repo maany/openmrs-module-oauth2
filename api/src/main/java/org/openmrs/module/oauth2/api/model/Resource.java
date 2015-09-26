@@ -14,7 +14,7 @@ public class Resource implements Parametrized {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id",  nullable = false, updatable = false, insertable = true)
     private Client client;
     @Basic
     @Column(name = "resource_id")

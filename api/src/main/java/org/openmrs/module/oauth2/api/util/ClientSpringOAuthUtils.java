@@ -28,6 +28,8 @@ public class ClientSpringOAuthUtils {
     }
 
     public static Collection<GrantedAuthority> parseAuthorities(Collection<CustomGrantedAuthority> authorities) {
+        if(authorities==null)
+            return new HashSet<GrantedAuthority>();
         Collection<GrantedAuthority> authoritySet = new HashSet<GrantedAuthority>();
         for (CustomGrantedAuthority grantedAuthority : authorities) {
             authoritySet.add(grantedAuthority);

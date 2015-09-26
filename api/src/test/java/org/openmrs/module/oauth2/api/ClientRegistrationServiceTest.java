@@ -6,9 +6,12 @@ import org.junit.Test;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
+import org.openmrs.module.oauth2.api.model.RedirectURI;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -139,7 +142,21 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         Client client = createSampleClient();
         getService().registerNewClient(client);
         client = getService().getClient(client.getId());
-        Assert.assertEquals(2,client.getScopeCollection().size());
+        Assert.assertEquals(2, client.getScopeCollection().size());
+    }
+    @Test
+    public void registerNewClient_shouldRegisterNewClientByCollectionValuesSetManually(){
+        Client client = new Client(null,null,null,null,null,null,null);
+        client.setName("Test Client");
+        Collection<RedirectURI> redirectURICollection = new HashSet<RedirectURI>();
+        RedirectURI redirectURI = new RedirectURI("http://www.anywhere.com?key=value");
+        redirectURICollection.add(redirectURI);
+        client.setClientIdentifier("demo-client-identifier");
+        client.setClientSecret("somesecret");
+        client.setRedirectUriCollection(redirectURICollection);
+        getService().registerNewClient(client);
+        Client client1 = getService().getClient(client.getId());
+        Assert.assertEquals(1, client.getRedirectUriCollection().size());
     }
     private Client createSampleClient() {
         Client client = new Client("my-trusted-client-with-secret", "somesecret", "openmrs", "read,write", "authorization_code,refresh_token,implicit,client_credentials,password", "ROLE_CLIENT", "http://anywhere?key=value");
