@@ -65,4 +65,9 @@ public class Resource implements Parametrized {
     public void setParameter(String parameter) {
         this.resource = parameter;
     }
+
+    @Override
+    public String toString() {
+        return resource;
+    }
 }

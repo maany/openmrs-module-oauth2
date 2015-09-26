@@ -70,4 +70,9 @@ public class CustomGrantedAuthority implements GrantedAuthority, Parametrized {
         this.authority = parameter;
 
     }
+
+    @Override
+    public String toString() {
+        return authority;
+    }
 }

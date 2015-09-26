@@ -62,4 +62,9 @@ public class RedirectURI implements Parametrized {
     public void setParameter(String parameter) {
         this.redirectURI = parameter;
     }
+
+    @Override
+    public String toString() {
+        return  redirectURI;
+    }
 }

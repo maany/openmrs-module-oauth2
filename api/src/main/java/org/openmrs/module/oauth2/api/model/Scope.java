@@ -67,4 +67,9 @@ public class Scope implements Parametrized {
     public void setParameter(String parameter) {
         this.scope = parameter;
     }
+
+    @Override
+    public String toString() {
+        return scope;
+    }
 }

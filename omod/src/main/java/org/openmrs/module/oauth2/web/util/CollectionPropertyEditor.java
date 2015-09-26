@@ -28,7 +28,7 @@ public class CollectionPropertyEditor extends PropertyEditorSupport {
         try {
             Collection collection = (Collection) getValue();
             for (Object element : collection)
-                returnValue += ((Parametrized)element).getParameter() + " , ";
+                returnValue += element.toString() + " , ";
         } catch (Exception ex) {
             ex.printStackTrace();
         }

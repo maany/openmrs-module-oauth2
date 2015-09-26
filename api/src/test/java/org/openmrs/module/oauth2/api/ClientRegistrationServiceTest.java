@@ -139,7 +139,7 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         Client client = createSampleClient();
         getService().registerNewClient(client);
         client = getService().getClient(client.getId());
-        Assert.assertEquals(4,client.getScopeCollection().size());
+        Assert.assertEquals(2,client.getScopeCollection().size());
     }
     private Client createSampleClient() {
         Client client = new Client("my-trusted-client-with-secret", "somesecret", "openmrs", "read,write", "authorization_code,refresh_token,implicit,client_credentials,password", "ROLE_CLIENT", "http://anywhere?key=value");

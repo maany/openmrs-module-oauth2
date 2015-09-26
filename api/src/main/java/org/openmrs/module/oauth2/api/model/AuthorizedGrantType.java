@@ -66,4 +66,9 @@ public class AuthorizedGrantType implements Parametrized {
     public void setParameter(String parameter) {
         this.grantType = parameter;
     }
+
+    @Override
+    public String toString() {
+        return grantType;
+    }
 }
