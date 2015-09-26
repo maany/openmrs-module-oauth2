@@ -2,7 +2,13 @@
 <%@ include file="/WEB-INF/template/header.jsp" %>
 
 <%@ include file="template/localHeader.jsp" %>
-<openmrs:htmlInclude file="/moduleResources/oauth2/jquery-1.11.3.min.js"/>
+<openmrs:htmlInclude file="/moduleResources/oauth2/js/util.js"/>
+<script>
+    window.onload = function(){
+        selectCheckBoxes(scopeCollection,${client.scopeCollection});
+        selectCheckBoxes(grantTypeCollection,${client.grantTypeCollection});
+    };
+</script>
 <style>
     .error {
         color: #ff0000;
@@ -21,15 +27,15 @@
         $("button").click(function () {
             var pageUrl = window.location.href;
             alert("Are you sure you want to unregister this application??");
-            $.ajax({
+/*            $.ajax({
                 url: pageUrl,
                 type: 'DELETE'
-            });
+            });*/
         });
     });
 </script>
 <h2><openmrs:message code="oauth2.client.registered.viewEdit"/></h2>
-<form:form modelAttribute="client">
+<form:form modelAttribute="client" onsubmit="processOutGoingData(this,['grantTypeCollection','scopeCollection'])">
     <form:errors path="*" cssClass="errorblock" element="div"/>
     <form:hidden path="clientId"/>
     <table>
@@ -93,7 +99,7 @@
         </tr>
         <tr>
     </table>
-    <input type="submit" value="Save Changes" formmethod="post"/>
+    <input type="submit" value="Save Changes" formmethod="post" />
     <button>Delete</button>
 </form:form>
 <%@ include file="/WEB-INF/template/footer.jsp" %>

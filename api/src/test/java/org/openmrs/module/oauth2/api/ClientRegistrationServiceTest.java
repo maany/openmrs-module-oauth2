@@ -134,6 +134,13 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
         Assert.assertTrue(decodeResult);
     }
 
+    @Test
+    public void registerNewClient_shouldRegisterNewClientAndCreateForiegnKeyForCollectionFields(){
+        Client client = createSampleClient();
+        getService().registerNewClient(client);
+        client = getService().getClient(client.getId());
+        Assert.assertEquals(4,client.getScopeCollection().size());
+    }
     private Client createSampleClient() {
         Client client = new Client("my-trusted-client-with-secret", "somesecret", "openmrs", "read,write", "authorization_code,refresh_token,implicit,client_credentials,password", "ROLE_CLIENT", "http://anywhere?key=value");
         client.setVoided(false);
@@ -144,7 +151,7 @@ public class ClientRegistrationServiceTest extends BaseModuleContextSensitiveTes
     }
 
     /**
-     * Currently DBUnit is not configure to create tables that do not have primary keys. As a consequence, we
+     * Currently DBUnit is not configured to create tables that do not have primary keys. As a consequence, we
      * cannot specify tables representing the fields of {@link org.openmrs.module.oauth2.Client} annotated with
      *
      * @return

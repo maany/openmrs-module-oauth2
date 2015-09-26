@@ -8,7 +8,7 @@ import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
 import org.openmrs.module.oauth2.api.model.RedirectURI;
 import org.openmrs.module.oauth2.api.model.Scope;
-import org.openmrs.module.oauth2.web.util.ClientDetailsPropertyEditor;
+import org.openmrs.module.oauth2.web.util.CollectionPropertyEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -94,9 +94,9 @@ public class ViewEditRegisteredClientFormController {
 
     @InitBinder
     public void bindCollections(WebDataBinder binder) {
-        ClientDetailsPropertyEditor<RedirectURI> redirectURIPropertyEditor = new ClientDetailsPropertyEditor<RedirectURI>(RedirectURI.class);
-        ClientDetailsPropertyEditor<Scope> scopesPropertyEditor = new ClientDetailsPropertyEditor<Scope>(Scope.class);
-        ClientDetailsPropertyEditor<AuthorizedGrantType> authorizedGrantTypePropertyEditor = new ClientDetailsPropertyEditor<AuthorizedGrantType>(AuthorizedGrantType.class);
+        CollectionPropertyEditor redirectURIPropertyEditor = new CollectionPropertyEditor(RedirectURI.class);
+        CollectionPropertyEditor scopesPropertyEditor = new CollectionPropertyEditor(Scope.class);
+        CollectionPropertyEditor authorizedGrantTypePropertyEditor = new CollectionPropertyEditor(AuthorizedGrantType.class);
         binder.registerCustomEditor(Collection.class, "redirectUriCollection", redirectURIPropertyEditor);
         binder.registerCustomEditor(Collection.class, "scopeCollection", scopesPropertyEditor);
         binder.registerCustomEditor(Collection.class, "grantTypeCollection", authorizedGrantTypePropertyEditor);

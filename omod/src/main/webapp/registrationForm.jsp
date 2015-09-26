@@ -20,7 +20,7 @@
 <h2><openmrs:message code="oauth2.client.registered.register"/></h2>
 
 <form:form modelAttribute="client" method="post"
-           onsubmit="replaceCheckBoxesToCSV(this,['grantTypeCollection','scopeCollection'])">
+           onsubmit="processOutGoingData(this,['grantTypeCollection','scopeCollection'])">
     <form:errors path="*" cssClass="errorblock" element="div"/>
     <table>
         <tr>
@@ -79,7 +79,6 @@
         </tr>
     </table>
 
-    <input type="submit" value="Register Application"
-           onsubmit="checkBoxToCSV('grantTypeCollection');checkBoxToCSV('scopeCollection')"/>
+    <input type="submit" value="Register Application"/>
 </form:form>
 <%@ include file="/WEB-INF/template/footer.jsp" %>

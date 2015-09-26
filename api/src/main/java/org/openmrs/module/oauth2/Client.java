@@ -321,7 +321,8 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     }
 
     @Access(AccessType.PROPERTY)
-    @Column(name = "changed_by")
+    @ManyToOne
+    @JoinColumn(name = "changed_by")
     @Override
     public User getChangedBy() {
         return super.getChangedBy();
@@ -349,7 +350,8 @@ public class Client extends BaseOpenmrsData implements ClientDetails {
     }
 
     @Access(AccessType.PROPERTY)
-    @Column(name = "voided_by")
+    @ManyToOne
+    @JoinColumn(name = "voided_by")
     @Override
     public User getVoidedBy() {
         return super.getVoidedBy();

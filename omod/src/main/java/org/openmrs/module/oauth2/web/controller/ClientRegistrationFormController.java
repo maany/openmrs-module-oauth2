@@ -8,7 +8,7 @@ import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
 import org.openmrs.module.oauth2.api.model.RedirectURI;
 import org.openmrs.module.oauth2.api.model.Scope;
-import org.openmrs.module.oauth2.web.util.ClientDetailsPropertyEditor;
+import org.openmrs.module.oauth2.web.util.CollectionPropertyEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -44,26 +44,16 @@ public class ClientRegistrationFormController {
         if (errors.hasErrors()) {
             return new ModelAndView(REGISTRATION_FORM_VIEW);
         }
-        System.out.println("Saving Client : " + client.toString());
-        System.out.println(client.getScope().toString());
-        String[] grantTypes = request.getParameterValues("grantTypeCollection");
-        for (String grantType : grantTypes) {
-            System.out.println("Request Received Grant Type : " + grantType);
-        }
-        for (AuthorizedGrantType grantType : client.getGrantTypeCollection()) {
-            System.out.println("Reading From Collection : " + grantType.getParameter());
-        }
-
-        System.out.println(client.getAuthorizedGrantTypes().toString());
-//        client = getService().registerNewClient(client);
-        //getService().generateAndPersistClientCredentials(client);
+        client.setCreator(Context.getAuthenticatedUser());
+        client = getService().saveOrUpdateClient(client);
+        getService().generateAndPersistClientCredentials(client);
         String redirectURL = request.getContextPath() + "/" + ViewEditRegisteredClientFormController.VIEW_EDIT_REQUEST_MAPPING + "/" + client.getId() + ".form";
         return new ModelAndView(new RedirectView(redirectURL));
     }
 
     @ModelAttribute("client")
     public Client getNewClient() {
-        Client client = new Client(null, null, null, null, null, null, "testURI.com");
+        Client client = new Client(null, null, null, null, null, null, null);
         return client;
     }
 
@@ -79,10 +69,9 @@ public class ClientRegistrationFormController {
 
     @InitBinder
     public void bindCollections(WebDataBinder binder) {
-//        RedirectUriPropertyEditor redirectUriPropertyEditor = new RedirectUriPropertyEditor();
-        ClientDetailsPropertyEditor<RedirectURI> redirectURIPropertyEditor = new ClientDetailsPropertyEditor<RedirectURI>(RedirectURI.class);
-        ClientDetailsPropertyEditor<Scope> scopesPropertyEditor = new ClientDetailsPropertyEditor<Scope>(Scope.class);
-        ClientDetailsPropertyEditor<AuthorizedGrantType> authorizedGrantTypePropertyEditor = new ClientDetailsPropertyEditor<AuthorizedGrantType>(AuthorizedGrantType.class);
+        CollectionPropertyEditor redirectURIPropertyEditor = new CollectionPropertyEditor(RedirectURI.class);
+        CollectionPropertyEditor scopesPropertyEditor = new CollectionPropertyEditor(Scope.class);
+        CollectionPropertyEditor authorizedGrantTypePropertyEditor = new CollectionPropertyEditor(AuthorizedGrantType.class);
         binder.registerCustomEditor(Collection.class, "redirectUriCollection", redirectURIPropertyEditor);
         binder.registerCustomEditor(Collection.class, "scopeCollection", scopesPropertyEditor);
         binder.registerCustomEditor(Collection.class, "grantTypeCollection", authorizedGrantTypePropertyEditor);
