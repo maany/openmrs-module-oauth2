@@ -26,7 +26,6 @@ public class RegisteredClientIndexController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showList() {
-        log.debug("Inside showList controller for RegisteredClient index.jsp");
         return INDEX_VIEW;
     }
 

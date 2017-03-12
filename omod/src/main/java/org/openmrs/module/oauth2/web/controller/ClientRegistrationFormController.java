@@ -5,17 +5,21 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
+import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
+import org.openmrs.module.oauth2.api.model.RedirectURI;
+import org.openmrs.module.oauth2.api.model.Scope;
+import org.openmrs.module.oauth2.web.util.CollectionPropertyEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +44,8 @@ public class ClientRegistrationFormController {
         if (errors.hasErrors()) {
             return new ModelAndView(REGISTRATION_FORM_VIEW);
         }
-        client = getService().registerNewClient(client);
+        client.setCreator(Context.getAuthenticatedUser());
+        client = getService().saveOrUpdateClient(client);
         getService().generateAndPersistClientCredentials(client);
         String redirectURL = request.getContextPath() + "/" + ViewEditRegisteredClientFormController.VIEW_EDIT_REQUEST_MAPPING + "/" + client.getId() + ".form";
         return new ModelAndView(new RedirectView(redirectURL));
@@ -48,7 +53,8 @@ public class ClientRegistrationFormController {
 
     @ModelAttribute("client")
     public Client getNewClient() {
-        return new Client();
+        Client client = new Client(null, null, null, null, null, null, null);
+        return client;
     }
 
     @ModelAttribute("clientTypes")
@@ -59,6 +65,16 @@ public class ClientRegistrationFormController {
             clientTypeMap.put(clientType.name(), clientType.name());
         }
         return clientTypeMap;
+    }
+
+    @InitBinder
+    public void bindCollections(WebDataBinder binder) {
+        CollectionPropertyEditor redirectURIPropertyEditor = new CollectionPropertyEditor(RedirectURI.class);
+        CollectionPropertyEditor scopesPropertyEditor = new CollectionPropertyEditor(Scope.class);
+        CollectionPropertyEditor authorizedGrantTypePropertyEditor = new CollectionPropertyEditor(AuthorizedGrantType.class);
+        binder.registerCustomEditor(Collection.class, "redirectUriCollection", redirectURIPropertyEditor);
+        binder.registerCustomEditor(Collection.class, "scopeCollection", scopesPropertyEditor);
+        binder.registerCustomEditor(Collection.class, "grantTypeCollection", authorizedGrantTypePropertyEditor);
     }
 
     public ClientRegistrationService getService() {

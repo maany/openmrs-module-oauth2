@@ -34,7 +34,13 @@
                             <a href="${pageContext.request.contextPath}/module/oauth2/client/registered/view/${client.id}.form"><c:out
                                     value="${client.name}"/></a></td>
                         <td><c:out value="${client.description}"/></td>
-                        <td><c:out value="${client.redirectionURI}"/></td>
+                        <c:forEach items="${client.registeredRedirectUri}" var="redirectUri">
+                            <td>
+                                <ul>
+                                    <li><c:out value="${redirectUri}"/></li>
+                                </ul>
+                            </td>
+                        </c:forEach>
                         <td><c:out value="${client.clientType}"/></td>
                         <td><c:out value="TODO"/></td>
                     </tr>

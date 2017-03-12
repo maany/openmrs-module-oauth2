@@ -5,18 +5,21 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
+import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
+import org.openmrs.module.oauth2.api.model.RedirectURI;
+import org.openmrs.module.oauth2.api.model.Scope;
+import org.openmrs.module.oauth2.web.util.CollectionPropertyEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +83,7 @@ public class ViewEditRegisteredClientFormController {
      */
     private void updateNonFormDetails(Client client, Integer id) {
         Client oldClient = getService().getClient(id);
-        client.setClientDeveloper(oldClient.getClientDeveloper());
+        client.setCreator(oldClient.getCreator());
         client.setClientIdentifier(oldClient.getClientIdentifier());
         client.setClientSecret(oldClient.getClientSecret());
     }
@@ -88,6 +91,17 @@ public class ViewEditRegisteredClientFormController {
     private ClientRegistrationService getService() {
         return Context.getService(ClientRegistrationService.class);
     }
+
+    @InitBinder
+    public void bindCollections(WebDataBinder binder) {
+        CollectionPropertyEditor redirectURIPropertyEditor = new CollectionPropertyEditor(RedirectURI.class);
+        CollectionPropertyEditor scopesPropertyEditor = new CollectionPropertyEditor(Scope.class);
+        CollectionPropertyEditor authorizedGrantTypePropertyEditor = new CollectionPropertyEditor(AuthorizedGrantType.class);
+        binder.registerCustomEditor(Collection.class, "redirectUriCollection", redirectURIPropertyEditor);
+        binder.registerCustomEditor(Collection.class, "scopeCollection", scopesPropertyEditor);
+        binder.registerCustomEditor(Collection.class, "grantTypeCollection", authorizedGrantTypePropertyEditor);
+    }
+
 
     @ModelAttribute("clientTypes")
     public Map<String, String> getClientTypes() {

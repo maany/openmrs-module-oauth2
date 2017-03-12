@@ -22,8 +22,69 @@
            changed_by="1" date_changed="2008-08-18 11:51:56.0" retired="false" retire_reason=""
            uuid="11ce8b28-e132-11de-babe-001e378eb67e"/>
 
-    <oauth2_client client_id="1" user="4" client_name="XYZ EHR" description="This is a web client for XYZ hospital"
-                   redirection_uri="http://www.xyzhealthservices.com/oauthClient" client_type="WEB_APPLICATION"
+    <oauth2_client id="1" creator="4" client_name="XYZ EHR" description="This is a web client for XYZ hospital"
+                   client_type="WEB_APPLICATION"
                    client_identifier="uui954aAc#412" website="http://www.xyzhealthservices.com"
-                   legal_acceptance="true"/>
+                   client_secret="somesecret"
+                   voided="false" date_created="2015-08-16 15:46:47.0"
+            />
+    <oauth2_client id="2" creator="4" client_name="Spring OAuth Demo Client"
+                   description="This is a web client for testing with Spring Security OAuth"
+                   client_type="WEB_APPLICATION"
+                   client_identifier="my-trusted-client-spring-security" client_secret="somesecret"
+                   website="http://www.xyzhealthservices.com"
+                   voided="false" date_created="2015-08-16 15:46:47.0"
+            />
+    <!--TODO configure DBUnit-->
+    <!--Cannot get DBUnit to import data from ElementCollection annotated fields of Client-->
+    <!--It requires adding an IColumnFilter to configure DBUnit to allow tables with null primary keys to be created-->
+    <!--Error :-->
+    <!--Read More : https://stackoverflow.com/questions/4853047/cannot-get-dbunit-to-import-data-for-collectiontable  -->
+    <!--<oauth2_client_authorities client_id="1" granted_authorities="[B@1b07b04"/>-->
+
+    <oauth2_client_authorities id="1" client_id="1" authority="ROLE_CLIENT"/>
+    <oauth2_client_authorities id="2" client_id="2" authority="ROLE_CLIENT"/>
+
+    <oauth2_client_grant_types id="1" client_id="1" authorized_grant_type="authorization_code"/>
+    <oauth2_client_grant_types id="2" client_id="1" authorized_grant_type="implicit"/>
+    <oauth2_client_grant_types id="3" client_id="1" authorized_grant_type="client_credentials"/>
+    <oauth2_client_grant_types id="4" client_id="1" authorized_grant_type="password"/>
+    <oauth2_client_grant_types id="5" client_id="1" authorized_grant_type="refresh_token"/>
+    <oauth2_client_grant_types id="6" client_id="2" authorized_grant_type="authorization_code"/>
+    <oauth2_client_grant_types id="7" client_id="2" authorized_grant_type="implicit"/>
+    <oauth2_client_grant_types id="8" client_id="2" authorized_grant_type="client_credentials"/>
+    <oauth2_client_grant_types id="9" client_id="2" authorized_grant_type="password"/>
+    <oauth2_client_grant_types id="10" client_id="2" authorized_grant_type="refresh_token"/>
+
+    <oauth2_client_redirect_uri id="1" client_id="1" redirect_uri="http://anywhere?key=value"/>
+    <oauth2_client_redirect_uri id="2" client_id="2" redirect_uri="http://anywhere?key=value"/>
+
+    <oauth2_client_resource_ids id="1" client_id="1" resource_id="openmrs"/>
+    <oauth2_client_resource_ids id="2" client_id="2" resource_id="openmrs"/>
+
+    <oauth2_client_scopes id="1" client_id="1" scope="read"/>
+    <oauth2_client_scopes id="1" client_id="1" scope="write"/>
+    <oauth2_client_scopes id="2" client_id="2" scope="read"/>
+    <oauth2_client_scopes id="2" client_id="2" scope="write"/>
+
+
+    <!--
+
+        <oauth2_client_authorities client_id="2" granted_authorities="ROLE_CLIENT"/>
+
+        <oauth2_client_grant_types client_id="2" authorized_grant_types="authorization_code"/>
+        <oauth2_client_grant_types client_id="2" authorized_grant_types="implicit"/>
+        <oauth2_client_grant_types client_id="2" authorized_grant_types="client_credentials"/>
+        <oauth2_client_grant_types client_id="2" authorized_grant_types="password"/>
+        <oauth2_client_grant_types client_id="2" authorized_grant_types="refresh_token"/>
+
+        <oauth2_client_redirect_uri  client_id="2" registered_redirect_uris="http://anywhere?key=value"/>
+
+        <oauth2_client_resource_ids client_id="2" resource_ids="openmrs"/>
+
+        <oauth2_client_scopes client_id="2" scope="read"/>
+        <oauth2_client_scopes client_id="2" scope="write"/>
+    -->
+
+
 </dataset>

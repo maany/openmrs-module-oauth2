@@ -6,10 +6,17 @@ import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.db.hibernate.ClientDAO;
+import org.openmrs.module.oauth2.api.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -21,6 +28,7 @@ import java.util.List;
  */
 
 public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements ClientRegistrationService {
+
 
     @Autowired
     protected ClientDAO dao;
@@ -64,8 +72,9 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     @Transactional
     @Override
     public Client registerNewClient(Client client) {
-        client.setClientDeveloper(Context.getAuthenticatedUser());
+        client.setCreator(Context.getAuthenticatedUser());
         generateClientCredentials(client);
+        setClientForParametrizedCollections(client);
         return saveOrUpdateClient(client);
     }
 
@@ -110,6 +119,41 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
         client.setClientIdentifier(new Date().toString());
     }
 
+    /**
+     *  The elements in the Collection<? extends Parametrized> in Client such as {@link Client#redirectUriCollection} have a @ManyToOne mapping for {@link Client}.
+     *  In order to make sure proper foreign key mapping takes place for this relation, this method calls {@link org.openmrs.module.oauth2.api.model.Parametrized#setClient(Client)}for all objects of these collections
+     *  This was necessary as despite using mappedBy in the @OneToMany side of the relation, client_id was not saved in the database tables of these collections.
+     *  @param client Client whose inverse mappings are to be established
+     */
+
+    private void setClientForParametrizedCollections(Client client){
+        if(client.getResourceCollection()!=null) {
+            for (Resource resource : client.getResourceCollection())
+                resource.setClient(client);
+        }
+        if(client.getScopeCollection()!=null) {
+            for (Scope scope : client.getScopeCollection())
+                scope.setClient(client);
+        }
+        if(client.getAuthorities()!=null) {
+            for (GrantedAuthority authority : client.getAuthorities()) {
+                try {
+                    ((CustomGrantedAuthority) authority).setClient(client);
+                } catch (ClassCastException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        if(client.getRedirectUriCollection()!=null) {
+            for (RedirectURI redirectURI : client.getRedirectUriCollection())
+                redirectURI.setClient(client);
+        }
+        if(client.getGrantTypeCollection()!=null) {
+            for (AuthorizedGrantType grantType : client.getGrantTypeCollection())
+                grantType.setClient(client);
+        }
+    }
+
     @Override
     public boolean verifyClientCredentials(Client client, String encodedClientIdentifier, String encodedClientSecret) {
         BCryptPasswordEncoder matcher = new BCryptPasswordEncoder(BCRYPT_STRENGTH);
@@ -117,4 +161,6 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
             return true;
         return false;
     }
+
+
 }
