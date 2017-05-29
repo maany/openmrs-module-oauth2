@@ -18,6 +18,50 @@
     }
 </style>
 <h2><openmrs:message code="oauth2.client.registered.register"/></h2>
+<form method="post">
+    <table>
+        <tr>
+            <td>Application name</td>
+            <td><input type="text" name="name"></td>
+        </tr>
+        <tr>
+            <td>Application Description</td>
+            <td><input type="text" name="description"></td>
+        </tr>
+        <tr>
+            <td>Website</td>
+            <td><input type="text" name="website"></td>
+        </tr>
+        <tr>
+            <td>Redirection URI</td>
+            <td><input type="text" name="registeredRedirectURIs"></td>
+        </tr>
+        <tr>
+            <td>Client Type</td>
+            <td>
+                <select name="clientType">
+                    <c:forEach  items="clientTypes" var="clientType">
+                        <option value="${clientType}">${clientType}</option>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Scope</td>
+            <td><input type="checkbox" name="scope" value="read">Read</td>
+            <td><input type="checkbox" name="scope" value="write">Write</td>
+        </tr>
+        <tr>
+            <td>Grant Types</td>
+            <td><input type="checkbox" name="grantType" value="code">Authorization Code</td>
+            <td><input type="checkbox" name="grantType" value="implicit">Implicit</td>
+            <td><input type="checkbox" name="grantType" value="password">Resource Owner Password Credentials</td>
+            <td><input type="checkbox" name="grantType" value="client">Client Credentials</td>
+        </tr>
+    </table>
+    <input type="submit" value="Register Application"/>
+</form>
+<%--
 
 <form:form modelAttribute="client" method="post"
            onsubmit="processOutGoingData(this,['grantTypeCollection','scopeCollection'])">
@@ -54,7 +98,7 @@
             </td>
         </tr>
         <tr>
-            <%--todo scope : read write checkbox--%>
+            &lt;%&ndash;todo scope : read write checkbox&ndash;%&gt;
             <td>Scope</td>
             <td>
                 <form:checkbox path="scopeCollection" value="read"/>Read
@@ -64,8 +108,8 @@
             </td>
         </tr>
         <tr>
-            <%--todo authorized grant types : read write checkbox--%>
-            <%--todo scope : read write checkbox--%>
+            &lt;%&ndash;todo authorized grant types : read write checkbox&ndash;%&gt;
+            &lt;%&ndash;todo scope : read write checkbox&ndash;%&gt;
             <td>Authorized Grant Types</td>
             <td>
                 <form:checkbox path="grantTypeCollection" value="authorization_code"/>Authorization Code<br>
@@ -81,4 +125,6 @@
 
     <input type="submit" value="Register Application"/>
 </form:form>
+--%>
+
 <%@ include file="/WEB-INF/template/footer.jsp" %>
