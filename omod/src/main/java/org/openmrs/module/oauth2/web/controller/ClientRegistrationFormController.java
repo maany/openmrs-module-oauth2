@@ -72,13 +72,9 @@ public class ClientRegistrationFormController {
     }
 
     @ModelAttribute("clientTypes")
-    public Map<String, String> getClientTypes() {
+    public Client.ClientType[] getClientTypes() {
         Client.ClientType[] clientTypes = getService().getAllClientTypes();
-        Map<String, String> clientTypeMap = new HashMap<String, String>();
-        for (Client.ClientType clientType : clientTypes) {
-            clientTypeMap.put(clientType.name(), clientType.name());
-        }
-        return clientTypeMap;
+        return clientTypes;
     }
 
  /*   @InitBinder
