@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
+import org.openmrs.module.oauth2.api.Oauth2Service;
 import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
 import org.openmrs.module.oauth2.api.model.RedirectURI;
 import org.openmrs.module.oauth2.api.model.Scope;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,16 +79,30 @@ public class ClientRegistrationFormController {
         return clientTypes;
     }
 
- /*   @InitBinder
-    public void bindCollections(WebDataBinder binder) {
-        CollectionPropertyEditor redirectURIPropertyEditor = new CollectionPropertyEditor(RedirectURI.class);
-        CollectionPropertyEditor scopesPropertyEditor = new CollectionPropertyEditor(Scope.class);
-        CollectionPropertyEditor authorizedGrantTypePropertyEditor = new CollectionPropertyEditor(AuthorizedGrantType.class);
-        binder.registerCustomEditor(Collection.class, "redirectUriCollection", redirectURIPropertyEditor);
-        binder.registerCustomEditor(Collection.class, "scopeCollection", scopesPropertyEditor);
-        binder.registerCustomEditor(Collection.class, "grantTypeCollection", authorizedGrantTypePropertyEditor);
+    @ModelAttribute("scopes")
+    public List<Scope> getAllSupportedScopes(){
+        return getOAuth2Service().getAllSupportedScopes();
     }
-*/
+
+    @ModelAttribute("grantTypes")
+    public List<AuthorizedGrantType> getAllSupportedGrantTypes(){
+        return getOAuth2Service().getAllSupportedGrantTypes();
+    }
+
+    private Oauth2Service getOAuth2Service() {
+        return Context.getService(Oauth2Service.class);
+    }
+
+    /*   @InitBinder
+       public void bindCollections(WebDataBinder binder) {
+           CollectionPropertyEditor redirectURIPropertyEditor = new CollectionPropertyEditor(RedirectURI.class);
+           CollectionPropertyEditor scopesPropertyEditor = new CollectionPropertyEditor(Scope.class);
+           CollectionPropertyEditor authorizedGrantTypePropertyEditor = new CollectionPropertyEditor(AuthorizedGrantType.class);
+           binder.registerCustomEditor(Collection.class, "redirectUriCollection", redirectURIPropertyEditor);
+           binder.registerCustomEditor(Collection.class, "scopeCollection", scopesPropertyEditor);
+           binder.registerCustomEditor(Collection.class, "grantTypeCollection", authorizedGrantTypePropertyEditor);
+       }
+   */
     public ClientRegistrationService getService() {
         return Context.getService(ClientRegistrationService.class);
     }

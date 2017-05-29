@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/template/include.jsp" %>
 <%@ include file="/WEB-INF/template/header.jsp" %>
 
@@ -48,15 +49,14 @@
         </tr>
         <tr>
             <td>Scope</td>
-            <td><input type="checkbox" name="scope" value="read">Read</td>
-            <td><input type="checkbox" name="scope" value="write">Write</td>
+            <c:forEach var="scope" items="scopes">
+                <td><input type="checkbox" name="scope" value="${scope}">${scope}</td>
+            </c:forEach>
         </tr>
         <tr>
-            <td>Grant Types</td>
-            <td><input type="checkbox" name="grantType" value="code">Authorization Code</td>
-            <td><input type="checkbox" name="grantType" value="implicit">Implicit</td>
-            <td><input type="checkbox" name="grantType" value="password">Resource Owner Password Credentials</td>
-            <td><input type="checkbox" name="grantType" value="client">Client Credentials</td>
+            <c:forEach var="geantType" items="grantTypes">
+                <td><input type="checkbox" name="grantType" value="${grantType}">${grantType}</td>
+            </c:forEach>
         </tr>
     </table>
     <input type="submit" value="Register Application"/>
