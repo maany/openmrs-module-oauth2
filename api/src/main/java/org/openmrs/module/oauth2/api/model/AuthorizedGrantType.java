@@ -74,6 +74,14 @@ public class AuthorizedGrantType implements Parametrized {
         return grantType;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.toString().equals(grantType))
+            return true;
+        else
+            return false;
+    }
+
     public static List<AuthorizedGrantType> getAllSupportedGrantTypes() {
         List<AuthorizedGrantType> grantTypes = new ArrayList<AuthorizedGrantType>();
         AuthorizedGrantType authorization_code = new AuthorizedGrantType("Authorization Code");

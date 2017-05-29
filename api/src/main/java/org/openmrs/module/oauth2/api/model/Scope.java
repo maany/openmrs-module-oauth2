@@ -82,4 +82,12 @@ public class Scope implements Parametrized {
     public String toString() {
         return scope;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.toString().equals(scope))
+            return true;
+        else
+            return false;
+    }
 }
