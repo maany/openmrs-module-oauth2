@@ -1,5 +1,6 @@
 package org.openmrs.module.oauth2.web.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
@@ -8,6 +9,7 @@ import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
 import org.openmrs.module.oauth2.api.model.RedirectURI;
 import org.openmrs.module.oauth2.api.model.Scope;
+import org.openmrs.module.oauth2.api.util.ClientSpringOAuthUtils;
 import org.openmrs.module.oauth2.web.util.CollectionPropertyEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -38,12 +40,24 @@ public class ClientRegistrationFormController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView onSubmit(HttpServletRequest request, @Valid @ModelAttribute("client") Client client,
-                                 BindingResult errors, ModelMap map) {
+    public ModelAndView onSubmit(HttpServletRequest request, ModelMap map) {
 
-        if (errors.hasErrors()) {
-            return new ModelAndView(REGISTRATION_FORM_VIEW);
-        }
+        Client client = (Client) map.get("client");
+        client.setName(request.getParameter("name"));
+        client.setDescription(request.getParameter("description"));
+
+        String clientTypeString = request.getParameter("clientType");
+        getNewClient().setClientType(Client.ClientType.valueOf(clientTypeString));
+
+        String[] scopesStringArray = request.getParameterValues("scope");
+        String scopesCSV = StringUtils.join(scopesStringArray, ',');
+        Collection<Scope> scopeCollection = ClientSpringOAuthUtils.commaDelimitedStringToCollection(scopesCSV, client, Scope.class);
+        client.setScopeCollection(scopeCollection);
+
+        String[] grantTypesArray = request.getParameterValues("grantType");
+        String grantTypeCSV = StringUtils.join(grantTypesArray,",");
+        Collection<AuthorizedGrantType> grantTypeCollection = ClientSpringOAuthUtils.commaDelimitedStringToCollection(grantTypeCSV,client,AuthorizedGrantType.class);
+
         client.setCreator(Context.getAuthenticatedUser());
         client = getService().saveOrUpdateClient(client);
         getService().generateAndPersistClientCredentials(client);
@@ -67,7 +81,7 @@ public class ClientRegistrationFormController {
         return clientTypeMap;
     }
 
-    @InitBinder
+ /*   @InitBinder
     public void bindCollections(WebDataBinder binder) {
         CollectionPropertyEditor redirectURIPropertyEditor = new CollectionPropertyEditor(RedirectURI.class);
         CollectionPropertyEditor scopesPropertyEditor = new CollectionPropertyEditor(Scope.class);
@@ -76,7 +90,7 @@ public class ClientRegistrationFormController {
         binder.registerCustomEditor(Collection.class, "scopeCollection", scopesPropertyEditor);
         binder.registerCustomEditor(Collection.class, "grantTypeCollection", authorizedGrantTypePropertyEditor);
     }
-
+*/
     public ClientRegistrationService getService() {
         return Context.getService(ClientRegistrationService.class);
     }
