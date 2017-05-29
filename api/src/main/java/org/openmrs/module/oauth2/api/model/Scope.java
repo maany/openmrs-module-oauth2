@@ -3,6 +3,8 @@ package org.openmrs.module.oauth2.api.model;
 import org.openmrs.module.oauth2.Client;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by OPSKMC on 8/19/15.
@@ -34,6 +36,14 @@ public class Scope implements Parametrized {
         this.scope = scope;
     }
 
+    public static List<Scope> getAllSupportedScopes(){
+        Scope readScope = new Scope("read");
+        Scope writeScope = new Scope("write");
+        List<Scope> scopeList = new ArrayList<Scope>();
+        scopeList.add(readScope);
+        scopeList.add(writeScope);
+        return scopeList;
+    }
     public int getId() {
         return id;
     }

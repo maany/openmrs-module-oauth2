@@ -3,6 +3,8 @@ package org.openmrs.module.oauth2.api.model;
 import org.openmrs.module.oauth2.Client;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by OPSKMC on 8/19/15.
@@ -70,5 +72,18 @@ public class AuthorizedGrantType implements Parametrized {
     @Override
     public String toString() {
         return grantType;
+    }
+
+    public static List<AuthorizedGrantType> getAllSupportedGrantTypes() {
+        List<AuthorizedGrantType> grantTypes = new ArrayList<AuthorizedGrantType>();
+        AuthorizedGrantType authorization_code = new AuthorizedGrantType("Authorization Code");
+        AuthorizedGrantType  implicit = new AuthorizedGrantType("Implicit");
+        AuthorizedGrantType  client_credentials = new AuthorizedGrantType("Client Credentials");
+        AuthorizedGrantType  password = new AuthorizedGrantType("Resource Owner Password Credentials");
+        grantTypes.add(authorization_code);
+        grantTypes.add(implicit);
+        grantTypes.add(password);
+        grantTypes.add(client_credentials);
+        return grantTypes;
     }
 }
