@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/template/include.jsp" %>
 <%@ include file="/WEB-INF/template/header.jsp" %>
 
@@ -41,7 +40,7 @@
             <td>Client Type</td>
             <td>
                 <select name="clientType">
-                    <c:forEach  items="clientTypes" var="clientType">
+                    <c:forEach  items="${clientTypes}" var="clientType">
                         <option value="${clientType}">${clientType}</option>
                     </c:forEach>
                 </select>
@@ -49,12 +48,12 @@
         </tr>
         <tr>
             <td>Scope</td>
-            <c:forEach var="scope" items="scopes">
+            <c:forEach var="scope" items="${scopes}">
                 <td><input type="checkbox" name="scope" value="${scope}">${scope}</td>
             </c:forEach>
         </tr>
         <tr>
-            <c:forEach var="geantType" items="grantTypes">
+            <c:forEach var="geantType" items="${grantTypes}">
                 <td><input type="checkbox" name="grantType" value="${grantType}">${grantType}</td>
             </c:forEach>
         </tr>
