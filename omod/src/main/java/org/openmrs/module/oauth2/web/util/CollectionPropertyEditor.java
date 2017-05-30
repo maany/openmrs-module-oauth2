@@ -9,6 +9,7 @@ import java.util.HashSet;
 /**
  * Created by Mayank on 9/25/2015.
  */
+@Deprecated
 public class CollectionPropertyEditor extends PropertyEditorSupport {
     private Class classType;
 
