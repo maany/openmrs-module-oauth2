@@ -47,9 +47,14 @@ public class ClientRegistrationFormController {
         Client client = (Client) map.get("client");
         client.setName(request.getParameter("name"));
         client.setDescription(request.getParameter("description"));
+        client.setWebsite(request.getParameter("website"));
 
         String clientTypeString = request.getParameter("clientType");
-        getNewClient().setClientType(Client.ClientType.valueOf(clientTypeString));
+        client.setClientType(Client.ClientType.valueOf(clientTypeString));
+
+        String redirectionURIString = request.getParameter("registeredRedirectURIs").trim();
+        Collection<RedirectURI> redirectURICollection= ClientSpringOAuthUtils.commaDelimitedStringToCollection(redirectionURIString,client,RedirectURI.class);
+        client.setRedirectUriCollection(redirectURICollection);
 
         String[] scopesStringArray = request.getParameterValues("scope");
         String scopesCSV = StringUtils.join(scopesStringArray, ',');
@@ -59,6 +64,7 @@ public class ClientRegistrationFormController {
         String[] grantTypesArray = request.getParameterValues("grantType");
         String grantTypeCSV = StringUtils.join(grantTypesArray,",");
         Collection<AuthorizedGrantType> grantTypeCollection = ClientSpringOAuthUtils.commaDelimitedStringToCollection(grantTypeCSV,client,AuthorizedGrantType.class);
+        client.setGrantTypeCollection(grantTypeCollection);
 
         client.setCreator(Context.getAuthenticatedUser());
         client = getService().saveOrUpdateClient(client);
