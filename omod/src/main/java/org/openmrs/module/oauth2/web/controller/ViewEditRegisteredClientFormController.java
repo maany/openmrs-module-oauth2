@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
+import org.openmrs.module.oauth2.api.Oauth2Service;
 import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
 import org.openmrs.module.oauth2.api.model.RedirectURI;
 import org.openmrs.module.oauth2.api.model.Scope;
@@ -38,6 +39,44 @@ public class ViewEditRegisteredClientFormController {
     public String showForm(@PathVariable Integer clientId, ModelMap map) {
         Client client = getService().getClient(clientId);
         map.addAttribute("client", client);
+        // Scopes
+        Map<Scope,Boolean> scopeMap = new HashMap<Scope, Boolean>();
+        List<Scope> allSupportedScopes = getOAuth2Service().getAllSupportedScopes();
+        Collection<Scope> clientScopes =client.getScopeCollection();
+        for(Scope scope:allSupportedScopes){
+            boolean found=false;
+            for(Scope clientScope:clientScopes){
+                if(scope.equals(clientScope)){
+                    found=true;
+                    scopeMap.put(scope,true);
+                    break;
+                }
+            }
+            if(!found){
+                scopeMap.put(scope,false);
+            }
+        }
+        map.addAttribute("scope",scopeMap);
+
+        //AuthorizedGrantTypes
+        Map<AuthorizedGrantType, Boolean> grantTypeMap = new HashMap<AuthorizedGrantType, Boolean>();
+        List<AuthorizedGrantType> allSupportedGrantTypes = getOAuth2Service().getAllSupportedGrantTypes();
+        Collection<AuthorizedGrantType> clientGrantTypes = client.getGrantTypeCollection();
+        for(AuthorizedGrantType grantType:allSupportedGrantTypes){
+            boolean found=false;
+            for(AuthorizedGrantType clientGrantType:clientGrantTypes){
+                if(clientGrantType.equals(grantType)){
+                    grantTypeMap.put(grantType,true);
+                    found=true;
+                    break;
+                }
+            }
+            if(!found){
+                grantTypeMap.put(grantType,false);
+            }
+        }
+        map.addAttribute("grantType",grantTypeMap);
+
         List<String> encodedCredentials = getService().encodeCredentials(client);
         map.addAttribute("app_identifier", encodedCredentials.get(0));
         map.addAttribute("app_password", encodedCredentials.get(1));
@@ -91,7 +130,10 @@ public class ViewEditRegisteredClientFormController {
     private ClientRegistrationService getService() {
         return Context.getService(ClientRegistrationService.class);
     }
-
+    private Oauth2Service getOAuth2Service(){
+        return Context.getService(Oauth2Service.class);
+    }
+/*
     @InitBinder
     public void bindCollections(WebDataBinder binder) {
         CollectionPropertyEditor redirectURIPropertyEditor = new CollectionPropertyEditor(RedirectURI.class);
@@ -101,15 +143,13 @@ public class ViewEditRegisteredClientFormController {
         binder.registerCustomEditor(Collection.class, "scopeCollection", scopesPropertyEditor);
         binder.registerCustomEditor(Collection.class, "grantTypeCollection", authorizedGrantTypePropertyEditor);
     }
+*/
 
 
     @ModelAttribute("clientTypes")
-    public Map<String, String> getClientTypes() {
+    public Client.ClientType[] getClientTypes() {
         Client.ClientType[] clientTypes = getService().getAllClientTypes();
-        Map<String, String> clientTypeMap = new HashMap<String, String>();
-        for (Client.ClientType clientType : clientTypes) {
-            clientTypeMap.put(clientType.name(), clientType.name());
-        }
-        return clientTypeMap;
+        return clientTypes;
     }
+
 }
