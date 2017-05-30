@@ -53,7 +53,7 @@
         </tr>
         <tr>
             <td>Redirection URI</td>
-            <td><input type="text" name="registeredRedirectURIs" value="${client.registeredRedirectUri.}"></td>
+            <td><input type="text" name="registeredRedirectURIs" value="${client.registeredRedirectUri.iterator.next}"></td>
         </tr>
         <tr>
             <td>Client Type</td>

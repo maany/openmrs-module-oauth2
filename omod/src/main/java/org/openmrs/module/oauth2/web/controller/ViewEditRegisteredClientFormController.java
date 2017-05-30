@@ -1,5 +1,6 @@
 package org.openmrs.module.oauth2.web.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
@@ -9,6 +10,7 @@ import org.openmrs.module.oauth2.api.Oauth2Service;
 import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
 import org.openmrs.module.oauth2.api.model.RedirectURI;
 import org.openmrs.module.oauth2.api.model.Scope;
+import org.openmrs.module.oauth2.api.util.ClientSpringOAuthUtils;
 import org.openmrs.module.oauth2.web.util.CollectionPropertyEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -84,12 +86,30 @@ public class ViewEditRegisteredClientFormController {
     }
 
     @RequestMapping(value = "/{clientId}", method = RequestMethod.POST)
-    public String editForm(@PathVariable Integer clientId, @Valid @ModelAttribute("client") Client client, BindingResult errors, ModelMap map) {
-        if (errors.hasErrors()) {
-            //TODO return error view
-            log.info("Binding errors found");
-            return VIEW_EDIT_FORM_VIEW;
-        }
+    public String editForm(@PathVariable Integer clientId, ModelMap map,HttpServletRequest request) {
+        Client client = getService().getClient(clientId);
+        client.setName(request.getParameter("name"));
+        client.setDescription(request.getParameter("description"));
+        client.setWebsite(request.getParameter("website"));
+
+        String clientTypeString = request.getParameter("clientType");
+        client.setClientType(Client.ClientType.valueOf(clientTypeString));
+
+        String redirectionURIString = request.getParameter("registeredRedirectURIs").trim();
+        Collection<RedirectURI> redirectURICollection= ClientSpringOAuthUtils.commaDelimitedStringToCollection(redirectionURIString,client,RedirectURI.class);
+        client.setRedirectUriCollection(redirectURICollection);
+
+
+        String[] scopesStringArray = request.getParameterValues("scope");
+        String scopesCSV = StringUtils.join(scopesStringArray, ',');
+        Collection<Scope> scopeCollection = ClientSpringOAuthUtils.commaDelimitedStringToCollection(scopesCSV, client, Scope.class);
+        client.setScopeCollection(scopeCollection);
+
+        String[] grantTypesArray = request.getParameterValues("grantType");
+        String grantTypeCSV = StringUtils.join(grantTypesArray,",");
+        Collection<AuthorizedGrantType> grantTypeCollection = ClientSpringOAuthUtils.commaDelimitedStringToCollection(grantTypeCSV,client,AuthorizedGrantType.class);
+        client.setGrantTypeCollection(grantTypeCollection);
+
         updateNonFormDetails(client, clientId);
         client = getService().merge(client);
         getService().updateClient(client);
