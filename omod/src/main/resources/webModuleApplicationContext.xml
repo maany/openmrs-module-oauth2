@@ -14,7 +14,7 @@
   		    http://www.springframework.org/schema/security/oauth2
   		    http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
   		    http://www.springframework.org/schema/security
-  		    http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+  		    http://www.springframework.org/schema/security/spring-security-4.1.xsd">
     <!--
                     http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security-3.0.3.xsd">
@@ -104,8 +104,9 @@
     </security:http>
     <!--User Login Page used prior to Authorization Code Grant Type-->
     <!--TODO Currently using form-login, replace with custom login form-->
-    <http access-denied-page="/login.jsp?authorization_error=true" disable-url-rewriting="true"
+    <http disable-url-rewriting="true"
           xmlns="http://www.springframework.org/schema/security">
+        <access-denied-handler error-page="/login.jsp?authorization_error=true"/>
         <intercept-url pattern="/ws/oauth/**" access="ROLE_USER"/>
         <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
@@ -122,8 +123,7 @@
     <!--Allows Username and Password to be passed directly as Request Parameters to the token endpoint -->
     <!--instead of Base64 encoded values in Authorization header (HTTP Basic)-->
     <!--=================================================================================================-->
-    <bean id="clientCredentialsTokenEndpointFilter"
-          class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+    <bean id="clientCredentialsTokenEndpointFilter" class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
         <property name="authenticationManager" ref="clientAuthenticationManager"/>
     </bean>
 
