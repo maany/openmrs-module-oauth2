@@ -36,9 +36,9 @@
     </modules>
 
     <properties>
-        <openMRSVersion>2.2.0-SNAPSHOT</openMRSVersion>
+        <openMRSVersion>2.0.1</openMRSVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.security.version>3.1.0.RELEASE</spring.security.version>
+        <spring.security.version>4.1.4.RELEASE</spring.security.version>
     </properties>
 
     <dependencyManagement>
@@ -106,43 +106,43 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
                 <!--TODO add ${spring.version} if possible. Logically not possible as module does not know where it is being installed}-->
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <scope>provided</scope>
             </dependency>
             <!--End Spring 3.1.1-->
@@ -251,7 +251,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -267,7 +267,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -283,7 +283,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -298,7 +298,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-taglibs</artifactId>
-                <version>3.2.7.RELEASE</version>
+                <version>4.1.4.RELEASE</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -321,8 +321,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-                        <target>1.6</target>
-                        <source>1.6</source>
+                        <target>1.7</target>
+                        <source>1.7</source>
                     </configuration>
                 </plugin>
                 <plugin>
