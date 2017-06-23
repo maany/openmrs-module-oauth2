@@ -38,7 +38,7 @@
     <properties>
         <openMRSVersion>2.0.1</openMRSVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.security.version>4.1.4.RELEASE</spring.security.version>
+        <spring.security.version>4.0.4.RELEASE</spring.security.version>
     </properties>
 
     <dependencyManagement>
@@ -251,7 +251,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-core</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -267,7 +267,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -283,7 +283,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-config</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -298,7 +298,7 @@
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-taglibs</artifactId>
-                <version>4.1.4.RELEASE</version>
+                <version>${spring.security.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
