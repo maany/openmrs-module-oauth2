@@ -29,10 +29,10 @@
         <class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
     </extension>
 
-    <!-- Maps hibernate file's, if present -->
-    <!--	<mappingFiles>
-            Oauth2.hbm.xml Client.hbm.xml
-        </mappingFiles>-->
+    <!--Maps hibernate file's, if present -->
+    <mappingFiles>
+            Oauth2.hbm.xml
+    </mappingFiles>-->
 
     <!--Package with mapped classes-->
     <packagesWithMappedClasses>

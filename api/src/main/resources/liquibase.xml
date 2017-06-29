@@ -180,19 +180,6 @@
             <column name="authentication" type="longblob"></column>
         </createTable>
     </changeSet>
-<!--    <changeSet id="oauth-201705302023" author="Mayank">
-        <dropForeignKeyConstraint baseTableName="oauth2_client" constraintName="oauth2_voided_by_user_fk"/>
-        <dropForeignKeyConstraint baseTableName="oauth2_client" constraintName="oauth2_changed_by_user_fk"/>
-        <dropForeignKeyConstraint baseTableName="oauth2_client" constraintName="oauth2_client_creator_fk"/>
-        <addForeignKeyConstraint baseTableName="oauth2_client" baseColumnNames="oauth_voided_by"
-                                 constraintName="oauth2_voided_by_user_fk" referencedTableName="users"
-                                 referencedColumnNames="user_id"/>
-        <addForeignKeyConstraint baseTableName="oauth2_client" baseColumnNames="oauth_changed_by"
-                                 constraintName="oauth2_changed_by_user_fk" referencedTableName="users"
-                                 referencedColumnNames="user_id"/>
-        <addForeignKeyConstraint baseTableName="oauth2_client" baseColumnNames="oauth_creator"
-                                 constraintName="oauth2_client_creator_fk" referencedTableName="users"
-                                 referencedColumnNames="user_id"/>
-    </changeSet>-->
+
 
 </databaseChangeLog>
