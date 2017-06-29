@@ -2,6 +2,7 @@ package org.openmrs.module.oauth2;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
+import org.openmrs.BaseOpenmrsData;
 import org.openmrs.User;
 import org.openmrs.module.oauth2.api.model.*;
 import org.openmrs.module.oauth2.api.util.ClientSpringOAuthUtils;
@@ -17,7 +18,7 @@ import java.util.*;
  */
 @Entity(name = "client")
 @Table(name = "oauth2_client")
-public class Client implements ClientDetails {
+public class Client extends BaseOpenmrsData implements ClientDetails {
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -36,28 +37,24 @@ public class Client implements ClientDetails {
 
     @Column(name = "client_identifier")
     private String clientIdentifier;
+
     @Column(name = "client_secret")
     private String clientSecret;
+
     @URL
     private String website;
 
-    //@Override
+    @Override
     public Integer getId() {
         return id;
     }
 
-    //@Override
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
 
-    @Basic
-    @Access(AccessType.PROPERTY)
-    @Column(name = "uuid", length = 38, unique = true)
-    //@Override
-    public String getUuid() {
-        return uuid;
-    }
+
     // =============================
     // ClientDetails specific fields
     // =============================
@@ -304,113 +301,6 @@ public class Client implements ClientDetails {
     // BaseOpenmrsData getter overrides
     // =================================
 
-    private User creator;
-    private User voidedBy;
-    private User changedBy;
-    private boolean voided;
-    private Date dateCreated;
-    private Date dateChanged;
-    private Date dateVoided;
-    private String uuid;
-    private String voidReason;
-
-    public void setVoided(boolean voided) {
-        this.voided = voided;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public void setDateChanged(Date dateChanged) {
-        this.dateChanged = dateChanged;
-    }
-
-    public void setDateVoided(Date dateVoided) {
-        this.dateVoided = dateVoided;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public void setVoidReason(String voidReason) {
-        this.voidReason = voidReason;
-    }
-
-    //@Override
-    public void setVoidedBy(User voidedBy) {
-        this.voidedBy=voidedBy;
-    }
-
-    //@Override
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    //@Override
-    public void setChangedBy(User changedBy) {
-        this.changedBy = changedBy;
-    }
-
-    @Access(AccessType.PROPERTY)
-    @ManyToOne
-    @JoinColumn(name = "creator")
-    //@Override
-    public User getCreator() {
-        return this.creator;
-    }
-
-    @Access(AccessType.PROPERTY)
-    @Column(name = "date_created", nullable = false)
-    //@Override
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    @Access(AccessType.PROPERTY)
-    @ManyToOne
-    @JoinColumn(name = "changed_by")
-    //@Override
-    public User getChangedBy() {
-        return this.changedBy;
-    }
-
-    @Access(AccessType.PROPERTY)
-    @Column(name = "date_changed")
-    //@Override
-    public Date getDateChanged() {
-        return dateChanged;
-    }
-
-    @Access(AccessType.PROPERTY)
-    @Column(name = "voided", nullable = false)
-    //@Override
-    public Boolean getVoided() {
-        return voided;
-    }
-
-    @Access(AccessType.PROPERTY)
-    @Column(name = "date_voided")
-    //@Override
-    public Date getDateVoided() {
-        return dateVoided;
-    }
-
-    @Access(AccessType.PROPERTY)
-    @ManyToOne
-    @JoinColumn(name = "voided_by")
-    //@Override
-    public User getVoidedBy() {
-        return this.voidedBy;
-    }
-
-    @Access(AccessType.PROPERTY)
-    @Column(name = "void_reason", length = 255)
-    //@Override
-    public String getVoidReason() {
-        return voidReason;
-    }
 
 
     //=======================
@@ -497,6 +387,4 @@ public class Client implements ClientDetails {
                 + ", accessTokenValiditySeconds=" + accessTokenValiditySeconds + ", refreshTokenValiditySeconds="
                 + refreshTokenValiditySeconds + ", additionalInformation=" + additionalInformation + "]";
     }
-
-
 }
