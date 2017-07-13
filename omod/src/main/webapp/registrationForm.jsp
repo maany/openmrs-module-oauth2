@@ -53,7 +53,7 @@
             </c:forEach>
         </tr>
         <tr>
-            <c:forEach var="geantType" items="${grantTypes}">
+            <c:forEach var="grantType" items="${grantTypes}">
                 <td><input type="checkbox" name="grantType" value="${grantType}">${grantType}</td>
             </c:forEach>
         </tr>

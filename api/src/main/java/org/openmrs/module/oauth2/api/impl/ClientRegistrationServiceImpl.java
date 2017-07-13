@@ -104,8 +104,11 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     @Override
     public void generateAndPersistClientCredentials(Client client) {
         generateClientCredentials(client);
+        System.out.println("Generated ***");
         merge(client);
+        System.out.println("Merged ***");
         updateClient(client);
+        System.out.println("Updated ***");
     }
 
     /**
@@ -116,7 +119,10 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
     private void generateClientCredentials(Client client) {
         SecureRandom random = new SecureRandom();
         client.setClientSecret(new BigInteger(130, random).toString(32));
-        client.setClientIdentifier(new Date().toString());
+        client.setClientIdentifier(client.getName());
+        System.out.println("client id:" + client.getClientId());
+        System.out.println("client identifier:" + client.getClientIdentifier());
+        System.out.println("client secret:" + client.getClientSecret());
     }
 
     /**
@@ -161,6 +167,4 @@ public class ClientRegistrationServiceImpl extends BaseOpenmrsService implements
             return true;
         return false;
     }
-
-
 }

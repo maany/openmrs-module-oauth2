@@ -67,8 +67,11 @@ public class ClientRegistrationFormController {
         client.setGrantTypeCollection(grantTypeCollection);
 
         client.setCreator(Context.getAuthenticatedUser());
+        client.setAccessTokenValiditySeconds(600);
+        client.setRefreshTokenValiditySeconds(600);
         client = getService().saveOrUpdateClient(client);
         getService().generateAndPersistClientCredentials(client);
+        getService().saveOrUpdateClient(client);
         String redirectURL = request.getContextPath() + "/" + ViewEditRegisteredClientFormController.VIEW_EDIT_REQUEST_MAPPING + "/" + client.getId() + ".form";
         return new ModelAndView(new RedirectView(redirectURL));
     }

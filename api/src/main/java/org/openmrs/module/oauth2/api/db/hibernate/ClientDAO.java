@@ -40,7 +40,8 @@ public class ClientDAO extends HibernateOauth2DAO<Client> {
     }
 
     public Client loadClientByClientId(String clientId) {
-        List<Client> clients = sessionFactory.getCurrentSession().createQuery("from client where clientIdentifier = :clientId")
+        System.out.println("Checking clientIdentifier " + clientId);
+        List<Client> clients = sessionFactory.getCurrentSession().createQuery("from org.openmrs.module.oauth2.Client where clientIdentifier = :clientId")
                 .setParameter("clientId", clientId)
                 .list();
         if (clients.isEmpty())

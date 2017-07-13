@@ -28,7 +28,9 @@ public class UserAuthenticationServiceImpl implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        System.out.println("Checking user " + authentication.getName());
         String username = authentication.getName();
+        System.out.println("Checking password " + authentication.getCredentials().toString());
         String password = authentication.getCredentials().toString();
         User user = Context.getUserService().getUserByUsername(username);
         if (user == null) {
@@ -42,6 +44,7 @@ public class UserAuthenticationServiceImpl implements AuthenticationProvider {
             log.error(errorMessage);
             throw new AuthenticationCredentialsNotFoundException(errorMessage);
         }
+        System.out.println("I am here");
         //Todo if user is admin, add ROLE_ADMIN
         List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
         grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
