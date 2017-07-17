@@ -28,26 +28,19 @@ public class UserAuthenticationServiceImpl implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("Checking user " + authentication.getName());
         String username = authentication.getName();
-        System.out.println("Checking password " + authentication.getCredentials().toString());
         String password = authentication.getCredentials().toString();
-        User user = Context.getUserService().getUserByUsername(username);
-        if (user == null) {
-            String errorMessage = String.format("No user found with username : %s", username);
-            log.error(errorMessage);
-            throw new AuthenticationCredentialsNotFoundException(errorMessage);
+        try{
+            Context.authenticate(username, password);
         }
-        LoginCredential credentials = userDAO.getLoginCredential(user);
-        if (!credentials.checkPassword(password)) {
-            String errorMessage = String.format("The password does not match for the user : %s", username);
-            log.error(errorMessage);
-            throw new AuthenticationCredentialsNotFoundException(errorMessage);
+        catch (Exception e) {
+            e.printStackTrace();
         }
         System.out.println("I am here");
         //Todo if user is admin, add ROLE_ADMIN
         List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
         grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
+        grantedAuths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         return new UsernamePasswordAuthenticationToken(username, password, grantedAuths);
     }
 

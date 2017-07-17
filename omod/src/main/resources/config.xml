@@ -32,7 +32,7 @@
     <!--Maps hibernate file's, if present -->
     <mappingFiles>
             Oauth2.hbm.xml
-    </mappingFiles>-->
+    </mappingFiles>
 
     <!--Package with mapped classes-->
     <packagesWithMappedClasses>

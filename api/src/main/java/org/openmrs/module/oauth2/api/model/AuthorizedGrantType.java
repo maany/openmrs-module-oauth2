@@ -84,10 +84,10 @@ public class AuthorizedGrantType implements Parametrized {
 
     public static List<AuthorizedGrantType> getAllSupportedGrantTypes() {
         List<AuthorizedGrantType> grantTypes = new ArrayList<AuthorizedGrantType>();
-        AuthorizedGrantType authorization_code = new AuthorizedGrantType("Authorization Code");
-        AuthorizedGrantType  implicit = new AuthorizedGrantType("Implicit");
-        AuthorizedGrantType  client_credentials = new AuthorizedGrantType("Client Credentials");
-        AuthorizedGrantType  password = new AuthorizedGrantType("Resource Owner Password Credentials");
+        AuthorizedGrantType authorization_code = new AuthorizedGrantType("authorization_code");
+        AuthorizedGrantType  implicit = new AuthorizedGrantType("implicit");
+        AuthorizedGrantType  client_credentials = new AuthorizedGrantType("client_credentials");
+        AuthorizedGrantType  password = new AuthorizedGrantType("password");
         grantTypes.add(authorization_code);
         grantTypes.add(implicit);
         grantTypes.add(password);
