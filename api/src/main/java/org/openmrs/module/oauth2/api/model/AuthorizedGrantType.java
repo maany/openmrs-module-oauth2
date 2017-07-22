@@ -87,11 +87,13 @@ public class AuthorizedGrantType implements Parametrized {
         AuthorizedGrantType authorization_code = new AuthorizedGrantType("authorization_code");
         AuthorizedGrantType implicit = new AuthorizedGrantType("implicit");
         AuthorizedGrantType client_credentials = new AuthorizedGrantType("client_credentials");
-        AuthorizedGrantType password = new AuthorizedGrantType("refresh_token");
+        AuthorizedGrantType password = new AuthorizedGrantType("password");
+        AuthorizedGrantType refresh_token = new AuthorizedGrantType("refresh_token");
         grantTypes.add(authorization_code);
         grantTypes.add(implicit);
         grantTypes.add(password);
         grantTypes.add(client_credentials);
+        grantTypes.add(refresh_token);
         return grantTypes;
     }
 }
