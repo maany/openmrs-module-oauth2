@@ -50,6 +50,11 @@
 
         <!-- End OpenMRS core -->
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+
         <!--Begin Spring Security-->
         <dependency>
             <groupId>org.springframework.security</groupId>

@@ -40,6 +40,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.1.4.RELEASE</spring.version>
         <spring.security.version>4.0.4.RELEASE</spring.security.version>
+        <jackson.version>2.7.3</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -146,13 +147,27 @@
                 <version>${spring.version}</version>
                 <scope>provided</scope>
             </dependency>
+
             <!--End Spring 3.1.1-->
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.5.3</version>
+                <version>${jackson.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
             <!--Begin spring-security-oauth2-->
+
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
@@ -186,14 +201,14 @@
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-webmvc</artifactId>
                     </exclusion>
-                    <exclusion>
+                    <!--<exclusion>
                         <groupId>org.codehaus.jackson</groupId>
                         <artifactId>jackson-core-asl</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>org.codehaus.jackson</groupId>
                         <artifactId>jackson-mapper-asl</artifactId>
-                    </exclusion>
+                    </exclusion>-->
                     <exclusion>
                         <groupId>org.springframework.security</groupId>
                         <artifactId>/*</artifactId>
@@ -240,14 +255,14 @@
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-webmvc</artifactId>
                     </exclusion>
-                    <exclusion>
+                    <!--<exclusion>
                         <groupId>org.codehaus.jackson</groupId>
                         <artifactId>jackson-core-asl</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>org.codehaus.jackson</groupId>
                         <artifactId>jackson-mapper-asl</artifactId>
-                    </exclusion>
+                    </exclusion>-->
                 </exclusions>
             </dependency>
             <!--End spring-security-crypto-->

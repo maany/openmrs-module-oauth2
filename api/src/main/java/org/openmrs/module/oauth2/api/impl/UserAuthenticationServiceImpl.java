@@ -36,8 +36,6 @@ public class UserAuthenticationServiceImpl implements AuthenticationProvider {
         catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("I am here");
-        //Todo if user is admin, add ROLE_ADMIN
         List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
         grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
         grantedAuths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));

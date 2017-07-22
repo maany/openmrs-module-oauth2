@@ -25,7 +25,13 @@
     <!-- Annotation based controllers -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     <context:component-scan base-package="org.openmrs.module.oauth2.web.controller"/>
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!--Begin Spring Security configurations-->
 
@@ -84,7 +90,8 @@
     <!--Spring http security for Token Endpoint-->
     <!--==============================================-->
     <security:http pattern="/ws/oauth/token" create-session="stateless"
-                   authentication-manager-ref="clientAuthenticationManager">
+                   authentication-manager-ref="clientAuthenticationManager"
+                   use-expressions="false">
         <security:intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY"/>
         <security:anonymous enabled="false"/>
         <security:http-basic entry-point-ref="clientAuthenticationEntryPoint"/>
@@ -107,7 +114,7 @@
     <http disable-url-rewriting="true"
           xmlns="http://www.springframework.org/schema/security">
         <access-denied-handler error-page="/login.jsp?authorization_error=true"/>
-        <intercept-url pattern="/ws/oauth/**" access="ROLE_USER"/>
+        <intercept-url pattern="/ws/oauth/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>
         <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
         <form-login/>
