@@ -89,6 +89,19 @@
     <!--==============================================-->
     <!--Spring http security for Token Endpoint-->
     <!--==============================================-->
+
+
+    <security:http pattern="/ws/oauth/clientManagement" create-session="stateless"
+                   authentication-manager-ref="clientAuthenticationManager"
+                   use-expressions="false">
+        <security:intercept-url pattern="/oauth/clientManagement" access="IS_AUTHENTICATED_FULLY"/>
+        <security:anonymous enabled="false"/>
+        <security:http-basic entry-point-ref="clientAuthenticationEntryPoint"/>
+        <!-- if http basic header is not supplied, authenticate clients directly via request parameters -->
+        <security:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER"/>
+        <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
+    </security:http>
+
     <security:http pattern="/ws/oauth/token" create-session="stateless"
                    authentication-manager-ref="clientAuthenticationManager"
                    use-expressions="false">
@@ -105,10 +118,17 @@
                    authentication-manager-ref="authenticationManager">
         <security:anonymous enabled="false"/>
         <security:intercept-url pattern="/ws/fhir/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>
-        <!--<security:intercept-url pattern="/ws/rest/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>-->
-        <security:custom-filter ref="OpenMRSGenericResourceServerFilter" before="PRE_AUTH_FILTER"/>
+        <!--<security:intercept-url pattern="/ws/rest/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>
+        --><security:custom-filter ref="OpenMRSGenericResourceServerFilter" before="PRE_AUTH_FILTER"/>
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
+
+    <!--<security:http pattern="/ws/oauth/client" create-session="stateless"
+                   authentication-manager-ref="clientAuthenticationManager"
+                   use-expressions="false">
+        <security:intercept-url pattern="/oauth/client" access="IS_AUTHENTICATED_FULLY"/>
+    </security:http>
+-->
     <!--User Login Page used prior to Authorization Code Grant Type-->
     <!--TODO Currently using form-login, replace with custom login form-->
     <http disable-url-rewriting="true"
@@ -116,9 +136,11 @@
         <access-denied-handler error-page="/login.jsp?authorization_error=true"/>
         <intercept-url pattern="/ws/oauth/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>
         <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-
+        <intercept-url pattern="/ms/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <form-login/>
     </http>
+
+
 
     <!--==============================================================================================-->
     <!--Token Endpoint : Access Denied Handler for OAuth2 used by the ExceptionTranslationFilter when

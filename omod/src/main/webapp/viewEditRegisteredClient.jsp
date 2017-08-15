@@ -83,14 +83,14 @@
         </tr>
         <tr>
             <td>Grant Types</td>
-            <c:foreach var="grantTypeEntry" items="${grantType}">
+            <c:forEach var="grantTypeEntry" items="${grantType}">
                 <c:if test="${grantTypeEntry.value}">
                     <td><input type="checkbox" name="grantType" value="${grantTypeEntry.key}" selected/>${grantTypeEntry.key}</td>
                 </c:if>
                 <c:if test="${!grantTypeEntry.value}">
                     <td><input type="checkbox" name="grantType" value="${grantTypeEntry.key}"/>${grantTypeEntry.key}</td>
                 </c:if>
-            </c:foreach>
+            </c:forEach>
         </tr>
         <tr>
             <td>Client Identifier</td>

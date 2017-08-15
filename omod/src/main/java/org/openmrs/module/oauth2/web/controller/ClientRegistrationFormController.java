@@ -72,7 +72,7 @@ public class ClientRegistrationFormController {
         client = getService().saveOrUpdateClient(client);
         getService().generateAndPersistClientCredentials(client);
         getService().saveOrUpdateClient(client);
-        String redirectURL = request.getContextPath() + "/" + ViewEditRegisteredClientFormController.VIEW_EDIT_REQUEST_MAPPING + "/" + client.getId() + ".form";
+        String redirectURL = request.getContextPath() + "/" + "module/oauth2/registeredClient/index.htm";
         return new ModelAndView(new RedirectView(redirectURL));
     }
 

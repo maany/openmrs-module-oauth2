@@ -1,5 +1,6 @@
 package org.openmrs.module.oauth2;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.openmrs.BaseOpenmrsData;
