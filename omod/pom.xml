@@ -56,11 +56,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <scope>compile</scope>
+            <groupId>org.codehaus.jettison</groupId>
+            <artifactId>jettison</artifactId>
         </dependency>
-
         <!--Begin Spring Security-->
         <dependency>
             <groupId>org.springframework.security</groupId>

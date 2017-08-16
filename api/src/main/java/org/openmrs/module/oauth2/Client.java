@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import java.util.*;
 
 /**
@@ -20,6 +21,7 @@ import java.util.*;
 @Entity(name = "client")
 @Table(name = "oauth2_client")
 public class Client extends BaseOpenmrsData implements ClientDetails {
+
     @Id
     @GeneratedValue
     @Column(name = "id")
