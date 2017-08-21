@@ -118,10 +118,10 @@ public class ClientManagementController {
 			params = {"client_id","username", "password"})
 	public ResponseEntity<String> deleteUser(String client_id, String username, String password){
 		//verify the OpenMRS user credentials
-
 		Client client = (Client) dao.loadClientByClientId(client_id);
 		User clientDeveloper = client.getCreator();
-		if (!clientDeveloper.getName().equalsIgnoreCase(username))
+		User openmrsUser = Context.getUserService().getUserByUsername(username);
+		if (clientDeveloper != openmrsUser)
 			return new ResponseEntity<String>("Invalid client developer", HttpStatus.UNAUTHORIZED);
 		getService().unregisterClient(client);
 		return new ResponseEntity<String>("Client deleted", HttpStatus.OK);

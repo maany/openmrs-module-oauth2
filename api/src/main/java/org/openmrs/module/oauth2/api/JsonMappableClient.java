@@ -17,6 +17,7 @@ public class JsonMappableClient implements Serializable {
 	private String clientIdentifier;
 	private String clientSecret;
 	private String website;
+	private Set<String> redirectUri;
 	private String uuid;
 	private String creator;
 	private Date dateCreated;
@@ -40,6 +41,7 @@ public class JsonMappableClient implements Serializable {
 		this.clientIdentifier = client.getClientIdentifier();
 		this.clientSecret = client.getClientSecret();
 		this.website = client.getWebsite();
+		this.redirectUri = client.getRegisteredRedirectUri();
 		this.uuid = client.getUuid();
 		this.dateChanged = client.getDateChanged();
 		this.dateCreated = client.getDateCreated();
