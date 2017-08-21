@@ -53,6 +53,15 @@
     -->
 
     <!--===================================================================-->
+    <!--Custom Authentication Manager for OAuth clients-->
+    <!--===================================================================-->
+    <security:authentication-manager id="clientControllerAuthenticationManager">
+        <security:authentication-provider ref="clientControllerAuthenticationProvider"/>
+    </security:authentication-manager>
+    <bean id="clientControllerAuthenticationProvider" class="org.openmrs.module.oauth2.api.impl.ClientManagementControllerAuthenticationServiceImpl"/>
+
+
+    <!--===================================================================-->
     <!--Authentication Manager and Authentication Provider for OpenMRS users-->
     <!--Link to OpenMRS users Table mapped to Spring Security UserService-->
     <!--This will be used to process User credentials when he/she authorizes an OAuth Client-->
@@ -66,6 +75,7 @@
         </security:authentication-provider>
     </security:authentication-manager>
     <bean id="userAuthenticationProvider" class="org.openmrs.module.oauth2.api.impl.UserAuthenticationServiceImpl"/>
+
     <!--============================-->
     <!--OAuth2 Entry Points. What is Realm Name??
         @see http://stackoverflow.com/questions/10892336/realm-name-in-tomcat-web-xml
@@ -92,14 +102,11 @@
 
 
     <security:http pattern="/ws/oauth/clientManagement" create-session="stateless"
-                   authentication-manager-ref="clientAuthenticationManager"
-                   use-expressions="false">
+                   authentication-manager-ref="clientControllerAuthenticationManager"
+                   use-expressions="true">
         <security:intercept-url pattern="/oauth/clientManagement" access="IS_AUTHENTICATED_FULLY"/>
-        <security:anonymous enabled="false"/>
-        <security:http-basic entry-point-ref="clientAuthenticationEntryPoint"/>
-        <!-- if http basic header is not supplied, authenticate clients directly via request parameters -->
-        <security:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER"/>
-        <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
+        <security:http-basic/>
+        <security:csrf disabled="true"/>
     </security:http>
 
     <security:http pattern="/ws/oauth/token" create-session="stateless"
@@ -109,7 +116,7 @@
         <security:anonymous enabled="false"/>
         <security:http-basic entry-point-ref="clientAuthenticationEntryPoint"/>
         <!-- if http basic header is not supplied, authenticate clients directly via request parameters -->
-        <security:custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER"/>
+        <security:custom-filter ref="clientControllerEndpointFilter" after="BASIC_AUTH_FILTER"/>
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
 
@@ -122,13 +129,6 @@
         --><security:custom-filter ref="OpenMRSGenericResourceServerFilter" before="PRE_AUTH_FILTER"/>
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
-
-    <!--<security:http pattern="/ws/oauth/client" create-session="stateless"
-                   authentication-manager-ref="clientAuthenticationManager"
-                   use-expressions="false">
-        <security:intercept-url pattern="/oauth/client" access="IS_AUTHENTICATED_FULLY"/>
-    </security:http>
--->
     <!--User Login Page used prior to Authorization Code Grant Type-->
     <!--TODO Currently using form-login, replace with custom login form-->
     <http disable-url-rewriting="true"
@@ -154,6 +154,10 @@
     <!--=================================================================================================-->
     <bean id="clientCredentialsTokenEndpointFilter" class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
         <property name="authenticationManager" ref="clientAuthenticationManager"/>
+    </bean>
+
+    <bean id="clientControllerEndpointFilter" class="org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter">
+        <property name="authenticationManager" ref="clientControllerAuthenticationManager"/>
     </bean>
 
     <!--==============================================-->
@@ -192,7 +196,7 @@
     <!--resource-id="OpenMRS"-->
     <!--================================================================================-->
     <!--TODO add/verify docs-->
-    <!--Verifies is user has authorized the client and then the token has been issued-->
+    <!--Verifies if user has authorized the client and then the token has been issued-->
     <!--==================================================================================-->
     <bean id="userApprovalHandler"
           class="org.springframework.security.oauth2.provider.approval.TokenServicesUserApprovalHandler">
@@ -278,6 +282,7 @@
         <property name="supportRefreshToken" value="true"/>
         <property name="clientDetailsService" ref="clientDetails"/>
     </bean>
+
     <!--====================================================================================-->
     <!--Enable OAuth2 expressions in xml and annotations (for method security mechanisms)-->
     <!--====================================================================================-->
@@ -289,6 +294,4 @@
     <oauth:expression-handler id="oauthExpressionHandler"/>
 
     <oauth:web-expression-handler id="oauthWebExpressionHandler"/>
-
-
 </beans>

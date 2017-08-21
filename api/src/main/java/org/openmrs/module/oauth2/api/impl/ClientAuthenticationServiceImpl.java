@@ -41,8 +41,6 @@ public class ClientAuthenticationServiceImpl implements AuthenticationProvider {
             log.info("No Credentials found for Client : " + username);
             return null;
         }
-
-
     }
 
     @Override
