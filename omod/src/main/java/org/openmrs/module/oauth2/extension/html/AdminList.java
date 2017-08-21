@@ -13,8 +13,7 @@
  */
 package org.openmrs.module.oauth2.extension.html;
 
-import org.openmrs.module.Extension;
-import org.openmrs.module.web.extension.AdministrationSectionExt;
+
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,29 +22,8 @@ import java.util.Map;
  * This class defines the links that will appear on the administration page under the
  * "oauth2.title" heading.
  */
-public class AdminList extends AdministrationSectionExt {
+public class AdminList {
 
-    /**
-     * @see AdministrationSectionExt#getMediaType()
-     */
-    public Extension.MEDIA_TYPE getMediaType() {
-        return Extension.MEDIA_TYPE.html;
-    }
 
-    /**
-     * @see AdministrationSectionExt#getTitle()
-     */
-    public String getTitle() {
-        return "oauth2.title";
-    }
-
-    /**
-     * @see AdministrationSectionExt#getLinks()
-     */
-    public Map<String, String> getLinks() {
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-        map.put("module/oauth2/registeredClient/index.htm", "oauth2.manage.registered");
-        return map;
-    }
 
 }
