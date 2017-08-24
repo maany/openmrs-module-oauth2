@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -75,12 +76,17 @@ public class ClientManagementController {
 	/*
 	* Register a new client
 	 */
-	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.POST,
-			params = { "username", "password", "name", "redirectionUri", "clientType", "scopes", "grantTypes" })
-	public ResponseEntity<JsonMappableClient> createNewUser(String username, String password, String name,
-			String description,
-			String website, String redirectionUri, String clientType,
-			String[] scopes, String[] grantTypes) {
+	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.POST)
+	public ResponseEntity<JsonMappableClient> createNewUser(
+			@RequestParam(value = "username") String username,
+			@RequestParam(value = "password") String password,
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "description", required = false)String description,
+			@RequestParam(value = "website", required = false)String website,
+			@RequestParam(value = "redirectUri")String redirectionUri,
+			@RequestParam(value = "clientType")String clientType,
+			@RequestParam(value = "scopes")String[] scopes,
+			@RequestParam(value = "grantTypes")String[] grantTypes) {
 
 		if (!verifyUserCredentials(username, password))
 			return new ResponseEntity<JsonMappableClient>((JsonMappableClient) null, HttpStatus.UNAUTHORIZED);

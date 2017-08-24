@@ -21,7 +21,6 @@
         -->
 
     <!-- Add here beans related to the web context -->
-
     <!-- Annotation based controllers -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
     <context:component-scan base-package="org.openmrs.module.oauth2.web.controller"/>
@@ -34,6 +33,11 @@
     </mvc:annotation-driven>
 
     <!--Begin Spring Security configurations-->
+<!--
+    <mvc:cors>
+        <mvc:mapping path="/**" />
+    </mvc:cors>
+-->
 
     <!--=============================================================================-->
     <!--Sample Web/HTTP Security Configuration. Listing Spring Security protected resources
