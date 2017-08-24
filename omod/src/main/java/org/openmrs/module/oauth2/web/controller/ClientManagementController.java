@@ -38,15 +38,17 @@ public class ClientManagementController {
 	 *See all registered clients for a particular OpenMRS user
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.GET,
-	params = {"username", "password"})
+			params = { "username", "password" })
 	public ResponseEntity<List<JsonMappableClient>> listAllUsers(String username, String password) {
+		if (!verifyUserCredentials(username, password))
+			return new ResponseEntity<List<JsonMappableClient>>((List<JsonMappableClient>) null, HttpStatus.UNAUTHORIZED);
 		User openmrsUser = Context.getUserService().getUserByUsername(username);
 		List<Client> clients = dao.getAllClientsForClientDeveloper(openmrsUser);
-		if(clients.isEmpty()){
+		if (clients.isEmpty()) {
 			return new ResponseEntity<List<JsonMappableClient>>(HttpStatus.NO_CONTENT);
 		}
 		List<JsonMappableClient> jsonMappableClients = new ArrayList<>();
-		for(Client c : clients){
+		for (Client c : clients) {
 			jsonMappableClients.add(new JsonMappableClient(c));
 		}
 
@@ -54,28 +56,54 @@ public class ClientManagementController {
 	}
 
 	/*
+	 *See all registered clients for a particular OpenMRS user
+	 */
+	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.GET,
+			params = { "username", "password", "client_id" })
+	public ResponseEntity<JsonMappableClient> listAUsers(String client_id, String username, String password) {
+		if (!verifyUserCredentials(username, password))
+			return new ResponseEntity<JsonMappableClient>((JsonMappableClient) null, HttpStatus.UNAUTHORIZED);
+
+		Client client = (Client) dao.loadClientByClientId(client_id);
+		User clientDeveloper = client.getCreator();
+		User openmrsUser = Context.getUserService().getUserByUsername(username);
+		if (clientDeveloper != openmrsUser)
+			return new ResponseEntity<JsonMappableClient>((JsonMappableClient) null, HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<JsonMappableClient>(new JsonMappableClient(client), HttpStatus.OK);
+	}
+
+	/*
 	* Register a new client
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.POST,
-	params = {"username", "password", "name", "redirectionUri", "clientType", "scopes", "grantTypes"})
-	public ResponseEntity<JsonMappableClient> createNewUser(String username, String password, String name, String description,
-																  String website, String redirectionUri, String clientType,
-																  String[] scopes, String[] grantTypes){
+			params = { "username", "password", "name", "redirectionUri", "clientType", "scopes", "grantTypes" })
+	public ResponseEntity<JsonMappableClient> createNewUser(String username, String password, String name,
+			String description,
+			String website, String redirectionUri, String clientType,
+			String[] scopes, String[] grantTypes) {
+
+		if (!verifyUserCredentials(username, password))
+			return new ResponseEntity<JsonMappableClient>((JsonMappableClient) null, HttpStatus.UNAUTHORIZED);
 
 		Client client = getNewClient();
 		client.setName(name);
-		if(description != null) client.setDescription(description);
-		if(website != null) client.setWebsite(website);
+		if (description != null)
+			client.setDescription(description);
+		if (website != null)
+			client.setWebsite(website);
 
-		Collection<RedirectURI> redirectURICollection= ClientSpringOAuthUtils.commaDelimitedStringToCollection(redirectionUri.trim(),client,RedirectURI.class);
+		Collection<RedirectURI> redirectURICollection = ClientSpringOAuthUtils
+				.commaDelimitedStringToCollection(redirectionUri.trim(), client, RedirectURI.class);
 		client.setClientType(Client.ClientType.valueOf(clientType));
 
 		String scopesCSV = StringUtils.join(scopes, ',');
-		Collection<Scope> scopeCollection = ClientSpringOAuthUtils.commaDelimitedStringToCollection(scopesCSV, client, Scope.class);
+		Collection<Scope> scopeCollection = ClientSpringOAuthUtils
+				.commaDelimitedStringToCollection(scopesCSV, client, Scope.class);
 		client.setScopeCollection(scopeCollection);
 
-		String grantTypeCSV = StringUtils.join(grantTypes,",");
-		Collection<AuthorizedGrantType> grantTypeCollection = ClientSpringOAuthUtils.commaDelimitedStringToCollection(grantTypeCSV,client,AuthorizedGrantType.class);
+		String grantTypeCSV = StringUtils.join(grantTypes, ",");
+		Collection<AuthorizedGrantType> grantTypeCollection = ClientSpringOAuthUtils
+				.commaDelimitedStringToCollection(grantTypeCSV, client, AuthorizedGrantType.class);
 		client.setGrantTypeCollection(grantTypeCollection);
 
 		client.setCreator(Context.getUserService().getUserByUsername(username));
@@ -97,8 +125,8 @@ public class ClientManagementController {
 	* @param client_secret The client secret
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.DELETE,
-		params = {"client_id","client_secret"})
-	public ResponseEntity<String> deleteUser(String client_id, String client_secret){
+			params = { "client_id", "client_secret" })
+	public ResponseEntity<String> deleteUser(String client_id, String client_secret) {
 		//verify the credentials
 		Client tempClient = new Client(client_id, client_secret, null, null, null, null, null);
 		List<String> encodedCredentials = clientRegistrationService.encodeCredentials(tempClient);
@@ -115,9 +143,11 @@ public class ClientManagementController {
 	* @param client_secret The client secret
 	 */
 	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.DELETE,
-			params = {"client_id","username", "password"})
-	public ResponseEntity<String> deleteUser(String client_id, String username, String password){
-		//verify the OpenMRS user credentials
+			params = { "client_id", "username", "password" })
+	public ResponseEntity<String> deleteUser(String client_id, String username, String password) {
+		if (!verifyUserCredentials(username, password))
+			return new ResponseEntity<String>("Bad User Credentials", HttpStatus.UNAUTHORIZED);
+
 		Client client = (Client) dao.loadClientByClientId(client_id);
 		User clientDeveloper = client.getCreator();
 		User openmrsUser = Context.getUserService().getUserByUsername(username);
@@ -127,7 +157,11 @@ public class ClientManagementController {
 		return new ResponseEntity<String>("Client deleted", HttpStatus.OK);
 	}
 
-
+	/*
+	* Update an oauth client
+	 */
+	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.PUT,
+			params = { "client_id", "client_secret", })
 
 	public Client getNewClient() {
 		Client client = new Client(null, null, null, null, null, null, null);
@@ -136,5 +170,15 @@ public class ClientManagementController {
 
 	public ClientRegistrationService getService() {
 		return Context.getService(ClientRegistrationService.class);
+	}
+
+	private boolean verifyUserCredentials(String username, String password) {
+		try {
+			Context.authenticate(username, password);
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
 	}
 }

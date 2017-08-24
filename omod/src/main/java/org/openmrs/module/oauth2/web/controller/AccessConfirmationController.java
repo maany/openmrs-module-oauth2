@@ -6,24 +6,26 @@ import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by OPSKMC on 8/4/15.
  */
 @Controller
 @SessionAttributes("authorizationRequest")
-public class AuthorizationController {
+public class AccessConfirmationController {
     private ClientDetailsService clientDetailsService;
 
     @RequestMapping("/oauth/confirm_access")
-    public ModelAndView getAccessConfirmation(Map<String, Object> model) throws Exception {
-        AuthorizationRequest clientAuth = (AuthorizationRequest) model.remove("authorizationRequest");
+    public ModelAndView getAccessConfirmation(@ModelAttribute AuthorizationRequest clientAuth) throws Exception {
         ClientDetails client = clientDetailsService.loadClientByClientId(clientAuth.getClientId());
+        TreeMap<String, Object> model = new TreeMap<String, Object>();
         model.put("auth_request", clientAuth);
         model.put("client", client);
         System.out.println("1: " + clientAuth.isApproved());

@@ -69,12 +69,14 @@
     <!--===================================================================-->
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider ref="userAuthenticationProvider">
-            <!--       <security:user-service id="userDetailsService">
+                   <!--<security:user-service id="userDetailsService">
                        <security:user name="bob" authorities="ROLE_USER" password="bob"/>
                    </security:user-service>-->
         </security:authentication-provider>
     </security:authentication-manager>
-    <bean id="userAuthenticationProvider" class="org.openmrs.module.oauth2.api.impl.UserAuthenticationServiceImpl"/>
+    <bean id="userAuthenticationProvider" class="org.openmrs.module.oauth2.api.impl.UserAuthenticationServiceImpl">
+        <property name="typeName" value="Basic"/>
+    </bean>
 
     <!--============================-->
     <!--OAuth2 Entry Points. What is Realm Name??
@@ -89,8 +91,19 @@
         <property name="realmName" value="openmrs"/>
     </bean>
 
+    <bean id="basicAuthenticationFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+        <constructor-arg ref="authenticationManager"/>
+        <constructor-arg ref="clientAuthenticationEntryPoint"/>
+    </bean>
+
     <!--To be used with token endpoint to initiate client credentials verification-->
     <bean id="clientAuthenticationEntryPoint"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
+        <property name="realmName" value="openmrs/client"/>
+        <property name="typeName" value="Basic"/>
+    </bean>
+
+    <bean id="UserAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="openmrs/client"/>
         <property name="typeName" value="Basic"/>
@@ -120,6 +133,17 @@
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
 
+    <security:http pattern="/ws/oauth/authorize"
+                   authentication-manager-ref="authenticationManager"
+                   use-expressions="false">
+        <security:intercept-url pattern="/oauth/authorize" access="IS_AUTHENTICATED_FULLY"/>
+        <security:anonymous enabled="false"/>
+        <security:http-basic entry-point-ref="UserAuthenticationEntryPoint"/>
+        <!-- if http basic header is not supplied, authenticate clients directly via request parameters -->
+        <security:custom-filter ref="clientControllerEndpointFilter" after="BASIC_AUTH_FILTER"/>
+        <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
+    </security:http>
+
     <!--Web/Http Security Configuration for OpenMRS Web Services under OAuth2 control -->
     <security:http pattern="/ws/fhir/**" use-expressions="true" entry-point-ref="oauthAuthenticationEntryPoint"
                    authentication-manager-ref="authenticationManager">
@@ -131,12 +155,15 @@
     </security:http>
     <!--User Login Page used prior to Authorization Code Grant Type-->
     <!--TODO Currently using form-login, replace with custom login form-->
-    <http disable-url-rewriting="true"
-          xmlns="http://www.springframework.org/schema/security">
+    <http disable-url-rewriting="false"
+          xmlns="http://www.springframework.org/schema/security"
+          use-expressions="false">
         <access-denied-handler error-page="/login.jsp?authorization_error=true"/>
-        <intercept-url pattern="/ws/oauth/**" access="hasAnyRole('ROLE_USER','ROLE_CLIENT')"/>
+        <intercept-url pattern="/ws/oauth/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/ws/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/ms/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+        <http-basic entry-point-ref="UserAuthenticationEntryPoint"/>
+        <headers disabled="false"/>
         <form-login/>
     </http>
 
@@ -208,9 +235,10 @@
     <oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices"
                                 user-approval-handler-ref="userApprovalHandler" token-endpoint-url="/oauth2/token"
                                 user-approval-page="/module/oauth2/access_confirmation"
+                                authorization-endpoint-url="/oauth2/authorize"
                                 approval-parameter-name="user_oauth_approval"
                                 error-page="/module/oauth2/oauth_error">
-        <oauth:authorization-code/>
+        <oauth:authorization-code disabled="false"/>
         <oauth:implicit/>
         <oauth:refresh-token/>
         <oauth:client-credentials/>

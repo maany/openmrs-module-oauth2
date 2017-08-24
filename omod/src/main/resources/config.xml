@@ -56,7 +56,6 @@
             <url-mapping>*/oauth2/*</url-mapping>
         </filter-mapping>
         /HiddenHttpFormFilter-->
-
     <!--filter for adding custom authorization and token endpoint in spring-security-oauth2 -->
     <!--should appear before spring security filter-->
     <!--    <filter>
@@ -71,8 +70,8 @@
         <filter-mapping>
             <filter-name>oauth2EndpointUrlFilter</filter-name>
             <url-pattern>/*</url-pattern>
-        </filter-mapping>-->
-    <!--spring security filter chain-->
+        </filter-mapping>
+    --><!--spring security filter chain-->
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
