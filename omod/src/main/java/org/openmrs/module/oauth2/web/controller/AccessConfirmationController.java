@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Map;
+
 /**
  * Created by OPSKMC on 8/4/15.
  */
@@ -19,17 +21,19 @@ public class AuthorizationController {
     private ClientDetailsService clientDetailsService;
 
     @RequestMapping("/oauth/confirm_access")
-    public ModelAndView getAccessConfirmation(ModelMap model) throws Exception {
-        AuthorizationRequest authorizationRequest = (AuthorizationRequest) model.remove("authorizationRequest");
-        ClientDetails client = clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
-        model.put("auth_request", authorizationRequest);
+    public ModelAndView getAccessConfirmation(Map<String, Object> model) throws Exception {
+        AuthorizationRequest clientAuth = (AuthorizationRequest) model.remove("authorizationRequest");
+        ClientDetails client = clientDetailsService.loadClientByClientId(clientAuth.getClientId());
+        model.put("auth_request", clientAuth);
         model.put("client", client);
+        System.out.println("1: " + clientAuth.isApproved());
         return new ModelAndView("/module/oauth2/access_confirmation", model);
+
     }
 
-    @RequestMapping(value = "/oauth/oauth_error")
-    public String handleError(ModelMap model) throws Exception {
-        // We can add more stuff to the model here for JSP rendering.  If the client was a machine then
+    @RequestMapping("/oauth/error")
+    public String handleError(Map<String, Object> model) throws Exception {
+        // We can add more stuff to the model here for JSP rendering. If the client was a machine then
         // the JSON will already have been rendered.
         model.put("message", "There was a problem with the OAuth2 protocol");
         return "/module/oauth2/oauth_error";
