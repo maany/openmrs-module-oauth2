@@ -1,10 +1,8 @@
 <%--<%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>--%>
-<%--
 <%@ include file="/WEB-INF/template/include.jsp" %>
 <%@ include file="/WEB-INF/template/header.jsp" %>
 
 <%@ include file="template/localHeader.jsp" %>
---%>
 
 <%@ page import="org.springframework.security.core.AuthenticationException" %>
 <%@ page import="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" %>
@@ -40,7 +38,5 @@
     <label><input name="deny" value="Deny" type="submit"></label>
 </form>
 
-<%--
 <%@ include file="/WEB-INF/template/footer.jsp" %>
---%>
 

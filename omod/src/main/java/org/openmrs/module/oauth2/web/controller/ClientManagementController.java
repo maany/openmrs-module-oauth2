@@ -76,21 +76,17 @@ public class ClientManagementController {
 	/*
 	* Register a new client
 	 */
-	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.POST)
-	public ResponseEntity<JsonMappableClient> createNewUser(
-			@RequestParam(value = "username") String username,
-			@RequestParam(value = "password") String password,
-			@RequestParam(value = "name") String name,
-			@RequestParam(value = "description", required = false)String description,
-			@RequestParam(value = "website", required = false)String website,
-			@RequestParam(value = "redirectUri")String redirectionUri,
-			@RequestParam(value = "clientType")String clientType,
-			@RequestParam(value = "scopes")String[] scopes,
-			@RequestParam(value = "grantTypes")String[] grantTypes) {
+	@RequestMapping(value = "/oauth/clientManagement", method = RequestMethod.POST,
+			params = { "username", "password", "name", "redirectionUri", "clientType", "scopes", "grantTypes" })
+	public ResponseEntity<JsonMappableClient> createNewUser(String username, String password, String name,
+			String description,
+			String website, String redirectionUri, String clientType,
+			String[] scopes, String[] grantTypes) {
 
-		if (!verifyUserCredentials(username, password))
+
+		/*if (!verifyUserCredentials(username, password))
 			return new ResponseEntity<JsonMappableClient>((JsonMappableClient) null, HttpStatus.UNAUTHORIZED);
-
+*/
 		Client client = getNewClient();
 		client.setName(name);
 		if (description != null)
@@ -119,6 +115,8 @@ public class ClientManagementController {
 		client = getService().saveOrUpdateClient(client);
 		getService().generateAndPersistClientCredentials(client);
 		getService().saveOrUpdateClient(client);
+
+		System.out.println("***Client Creared");
 
 		JsonMappableClient jsonMappableClient = new JsonMappableClient(client);
 

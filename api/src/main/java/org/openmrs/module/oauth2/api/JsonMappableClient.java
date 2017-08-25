@@ -3,8 +3,10 @@ package org.openmrs.module.oauth2.api;
 import org.openmrs.User;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.Client.ClientType;
+import org.openmrs.module.oauth2.api.model.RedirectURI;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -207,5 +209,21 @@ public class JsonMappableClient implements Serializable {
 
 	public Set<String> getGrantType() {
 		return grantType;
+	}
+
+	public Set<String> getRedirectUri() {
+		return redirectUri;
+	}
+
+	public void setRedirectUri(Set<String> redirectUri) {
+		this.redirectUri = redirectUri;
+	}
+
+	public void setScopes(Set<String> scopes) {
+		this.scopes = scopes;
+	}
+
+	public void setGrantType(Set<String> grantType) {
+		this.grantType = grantType;
 	}
 }
