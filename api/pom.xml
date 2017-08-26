@@ -84,7 +84,7 @@
             </exclusions>
         </dependency>
 
-        <!--Begin Spring 3.1.1-->
+        <!--Begin Spring-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -99,7 +99,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
         </dependency>
-        <!--End Spring 3.1.1-->
+        <!--End Spring-->
 
         <!--Begin spring-security-oauth2-->
         <dependency>

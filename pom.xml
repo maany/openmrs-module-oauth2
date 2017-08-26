@@ -17,6 +17,9 @@
         <developer>
             <name>Mayank</name>
         </developer>
+        <developer>
+            <name>Sanatt</name>
+        </developer>
     </developers>
 
     <organization>
@@ -103,11 +106,10 @@
             </dependency>
 
 
-            <!--Begin Spring 3.1.1-->
+            <!--Begin Spring-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
-                <!--TODO add ${spring.version} if possible. Logically not possible as module does not know where it is being installed}-->
                 <version>${spring.version}</version>
                 <scope>provided</scope>
             </dependency>
@@ -147,9 +149,9 @@
                 <version>${spring.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <!--End Spring-->
 
-            <!--End Spring 3.1.1-->
-
+            <!--Begin Jackson-->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
@@ -165,10 +167,9 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-
+            <!--End Jackson-->
 
             <!--Begin spring-security-oauth2-->
-
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
