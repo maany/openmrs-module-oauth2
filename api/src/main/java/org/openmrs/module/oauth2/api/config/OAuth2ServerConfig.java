@@ -1,11 +1,10 @@
 package org.openmrs.module.oauth2.api.config;
 
-import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by OPSKMC on 7/9/15.
  */
-/*@Configuration*/
+//@Configuration
 public class OAuth2ServerConfig {
-//    protected static class AuthorizationServerConfiguration
+
 }

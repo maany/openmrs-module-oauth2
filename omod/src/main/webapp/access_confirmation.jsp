@@ -27,6 +27,9 @@
 <% } %>
 <c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION"/>
 <%--<authz:authorize access="hasRole('ROLE_USER')">--%>
+<p>
+    Do you want to allow this authorization request?
+</p>
 <form id="confirmationForm" name="confirmationForm" action="<%=request.getContextPath()%>/ws/oauth/authorize"
       method="post">
     <input name="user_oauth_approval" value="true" type="hidden"/>

@@ -38,7 +38,8 @@ public class UserAuthenticationServiceImpl implements AuthenticationProvider {
 			Context.authenticate(username, password);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+
+			return null;
 		}
 		List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
 		grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));

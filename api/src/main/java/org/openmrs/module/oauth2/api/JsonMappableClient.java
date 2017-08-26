@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
+/*
+* JSON Mappable OAuth client to remove cyclic dependencies while returning Client as JSON
+ */
 public class JsonMappableClient implements Serializable {
 
 	private Integer id;
@@ -34,7 +37,9 @@ public class JsonMappableClient implements Serializable {
 	private Set<String> scopes;
 	private Set<String> grantType;
 
-
+	/*
+	* Change this constructor to control values returned as JSON response
+	 */
 	public JsonMappableClient(Client client){
 		this.id = client.getId();
 		this.name = client.getName();

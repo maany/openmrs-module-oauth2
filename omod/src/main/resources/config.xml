@@ -86,6 +86,7 @@
     </filter-mapping>
 
     <!--filter for adding CORS support-->
+    <!-- custom filter available in org.openmrs.module.oauth2.web.util-->
     <!--<filter>
         <filter-name>CorsFilter</filter-name>
         <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
