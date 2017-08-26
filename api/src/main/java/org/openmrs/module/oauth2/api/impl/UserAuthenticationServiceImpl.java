@@ -38,7 +38,7 @@ public class UserAuthenticationServiceImpl implements AuthenticationProvider {
 			Context.authenticate(username, password);
 		}
 		catch (Exception e) {
-
+			log.error("Unable to authenticate user :" + username);
 			return null;
 		}
 		List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
