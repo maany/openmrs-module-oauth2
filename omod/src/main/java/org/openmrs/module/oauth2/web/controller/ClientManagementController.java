@@ -97,6 +97,7 @@ public class ClientManagementController {
 		Collection<RedirectURI> redirectURICollection = ClientSpringOAuthUtils
 				.commaDelimitedStringToCollection(redirectionUri.trim(), client, RedirectURI.class);
 		client.setClientType(Client.ClientType.valueOf(clientType));
+		client.setRedirectUriCollection(redirectURICollection);
 
 		String scopesCSV = StringUtils.join(scopes, ',');
 		Collection<Scope> scopeCollection = ClientSpringOAuthUtils
@@ -176,6 +177,9 @@ public class ClientManagementController {
 		return Context.getService(ClientRegistrationService.class);
 	}
 
+	/*
+	* Verifies OpenMRS user credentials
+	 */
 	private boolean verifyUserCredentials(String username, String password) {
 		try {
 			Context.authenticate(username, password);
