@@ -33,11 +33,6 @@
     </mvc:annotation-driven>
 
     <!--Begin Spring Security configurations-->
-<!--
-    <mvc:cors>
-        <mvc:mapping path="/**" />
-    </mvc:cors>
--->
 
     <!--=============================================================================-->
     <!--Sample Web/HTTP Security Configuration. Listing Spring Security protected resources
@@ -95,6 +90,7 @@
         <property name="realmName" value="openmrs"/>
     </bean>
 
+    <!-- Basic Authentication filter to supoort basic headers when making a request-->
     <bean id="basicAuthenticationFilter" class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
         <constructor-arg ref="authenticationManager"/>
         <constructor-arg ref="clientAuthenticationEntryPoint"/>
@@ -107,17 +103,18 @@
         <property name="typeName" value="Basic"/>
     </bean>
 
+    <!-- To be used to initiate User credentials verification with basic header-->
     <bean id="UserAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
         <property name="realmName" value="openmrs/client"/>
         <property name="typeName" value="Basic"/>
     </bean>
 
-    <!--==============================================-->
-    <!--Spring http security for Token Endpoint-->
-    <!--==============================================-->
-
-
+    <!--=============================================================-->
+    <!--Spring http security for Client Management REST Controller-->
+    <!--By default CSRF is enabled in Spring Security 4-->
+    <!--Add appropriate csrf headers to the request if you enable csrf-->
+    <!--==============================================================-->
     <security:http pattern="/ws/oauth/clientManagement" create-session="stateless"
                    authentication-manager-ref="clientControllerAuthenticationManager"
                    use-expressions="true">
@@ -126,6 +123,9 @@
         <security:csrf disabled="true"/>
     </security:http>
 
+    <!--==============================================-->
+    <!--Spring http security for Token Endpoint-->
+    <!--==============================================-->
     <security:http pattern="/ws/oauth/token" create-session="stateless"
                    authentication-manager-ref="clientAuthenticationManager"
                    use-expressions="false">
@@ -136,6 +136,10 @@
         <security:custom-filter ref="clientControllerEndpointFilter" after="BASIC_AUTH_FILTER"/>
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
+
+    <!--==============================================-->
+    <!--Spring http security for Authorization Endpoint-->
+    <!--==============================================-->
 
     <security:http pattern="/ws/oauth/authorize"
                    authentication-manager-ref="authenticationManager"
@@ -157,6 +161,7 @@
         --><security:custom-filter ref="OpenMRSGenericResourceServerFilter" before="PRE_AUTH_FILTER"/>
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
     </security:http>
+
     <!--User Login Page used prior to Authorization Code Grant Type-->
     <!--TODO Currently using form-login, replace with custom login form-->
     <http disable-url-rewriting="false"
@@ -179,6 +184,7 @@
     <!--==============================================================================================-->
     <bean id="oauthAccessDeniedHandler"
           class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler"/>
+
     <!--=================================================================================================-->
     <!--Allows Username and Password to be passed directly as Request Parameters to the token endpoint -->
     <!--instead of Base64 encoded values in Authorization header (HTTP Basic)-->
@@ -199,6 +205,7 @@
         <!--user-service-ref="clientDetailsUserService"/>-->
     </authentication-manager>
     <bean id="clientAuthenticationProvider" class="org.openmrs.module.oauth2.api.impl.ClientAuthenticationServiceImpl"/>
+
     <!--================================================================================-->
     <!--Access Decision Manager. Strategy : All voters should vote ACCESS_GRANTED (UnanimousBased)
         Protected Resources such as FHIR, REST URI's must include this as <http access-decision-manager-ref= accessDecisionManager .....> -->
@@ -221,9 +228,9 @@
     <!--==========================================-->
     <!--OAuth Resource Server for OpenMRS instance-->
     <!--==========================================-->
-
     <oauth:resource-server id="OpenMRSGenericResourceServerFilter"
                            token-services-ref="tokenServices"/>
+
     <!--resource-id="OpenMRS"-->
     <!--================================================================================-->
     <!--TODO add/verify docs-->
@@ -233,6 +240,7 @@
           class="org.springframework.security.oauth2.provider.approval.TokenServicesUserApprovalHandler">
         <property name="tokenServices" ref="tokenServices"/>
     </bean>
+
     <!--==============================-->
     <!--OAuth2 Authorization Server-->
     <!-- =========================== -->
@@ -253,13 +261,13 @@
     <!--==============================================================================-->
     <!--Create custom bean for ClientDetailsService to read from oauth2_client Table-->
     <!--==================================================================================-->
-
     <bean id="clientDetailsUserService"
           class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
         <constructor-arg ref="clientDetails"/>
     </bean>
 
     <bean id="clientDetails" class="org.openmrs.module.oauth2.api.impl.ClientDetailsServiceImpl"/>
+
     <!--=======================================================================================================-->
     <!--OAuth2 Sample Clients.-->
     <!--=======================================================================================================-->
@@ -294,6 +302,10 @@
     <!--==========================================================================================-->
     <!--<bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore"/>-->
 
+
+    <!--==========================================================================================-->
+    <!--JdbcToken Store-->
+    <!--==========================================================================================-->
     <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
         <constructor-arg ref="jdbcTemplate"/>
     </bean>
@@ -305,10 +317,10 @@
         <property name="username" value="root"/>
         <property name="password" value="root"/>
     </bean>
+
     <!--=============================================================================-->
     <!--Default Token Service to manage tokens. Wire up with custom JdbcTokenStore-->
     <!--=============================================================================-->
-
     <bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
         <property name="tokenStore" ref="tokenStore"/>
         <property name="supportRefreshToken" value="true"/>
