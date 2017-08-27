@@ -84,9 +84,8 @@ public class ClientManagementController {
 			String[] scopes, String[] grantTypes) {
 
 
-		/*if (!verifyUserCredentials(username, password))
+		if (!verifyUserCredentials(username, password))
 			return new ResponseEntity<JsonMappableClient>((JsonMappableClient) null, HttpStatus.UNAUTHORIZED);
-*/
 		Client client = getNewClient();
 		client.setName(name);
 		if (description != null)

@@ -123,6 +123,19 @@
         <security:csrf disabled="true"/>
     </security:http>
 
+    <!--=============================================================-->
+    <!--Spring http security for Module Metadata REST Controller-->
+    <!--By default CSRF is enabled in Spring Security 4-->
+    <!--Add appropriate csrf headers to the request if you enable csrf-->
+    <!--==============================================================-->
+    <security:http pattern="/ws/oauth/metadata" create-session="stateless"
+                   authentication-manager-ref="clientControllerAuthenticationManager"
+                   use-expressions="true">
+        <security:intercept-url pattern="/oauth/metadata" access="IS_AUTHENTICATED_FULLY"/>
+        <security:http-basic/>
+        <security:csrf disabled="true"/>
+    </security:http>
+
     <!--==============================================-->
     <!--Spring http security for Token Endpoint-->
     <!--==============================================-->
