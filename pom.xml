@@ -5,7 +5,7 @@
 
     <groupId>org.openmrs.module</groupId>
     <artifactId>oauth2</artifactId>
-    <version>1.0</version>
+    <version>0.8</version>
     <packaging>pom</packaging>
     <name>Oauth2 Module</name>
     <description>The module hosts the authentication and authorization server for exposing web services to external

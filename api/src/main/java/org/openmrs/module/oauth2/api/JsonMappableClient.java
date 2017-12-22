@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Set;
 
 /*
-* JSON Mappable OAuth client to remove cyclic dependencies while returning Client as JSON
+* JSON Mappable OAuth client to remove cyclic dependencies while returning Client(s) as JSON
  */
 public class JsonMappableClient implements Serializable {
 
