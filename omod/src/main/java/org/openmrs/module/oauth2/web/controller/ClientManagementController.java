@@ -3,6 +3,7 @@ package org.openmrs.module.oauth2.web.controller;
 import org.apache.commons.lang.StringUtils;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
+import org.openmrs.api.context.ContextAuthenticationException;
 import org.openmrs.module.oauth2.Client;
 import org.openmrs.module.oauth2.api.ClientRegistrationService;
 import org.openmrs.module.oauth2.api.JsonMappableClient;
@@ -184,7 +185,7 @@ public class ClientManagementController {
 			Context.authenticate(username, password);
 			return true;
 		}
-		catch (Exception e) {
+		catch (ContextAuthenticationException e) {
 			return false;
 		}
 	}
