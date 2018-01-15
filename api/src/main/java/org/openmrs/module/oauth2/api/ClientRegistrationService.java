@@ -3,6 +3,7 @@ package org.openmrs.module.oauth2.api;
 import org.openmrs.User;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.oauth2.Client;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 
 import java.util.List;
 
@@ -13,7 +14,6 @@ import java.util.List;
 public interface ClientRegistrationService extends OpenmrsService {
 
     public static final int BCRYPT_STRENGTH = 4;
-
     /**
      * update details of the client if exists, else create new client
      *

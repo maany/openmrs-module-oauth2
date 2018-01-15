@@ -1,0 +1,296 @@
+<html>
+<head>
+<title>NewJFrame.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #999999; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(0,0,0); }
+.s1 { color: rgb(0,0,128); font-weight: bold; }
+.s2 { color: rgb(128,128,128); font-style: italic; }
+.s3 { color: rgb(128,128,128); font-weight: bold; font-style: italic; }
+.s4 { color: rgb(0,128,0); font-weight: bold; }
+.s5 { color: rgb(0,0,255); }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+NewJFrame.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<a name="l1"><span class="ln">1    </span></a><span class="s0"> 
+<a name="l2"><span class="ln">2    </span></a></span><span class="s1">import </span><span class="s0">java.util.Properties; 
+<a name="l3"><span class="ln">3    </span></a></span><span class="s1">import </span><span class="s0">java.util.logging.Level; 
+<a name="l4"><span class="ln">4    </span></a></span><span class="s1">import </span><span class="s0">java.util.logging.Logger; 
+<a name="l5"><span class="ln">5    </span></a></span><span class="s1">import </span><span class="s0">javax.mail.Folder; 
+<a name="l6"><span class="ln">6    </span></a></span><span class="s1">import </span><span class="s0">javax.mail.Message; 
+<a name="l7"><span class="ln">7    </span></a></span><span class="s1">import </span><span class="s0">javax.mail.MessagingException; 
+<a name="l8"><span class="ln">8    </span></a></span><span class="s1">import </span><span class="s0">javax.mail.NoSuchProviderException; 
+<a name="l9"><span class="ln">9    </span></a></span><span class="s1">import </span><span class="s0">javax.mail.PasswordAuthentication; 
+<a name="l10"><span class="ln">10   </span></a></span><span class="s1">import </span><span class="s0">javax.mail.Session; 
+<a name="l11"><span class="ln">11   </span></a></span><span class="s1">import </span><span class="s0">javax.mail.Store; 
+<a name="l12"><span class="ln">12   </span></a></span><span class="s1">import </span><span class="s0">javax.mail.Transport; 
+<a name="l13"><span class="ln">13   </span></a></span><span class="s1">import </span><span class="s0">javax.mail.internet.InternetAddress; 
+<a name="l14"><span class="ln">14   </span></a></span><span class="s1">import </span><span class="s0">javax.mail.internet.MimeMessage; 
+<a name="l15"><span class="ln">15   </span></a></span><span class="s1">import </span><span class="s0">javax.swing.JOptionPane; 
+<a name="l16"><span class="ln">16   </span></a> 
+<a name="l17"><span class="ln">17   </span></a></span><span class="s2">/* 
+<a name="l18"><span class="ln">18   </span></a> * To change this license header, choose License Headers in Project Properties. 
+<a name="l19"><span class="ln">19   </span></a> * To change this template file, choose Tools | Templates 
+<a name="l20"><span class="ln">20   </span></a> * and open the template in the editor. 
+<a name="l21"><span class="ln">21   </span></a> */</span><span class="s0"> 
+<a name="l22"><span class="ln">22   </span></a></span><span class="s2">/** 
+<a name="l23"><span class="ln">23   </span></a> * 
+<a name="l24"><span class="ln">24   </span></a> * </span><span class="s3">@author </span><span class="s2">Sanatt 
+<a name="l25"><span class="ln">25   </span></a> */</span><span class="s0"> 
+<a name="l26"><span class="ln">26   </span></a></span><span class="s1">public class </span><span class="s0">NewJFrame </span><span class="s1">extends </span><span class="s0">javax.swing.JFrame { 
+<a name="l27"><span class="ln">27   </span></a>     
+<a name="l28"><span class="ln">28   </span></a>    </span><span class="s1">static final </span><span class="s0">String USERNAME = </span><span class="s4">&quot;youremail@gmail.com&quot;</span><span class="s0">; 
+<a name="l29"><span class="ln">29   </span></a>    </span><span class="s1">static final </span><span class="s0">String PASSWORD = </span><span class="s4">&quot;yourpassword&quot;</span><span class="s0">; 
+<a name="l30"><span class="ln">30   </span></a>    </span><span class="s1">static </span><span class="s0">Session SEND_SESSION; 
+<a name="l31"><span class="ln">31   </span></a>    </span><span class="s1">static </span><span class="s0">Session RECEIVE_SESSION; 
+<a name="l32"><span class="ln">32   </span></a>    </span><span class="s2">/** 
+<a name="l33"><span class="ln">33   </span></a>     * Creates new form NewJFrame 
+<a name="l34"><span class="ln">34   </span></a>     */</span><span class="s0"> 
+<a name="l35"><span class="ln">35   </span></a>    </span><span class="s1">public </span><span class="s0">NewJFrame() { 
+<a name="l36"><span class="ln">36   </span></a>        initComponents(); 
+<a name="l37"><span class="ln">37   </span></a>    } 
+<a name="l38"><span class="ln">38   </span></a> 
+<a name="l39"><span class="ln">39   </span></a>    </span><span class="s2">/** 
+<a name="l40"><span class="ln">40   </span></a>     * This method is called from within the constructor to initialize the form. 
+<a name="l41"><span class="ln">41   </span></a>     * WARNING: Do NOT modify this code. The content of this method is always 
+<a name="l42"><span class="ln">42   </span></a>     * regenerated by the Form Editor. 
+<a name="l43"><span class="ln">43   </span></a>     */</span><span class="s0"> 
+<a name="l44"><span class="ln">44   </span></a>    @SuppressWarnings(</span><span class="s4">&quot;unchecked&quot;</span><span class="s0">) 
+<a name="l45"><span class="ln">45   </span></a>    </span><span class="s2">// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents</span><span class="s0"> 
+<a name="l46"><span class="ln">46   </span></a>    </span><span class="s1">private void </span><span class="s0">initComponents() { 
+<a name="l47"><span class="ln">47   </span></a> 
+<a name="l48"><span class="ln">48   </span></a>        jTextField1 = </span><span class="s1">new </span><span class="s0">javax.swing.JTextField(); 
+<a name="l49"><span class="ln">49   </span></a>        jLabel1 = </span><span class="s1">new </span><span class="s0">javax.swing.JLabel(); 
+<a name="l50"><span class="ln">50   </span></a>        jLabel2 = </span><span class="s1">new </span><span class="s0">javax.swing.JLabel(); 
+<a name="l51"><span class="ln">51   </span></a>        jTextField2 = </span><span class="s1">new </span><span class="s0">javax.swing.JTextField(); 
+<a name="l52"><span class="ln">52   </span></a>        jLabel3 = </span><span class="s1">new </span><span class="s0">javax.swing.JLabel(); 
+<a name="l53"><span class="ln">53   </span></a>        jScrollPane1 = </span><span class="s1">new </span><span class="s0">javax.swing.JScrollPane(); 
+<a name="l54"><span class="ln">54   </span></a>        jTextArea1 = </span><span class="s1">new </span><span class="s0">javax.swing.JTextArea(); 
+<a name="l55"><span class="ln">55   </span></a>        jButton1 = </span><span class="s1">new </span><span class="s0">javax.swing.JButton(); 
+<a name="l56"><span class="ln">56   </span></a>        jScrollPane2 = </span><span class="s1">new </span><span class="s0">javax.swing.JScrollPane(); 
+<a name="l57"><span class="ln">57   </span></a>        jTextArea2 = </span><span class="s1">new </span><span class="s0">javax.swing.JTextArea(); 
+<a name="l58"><span class="ln">58   </span></a>        jButton2 = </span><span class="s1">new </span><span class="s0">javax.swing.JButton(); 
+<a name="l59"><span class="ln">59   </span></a> 
+<a name="l60"><span class="ln">60   </span></a>        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE); 
+<a name="l61"><span class="ln">61   </span></a> 
+<a name="l62"><span class="ln">62   </span></a>        jLabel1.setText(</span><span class="s4">&quot;To&quot;</span><span class="s0">); 
+<a name="l63"><span class="ln">63   </span></a> 
+<a name="l64"><span class="ln">64   </span></a>        jLabel2.setText(</span><span class="s4">&quot;Subject&quot;</span><span class="s0">); 
+<a name="l65"><span class="ln">65   </span></a> 
+<a name="l66"><span class="ln">66   </span></a>        jLabel3.setText(</span><span class="s4">&quot;Body&quot;</span><span class="s0">); 
+<a name="l67"><span class="ln">67   </span></a> 
+<a name="l68"><span class="ln">68   </span></a>        jTextArea1.setColumns(</span><span class="s5">20</span><span class="s0">); 
+<a name="l69"><span class="ln">69   </span></a>        jTextArea1.setRows(</span><span class="s5">5</span><span class="s0">); 
+<a name="l70"><span class="ln">70   </span></a>        jScrollPane1.setViewportView(jTextArea1); 
+<a name="l71"><span class="ln">71   </span></a> 
+<a name="l72"><span class="ln">72   </span></a>        jButton1.setText(</span><span class="s4">&quot;Send&quot;</span><span class="s0">); 
+<a name="l73"><span class="ln">73   </span></a>        jButton1.addActionListener(</span><span class="s1">new </span><span class="s0">java.awt.event.ActionListener() { 
+<a name="l74"><span class="ln">74   </span></a>            </span><span class="s1">public void </span><span class="s0">actionPerformed(java.awt.event.ActionEvent evt) { 
+<a name="l75"><span class="ln">75   </span></a>                jButton1ActionPerformed(evt); 
+<a name="l76"><span class="ln">76   </span></a>            } 
+<a name="l77"><span class="ln">77   </span></a>        }); 
+<a name="l78"><span class="ln">78   </span></a> 
+<a name="l79"><span class="ln">79   </span></a>        jTextArea2.setColumns(</span><span class="s5">20</span><span class="s0">); 
+<a name="l80"><span class="ln">80   </span></a>        jTextArea2.setRows(</span><span class="s5">5</span><span class="s0">); 
+<a name="l81"><span class="ln">81   </span></a>        jScrollPane2.setViewportView(jTextArea2); 
+<a name="l82"><span class="ln">82   </span></a> 
+<a name="l83"><span class="ln">83   </span></a>        jButton2.setText(</span><span class="s4">&quot;Receive&quot;</span><span class="s0">); 
+<a name="l84"><span class="ln">84   </span></a>        jButton2.addActionListener(</span><span class="s1">new </span><span class="s0">java.awt.event.ActionListener() { 
+<a name="l85"><span class="ln">85   </span></a>            </span><span class="s1">public void </span><span class="s0">actionPerformed(java.awt.event.ActionEvent evt) { 
+<a name="l86"><span class="ln">86   </span></a>                jButton2ActionPerformed(evt); 
+<a name="l87"><span class="ln">87   </span></a>            } 
+<a name="l88"><span class="ln">88   </span></a>        }); 
+<a name="l89"><span class="ln">89   </span></a> 
+<a name="l90"><span class="ln">90   </span></a>        javax.swing.GroupLayout layout = </span><span class="s1">new </span><span class="s0">javax.swing.GroupLayout(getContentPane()); 
+<a name="l91"><span class="ln">91   </span></a>        getContentPane().setLayout(layout); 
+<a name="l92"><span class="ln">92   </span></a>        layout.setHorizontalGroup( 
+<a name="l93"><span class="ln">93   </span></a>            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING) 
+<a name="l94"><span class="ln">94   </span></a>            .addGroup(layout.createSequentialGroup() 
+<a name="l95"><span class="ln">95   </span></a>                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING) 
+<a name="l96"><span class="ln">96   </span></a>                    .addGroup(layout.createSequentialGroup() 
+<a name="l97"><span class="ln">97   </span></a>                        .addGap(</span><span class="s5">8</span><span class="s0">, </span><span class="s5">8</span><span class="s0">, </span><span class="s5">8</span><span class="s0">) 
+<a name="l98"><span class="ln">98   </span></a>                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, </span><span class="s1">false</span><span class="s0">) 
+<a name="l99"><span class="ln">99   </span></a>                            .addGroup(layout.createSequentialGroup() 
+<a name="l100"><span class="ln">100  </span></a>                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING) 
+<a name="l101"><span class="ln">101  </span></a>                                    .addComponent(jLabel2) 
+<a name="l102"><span class="ln">102  </span></a>                                    .addComponent(jLabel1)) 
+<a name="l103"><span class="ln">103  </span></a>                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED) 
+<a name="l104"><span class="ln">104  </span></a>                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, </span><span class="s1">false</span><span class="s0">) 
+<a name="l105"><span class="ln">105  </span></a>                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, </span><span class="s5">489</span><span class="s0">, Short.MAX_VALUE) 
+<a name="l106"><span class="ln">106  </span></a>                                    .addComponent(jTextField1))) 
+<a name="l107"><span class="ln">107  </span></a>                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup() 
+<a name="l108"><span class="ln">108  </span></a>                                .addComponent(jLabel3) 
+<a name="l109"><span class="ln">109  </span></a>                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, </span><span class="s5">21</span><span class="s0">, Short.MAX_VALUE) 
+<a name="l110"><span class="ln">110  </span></a>                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, </span><span class="s1">false</span><span class="s0">) 
+<a name="l111"><span class="ln">111  </span></a>                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, </span><span class="s5">489</span><span class="s0">, Short.MAX_VALUE) 
+<a name="l112"><span class="ln">112  </span></a>                                    .addComponent(jScrollPane2))))) 
+<a name="l113"><span class="ln">113  </span></a>                    .addGroup(layout.createSequentialGroup() 
+<a name="l114"><span class="ln">114  </span></a>                        .addGap(</span><span class="s5">229</span><span class="s0">, </span><span class="s5">229</span><span class="s0">, </span><span class="s5">229</span><span class="s0">) 
+<a name="l115"><span class="ln">115  </span></a>                        .addComponent(jButton1)) 
+<a name="l116"><span class="ln">116  </span></a>                    .addGroup(layout.createSequentialGroup() 
+<a name="l117"><span class="ln">117  </span></a>                        .addGap(</span><span class="s5">228</span><span class="s0">, </span><span class="s5">228</span><span class="s0">, </span><span class="s5">228</span><span class="s0">) 
+<a name="l118"><span class="ln">118  </span></a>                        .addComponent(jButton2))) 
+<a name="l119"><span class="ln">119  </span></a>                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)) 
+<a name="l120"><span class="ln">120  </span></a>        ); 
+<a name="l121"><span class="ln">121  </span></a>        layout.setVerticalGroup( 
+<a name="l122"><span class="ln">122  </span></a>            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING) 
+<a name="l123"><span class="ln">123  </span></a>            .addGroup(layout.createSequentialGroup() 
+<a name="l124"><span class="ln">124  </span></a>                .addGap(</span><span class="s5">27</span><span class="s0">, </span><span class="s5">27</span><span class="s0">, </span><span class="s5">27</span><span class="s0">) 
+<a name="l125"><span class="ln">125  </span></a>                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE) 
+<a name="l126"><span class="ln">126  </span></a>                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE) 
+<a name="l127"><span class="ln">127  </span></a>                    .addComponent(jLabel1)) 
+<a name="l128"><span class="ln">128  </span></a>                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED) 
+<a name="l129"><span class="ln">129  </span></a>                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE) 
+<a name="l130"><span class="ln">130  </span></a>                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE) 
+<a name="l131"><span class="ln">131  </span></a>                    .addComponent(jLabel2)) 
+<a name="l132"><span class="ln">132  </span></a>                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED) 
+<a name="l133"><span class="ln">133  </span></a>                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING) 
+<a name="l134"><span class="ln">134  </span></a>                    .addComponent(jLabel3) 
+<a name="l135"><span class="ln">135  </span></a>                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, </span><span class="s5">180</span><span class="s0">, javax.swing.GroupLayout.PREFERRED_SIZE)) 
+<a name="l136"><span class="ln">136  </span></a>                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED) 
+<a name="l137"><span class="ln">137  </span></a>                .addComponent(jButton1) 
+<a name="l138"><span class="ln">138  </span></a>                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED) 
+<a name="l139"><span class="ln">139  </span></a>                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, </span><span class="s5">182</span><span class="s0">, javax.swing.GroupLayout.PREFERRED_SIZE) 
+<a name="l140"><span class="ln">140  </span></a>                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED) 
+<a name="l141"><span class="ln">141  </span></a>                .addComponent(jButton2) 
+<a name="l142"><span class="ln">142  </span></a>                .addContainerGap(</span><span class="s5">14</span><span class="s0">, Short.MAX_VALUE)) 
+<a name="l143"><span class="ln">143  </span></a>        ); 
+<a name="l144"><span class="ln">144  </span></a> 
+<a name="l145"><span class="ln">145  </span></a>        pack(); 
+<a name="l146"><span class="ln">146  </span></a>    }</span><span class="s2">// &lt;/editor-fold&gt;//GEN-END:initComponents</span><span class="s0"> 
+<a name="l147"><span class="ln">147  </span></a> 
+<a name="l148"><span class="ln">148  </span></a>    </span><span class="s1">private void </span><span class="s0">jButton1ActionPerformed(java.awt.event.ActionEvent evt) {</span><span class="s2">//GEN-FIRST:event_jButton1ActionPerformed</span><span class="s0"> 
+<a name="l149"><span class="ln">149  </span></a>        </span><span class="s2">// TODO add your handling code here:</span><span class="s0"> 
+<a name="l150"><span class="ln">150  </span></a>        String destMail = jTextField1.getText(); 
+<a name="l151"><span class="ln">151  </span></a>        String sendMail = </span><span class="s4">&quot;sanattabrol@gmail.com&quot;</span><span class="s0">; 
+<a name="l152"><span class="ln">152  </span></a>        String subjectMail = jTextField2.getText(); 
+<a name="l153"><span class="ln">153  </span></a>        String contentMail = jTextArea1.getText(); 
+<a name="l154"><span class="ln">154  </span></a>         
+<a name="l155"><span class="ln">155  </span></a>        </span><span class="s1">try </span><span class="s0">{ 
+<a name="l156"><span class="ln">156  </span></a> 
+<a name="l157"><span class="ln">157  </span></a>            Message message = </span><span class="s1">new </span><span class="s0">MimeMessage(SEND_SESSION); 
+<a name="l158"><span class="ln">158  </span></a>            message.setFrom(</span><span class="s1">new </span><span class="s0">InternetAddress(sendMail)); 
+<a name="l159"><span class="ln">159  </span></a>            message.setRecipients(Message.RecipientType.TO, 
+<a name="l160"><span class="ln">160  </span></a>                    InternetAddress.parse(destMail)); 
+<a name="l161"><span class="ln">161  </span></a>            message.setSubject(subjectMail); 
+<a name="l162"><span class="ln">162  </span></a>            message.setText(contentMail); 
+<a name="l163"><span class="ln">163  </span></a>            Transport.send(message); 
+<a name="l164"><span class="ln">164  </span></a>            JOptionPane.showMessageDialog(</span><span class="s1">null</span><span class="s0">, </span><span class="s4">&quot;E-Mail sent!!&quot;</span><span class="s0">); 
+<a name="l165"><span class="ln">165  </span></a>        } </span><span class="s1">catch </span><span class="s0">(MessagingException e) { 
+<a name="l166"><span class="ln">166  </span></a>            </span><span class="s1">throw new </span><span class="s0">RuntimeException(e); 
+<a name="l167"><span class="ln">167  </span></a>        } 
+<a name="l168"><span class="ln">168  </span></a> 
+<a name="l169"><span class="ln">169  </span></a>    }</span><span class="s2">//GEN-LAST:event_jButton1ActionPerformed</span><span class="s0"> 
+<a name="l170"><span class="ln">170  </span></a> 
+<a name="l171"><span class="ln">171  </span></a>    </span><span class="s1">private void </span><span class="s0">jButton2ActionPerformed(java.awt.event.ActionEvent evt) {</span><span class="s2">//GEN-FIRST:event_jButton2ActionPerformed</span><span class="s0"> 
+<a name="l172"><span class="ln">172  </span></a>        </span><span class="s1">try </span><span class="s0">{ 
+<a name="l173"><span class="ln">173  </span></a>            </span><span class="s2">// TODO add your handling code here:</span><span class="s0"> 
+<a name="l174"><span class="ln">174  </span></a>            Store store = RECEIVE_SESSION.getStore(</span><span class="s4">&quot;imap&quot;</span><span class="s0">); 
+<a name="l175"><span class="ln">175  </span></a>            store.connect(USERNAME, PASSWORD); 
+<a name="l176"><span class="ln">176  </span></a>             
+<a name="l177"><span class="ln">177  </span></a>            Folder inbox = store.getFolder(</span><span class="s4">&quot;INBOX&quot;</span><span class="s0">); 
+<a name="l178"><span class="ln">178  </span></a>            inbox.open(Folder.READ_ONLY); 
+<a name="l179"><span class="ln">179  </span></a>            </span><span class="s1">int </span><span class="s0">messageCount = inbox.getMessageCount(); 
+<a name="l180"><span class="ln">180  </span></a>  
+<a name="l181"><span class="ln">181  </span></a>            jTextArea2.append(</span><span class="s4">&quot;Total Messages:- &quot; </span><span class="s0">+ messageCount); 
+<a name="l182"><span class="ln">182  </span></a>  
+<a name="l183"><span class="ln">183  </span></a>            Message[] messages = inbox.getMessages(); 
+<a name="l184"><span class="ln">184  </span></a>            jTextArea2.append(</span><span class="s4">&quot;------------------------------&quot;</span><span class="s0">); 
+<a name="l185"><span class="ln">185  </span></a>  
+<a name="l186"><span class="ln">186  </span></a>            </span><span class="s1">for </span><span class="s0">(</span><span class="s1">int </span><span class="s0">i = </span><span class="s5">0</span><span class="s0">; i &lt; </span><span class="s5">10</span><span class="s0">; i++) { 
+<a name="l187"><span class="ln">187  </span></a>                jTextArea2.append(</span><span class="s4">&quot;Mail Subject:- &quot; </span><span class="s0">+ messages[i].getSubject()); 
+<a name="l188"><span class="ln">188  </span></a>            } 
+<a name="l189"><span class="ln">189  </span></a>  
+<a name="l190"><span class="ln">190  </span></a>            inbox.close(</span><span class="s1">true</span><span class="s0">); 
+<a name="l191"><span class="ln">191  </span></a>            store.close(); 
+<a name="l192"><span class="ln">192  </span></a>        } </span><span class="s1">catch </span><span class="s0">(NoSuchProviderException ex) { 
+<a name="l193"><span class="ln">193  </span></a>            Logger.getLogger(NewJFrame.</span><span class="s1">class</span><span class="s0">.getName()).log(Level.SEVERE, </span><span class="s1">null</span><span class="s0">, ex); 
+<a name="l194"><span class="ln">194  </span></a>        } </span><span class="s1">catch </span><span class="s0">(MessagingException ex) { 
+<a name="l195"><span class="ln">195  </span></a>            Logger.getLogger(NewJFrame.</span><span class="s1">class</span><span class="s0">.getName()).log(Level.SEVERE, </span><span class="s1">null</span><span class="s0">, ex); 
+<a name="l196"><span class="ln">196  </span></a>        } 
+<a name="l197"><span class="ln">197  </span></a>    }</span><span class="s2">//GEN-LAST:event_jButton2ActionPerformed</span><span class="s0"> 
+<a name="l198"><span class="ln">198  </span></a> 
+<a name="l199"><span class="ln">199  </span></a>    </span><span class="s2">/** 
+<a name="l200"><span class="ln">200  </span></a>     * </span><span class="s3">@param </span><span class="s2">args the command line arguments 
+<a name="l201"><span class="ln">201  </span></a>     */</span><span class="s0"> 
+<a name="l202"><span class="ln">202  </span></a>    </span><span class="s1">public static void </span><span class="s0">main(String args[]) { 
+<a name="l203"><span class="ln">203  </span></a>        </span><span class="s2">/* Set the Nimbus look and feel */</span><span class="s0"> 
+<a name="l204"><span class="ln">204  </span></a>        </span><span class="s2">//&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;</span><span class="s0"> 
+<a name="l205"><span class="ln">205  </span></a>        </span><span class="s2">/* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel. 
+<a name="l206"><span class="ln">206  </span></a>         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html  
+<a name="l207"><span class="ln">207  </span></a>         */</span><span class="s0"> 
+<a name="l208"><span class="ln">208  </span></a>        </span><span class="s1">try </span><span class="s0">{ 
+<a name="l209"><span class="ln">209  </span></a>            </span><span class="s1">for </span><span class="s0">(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) { 
+<a name="l210"><span class="ln">210  </span></a>                </span><span class="s1">if </span><span class="s0">(</span><span class="s4">&quot;Nimbus&quot;</span><span class="s0">.equals(info.getName())) { 
+<a name="l211"><span class="ln">211  </span></a>                    javax.swing.UIManager.setLookAndFeel(info.getClassName()); 
+<a name="l212"><span class="ln">212  </span></a>                    </span><span class="s1">break</span><span class="s0">; 
+<a name="l213"><span class="ln">213  </span></a>                } 
+<a name="l214"><span class="ln">214  </span></a>            } 
+<a name="l215"><span class="ln">215  </span></a>        } </span><span class="s1">catch </span><span class="s0">(ClassNotFoundException ex) { 
+<a name="l216"><span class="ln">216  </span></a>            java.util.logging.Logger.getLogger(NewJFrame.</span><span class="s1">class</span><span class="s0">.getName()).log(java.util.logging.Level.SEVERE, </span><span class="s1">null</span><span class="s0">, ex); 
+<a name="l217"><span class="ln">217  </span></a>        } </span><span class="s1">catch </span><span class="s0">(InstantiationException ex) { 
+<a name="l218"><span class="ln">218  </span></a>            java.util.logging.Logger.getLogger(NewJFrame.</span><span class="s1">class</span><span class="s0">.getName()).log(java.util.logging.Level.SEVERE, </span><span class="s1">null</span><span class="s0">, ex); 
+<a name="l219"><span class="ln">219  </span></a>        } </span><span class="s1">catch </span><span class="s0">(IllegalAccessException ex) { 
+<a name="l220"><span class="ln">220  </span></a>            java.util.logging.Logger.getLogger(NewJFrame.</span><span class="s1">class</span><span class="s0">.getName()).log(java.util.logging.Level.SEVERE, </span><span class="s1">null</span><span class="s0">, ex); 
+<a name="l221"><span class="ln">221  </span></a>        } </span><span class="s1">catch </span><span class="s0">(javax.swing.UnsupportedLookAndFeelException ex) { 
+<a name="l222"><span class="ln">222  </span></a>            java.util.logging.Logger.getLogger(NewJFrame.</span><span class="s1">class</span><span class="s0">.getName()).log(java.util.logging.Level.SEVERE, </span><span class="s1">null</span><span class="s0">, ex); 
+<a name="l223"><span class="ln">223  </span></a>        } 
+<a name="l224"><span class="ln">224  </span></a>        </span><span class="s2">//&lt;/editor-fold&gt;</span><span class="s0"> 
+<a name="l225"><span class="ln">225  </span></a> 
+<a name="l226"><span class="ln">226  </span></a>        </span><span class="s2">/* Create and display the form */</span><span class="s0"> 
+<a name="l227"><span class="ln">227  </span></a>        java.awt.EventQueue.invokeLater(</span><span class="s1">new </span><span class="s0">Runnable() { 
+<a name="l228"><span class="ln">228  </span></a>            </span><span class="s1">public void </span><span class="s0">run() { 
+<a name="l229"><span class="ln">229  </span></a>                </span><span class="s1">new </span><span class="s0">NewJFrame().setVisible(</span><span class="s1">true</span><span class="s0">); 
+<a name="l230"><span class="ln">230  </span></a>                </span><span class="s2">//Create SMTP session</span><span class="s0"> 
+<a name="l231"><span class="ln">231  </span></a>                Properties sendProperties = </span><span class="s1">new </span><span class="s0">Properties(); 
+<a name="l232"><span class="ln">232  </span></a>                sendProperties.put(</span><span class="s4">&quot;mail.smtp.auth&quot;</span><span class="s0">, </span><span class="s4">&quot;true&quot;</span><span class="s0">); 
+<a name="l233"><span class="ln">233  </span></a>                sendProperties.put(</span><span class="s4">&quot;mail.smtp.socketFactory.port&quot;</span><span class="s0">, </span><span class="s4">&quot;465&quot;</span><span class="s0">); 
+<a name="l234"><span class="ln">234  </span></a>                sendProperties.put(</span><span class="s4">&quot;mail.smtp.socketFactory.class&quot;</span><span class="s0">, </span><span class="s4">&quot;javax.net.ssl.SSLSocketFactory&quot;</span><span class="s0">); 
+<a name="l235"><span class="ln">235  </span></a>                sendProperties.put(</span><span class="s4">&quot;mail.smtp.host&quot;</span><span class="s0">, </span><span class="s4">&quot;smtp.gmail.com&quot;</span><span class="s0">); 
+<a name="l236"><span class="ln">236  </span></a>                sendProperties.put(</span><span class="s4">&quot;mail.smtp.port&quot;</span><span class="s0">, </span><span class="s4">&quot;587&quot;</span><span class="s0">); 
+<a name="l237"><span class="ln">237  </span></a>                 
+<a name="l238"><span class="ln">238  </span></a> 
+<a name="l239"><span class="ln">239  </span></a>                SEND_SESSION = Session.getInstance(sendProperties, 
+<a name="l240"><span class="ln">240  </span></a>                        </span><span class="s1">new </span><span class="s0">javax.mail.Authenticator() { 
+<a name="l241"><span class="ln">241  </span></a>                    </span><span class="s1">protected </span><span class="s0">PasswordAuthentication getPasswordAuthentication() { 
+<a name="l242"><span class="ln">242  </span></a>                        </span><span class="s1">return new </span><span class="s0">PasswordAuthentication(USERNAME, PASSWORD); 
+<a name="l243"><span class="ln">243  </span></a>                    } 
+<a name="l244"><span class="ln">244  </span></a>                }); 
+<a name="l245"><span class="ln">245  </span></a>                 
+<a name="l246"><span class="ln">246  </span></a>                Properties receiveProperties = </span><span class="s1">new </span><span class="s0">Properties(); 
+<a name="l247"><span class="ln">247  </span></a>                receiveProperties.put(</span><span class="s4">&quot;mail.imap.host&quot;</span><span class="s0">, </span><span class="s4">&quot;imap.gmail.com&quot;</span><span class="s0">); 
+<a name="l248"><span class="ln">248  </span></a>                receiveProperties.put(</span><span class="s4">&quot;mail.imap.ssl.enable&quot;</span><span class="s0">, </span><span class="s4">&quot;true&quot;</span><span class="s0">); 
+<a name="l249"><span class="ln">249  </span></a>                receiveProperties.put(</span><span class="s4">&quot;mail.imap.socketFactory.port&quot;</span><span class="s0">, </span><span class="s4">&quot;993&quot;</span><span class="s0">); 
+<a name="l250"><span class="ln">250  </span></a>                receiveProperties.put(</span><span class="s4">&quot;mail.imap.socketFactory.class&quot;</span><span class="s0">, </span><span class="s4">&quot;javax.net.ssl.SSLSocketFactory&quot;</span><span class="s0">); 
+<a name="l251"><span class="ln">251  </span></a>                receiveProperties.put(</span><span class="s4">&quot;mail.imap.port&quot;</span><span class="s0">, </span><span class="s4">&quot;993&quot;</span><span class="s0">);  
+<a name="l252"><span class="ln">252  </span></a>                 
+<a name="l253"><span class="ln">253  </span></a>                RECEIVE_SESSION = Session.getDefaultInstance(receiveProperties); 
+<a name="l254"><span class="ln">254  </span></a> 
+<a name="l255"><span class="ln">255  </span></a>            } 
+<a name="l256"><span class="ln">256  </span></a>        }); 
+<a name="l257"><span class="ln">257  </span></a>    } 
+<a name="l258"><span class="ln">258  </span></a> 
+<a name="l259"><span class="ln">259  </span></a>    </span><span class="s2">// Variables declaration - do not modify//GEN-BEGIN:variables</span><span class="s0"> 
+<a name="l260"><span class="ln">260  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JButton jButton1; 
+<a name="l261"><span class="ln">261  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JButton jButton2; 
+<a name="l262"><span class="ln">262  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JLabel jLabel1; 
+<a name="l263"><span class="ln">263  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JLabel jLabel2; 
+<a name="l264"><span class="ln">264  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JLabel jLabel3; 
+<a name="l265"><span class="ln">265  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JScrollPane jScrollPane1; 
+<a name="l266"><span class="ln">266  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JScrollPane jScrollPane2; 
+<a name="l267"><span class="ln">267  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JTextArea jTextArea1; 
+<a name="l268"><span class="ln">268  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JTextArea jTextArea2; 
+<a name="l269"><span class="ln">269  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JTextField jTextField1; 
+<a name="l270"><span class="ln">270  </span></a>    </span><span class="s1">private </span><span class="s0">javax.swing.JTextField jTextField2; 
+<a name="l271"><span class="ln">271  </span></a>    </span><span class="s2">// End of variables declaration//GEN-END:variables</span><span class="s0"> 
+<a name="l272"><span class="ln">272  </span></a>} 
+<a name="l273"><span class="ln">273  </span></a></span></pre>
+</body>
+</html>

@@ -25,27 +25,27 @@ import java.util.Map;
  */
 public class AdminList extends AdministrationSectionExt {
 
-    /**
-     * @see AdministrationSectionExt#getMediaType()
-     */
-    public Extension.MEDIA_TYPE getMediaType() {
-        return Extension.MEDIA_TYPE.html;
-    }
+	/**
+	 * @see AdministrationSectionExt#getMediaType()
+	 */
+	public Extension.MEDIA_TYPE getMediaType() {
+		return Extension.MEDIA_TYPE.html;
+	}
 
-    /**
-     * @see AdministrationSectionExt#getTitle()
-     */
-    public String getTitle() {
-        return "oauth2.title";
-    }
+	/**
+	 * @see AdministrationSectionExt#getTitle()
+	 */
+	public String getTitle() {
+		return "oauth2.title";
+	}
 
-    /**
-     * @see AdministrationSectionExt#getLinks()
-     */
-    public Map<String, String> getLinks() {
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-        map.put("module/oauth2/registeredClient/index.htm", "oauth2.manage.registered");
-        return map;
-    }
+	/**
+	 * @see AdministrationSectionExt#getLinks()
+	 */
+	public Map<String, String> getLinks() {
+		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+		map.put("module/oauth2/registeredClient/index.htm", "oauth2.manage.registered");
+		return map;
+	}
 
 }

@@ -18,6 +18,10 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.oauth2.api.Oauth2Service;
 import org.openmrs.module.oauth2.api.db.Oauth2DAO;
+import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
+import org.openmrs.module.oauth2.api.model.Scope;
+
+import java.util.List;
 
 /**
  * It is a default implementation of {@link Oauth2Service}.
@@ -41,5 +45,21 @@ public class Oauth2ServiceImpl extends BaseOpenmrsService implements Oauth2Servi
      */
     public Oauth2DAO getDao() {
 	    return dao;
+    }
+
+    @Override
+    public List<Scope> getAllSupportedScopes() {
+        return Scope.getAllSupportedScopes();
+    }
+
+    @Override
+    public List<AuthorizedGrantType> getAllSupportedGrantTypes() {
+        return AuthorizedGrantType.getAllSupportedGrantTypes();
+    }
+
+    @Override
+    public void initializeDatabase() throws Exception {
+        //TODO to be implemented
+        throw new Exception("Initialization procedure has not been implemented");
     }
 }

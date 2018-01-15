@@ -14,7 +14,11 @@
 package org.openmrs.module.oauth2.api;
 
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.oauth2.api.model.AuthorizedGrantType;
+import org.openmrs.module.oauth2.api.model.Scope;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * This service exposes module's core functionality. It is a Spring managed bean which is configured in moduleApplicationContext.xml.
@@ -28,10 +32,21 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public interface Oauth2Service extends OpenmrsService {
-     
-	/*
-	 * Add service methods here
-	 * 
-	 */
-//    public void saveOrUpdateClientDeveloper(Integer id);
+
+    /**
+     *
+     * @return List of all supported ${@link Scope}
+     */
+    public List<Scope> getAllSupportedScopes();
+
+    /**
+     *
+     * @return List of all supported ${@link AuthorizedGrantType}
+     */
+    public List<AuthorizedGrantType> getAllSupportedGrantTypes();
+
+    /**
+     * Saves all the types of ${@link Scope} and @{@link AuthorizedGrantType} supported by the OAuth2 module
+     */
+    public void initializeDatabase() throws Exception;
 }
